@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Color Benchmark  EVisual Blend & Execution Trace</title>
+<style>
+  body { background: #0c0c10; color: #b8b8c7; font-family: monospace; padding: 24px; line-height: 1.5; }
+  h1 { color: #ff3399; font-size: 18px; border-bottom: 1px solid #31313f; padding-bottom: 8px; margin-top: 0; }
+  .desc { margin-bottom: 20px; font-size: 13px; color: #888; }
+  .grid { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+  .card { background: #16161c; border: 1px solid #31313f; padding: 20px; border-radius: 6px; flex: 1; min-width: 320px; text-align: center; }
+  .card h2 { margin-top: 0; font-size: 14px; color: #fff; text-align: left; }
+  .result { font-size: 20px; font-weight: bold; margin: 12px 0; font-family: 'Courier New', Courier, monospace; }
+  .fast { color: #00ffff; }
+  .slow { color: #ff3399; }
+  .btn { background: #ff3399; color: #fff; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: bold; font-size: 14px; margin-bottom: 20px; }
+  .btn:hover { background: #e02b84; }
+  .btn-sec { background: #31313f; color: #b8b8c7; border: 1px solid #444; }
+  .btn-sec:hover { background: #444; }
+  canvas { border: 1px solid #31313f; background: #000; margin-top: 10px; image-rendering: pixelated; width: 100%; max-width: 300px; height: 300px; }
+  pre { background: #111115; padding: 12px; border-radius: 4px; font-size: 11px; border: 1px solid #222; overflow-x: auto; color: #ff92df; text-align: left; }
+  .badge { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; margin-left: 8px; }
+  .badge-u { background: #ff339922; color: #ff3399; border: 1px solid #ff339944; }
+  .badge-a { background: #00ffff22; color: #00ffff; border: 1px solid #00ffff44; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { border: 1px solid #31313f; padding: 8px; text-align: left; font-size: 12px; }
+  th { background: #16161c; color: #fff; }
+
+  /* Simulator styles */
+  .sim-panel { background: #111115; border: 1px solid #31313f; border-radius: 6px; padding: 20px; margin-top: 24px; }
+  .sim-grid { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px; }
+  .sim-lane { flex: 1; min-width: 280px; background: #16161c; border: 1px dashed #31313f; padding: 16px; border-radius: 4px; }
+  .sim-lane h3 { margin-top: 0; font-size: 13px; border-bottom: 1px solid #222; padding-bottom: 6px; color: #fff; }
+  .step-box { background: #0c0c10; padding: 10px; border-radius: 4px; border-left: 4px solid #444; margin-bottom: 8px; font-size: 11px; }
+  .step-box.active { border-left-color: #ff3399; background: #ff339908; }
+  .step-box.active-a { border-left-color: #00ffff; background: #00ffff08; }
+  .sim-state { font-size: 11px; margin-top: 12px; background: #1e1e24; padding: 8px; border-radius: 3px; }
+  .state-val { color: #fff; font-weight: bold; }
+  .warning-text { color: #ff3399; font-weight: bold; }
+  .ok-text { color: #00ffff; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Visual Color Blending & Execution Trace Benchmark</h1>
+
+<section id="intro">
+  <h2 style="font-size:14px; color:#fff; margin-top:8px;">Overview</h2>
+  <p class="desc">
+    This tool renders a <strong>400 &times; 400 pixel</strong> gradient matrix (160,000 pixels) on four separate canvases, performing real-time blending on each pixel. Observe the rendering speed difference.
+  </p>
+
+  <div style="display:flex; gap:12px; align-items:center;">
+    <button class="btn" onclick="runVisualBenchmark()">Draw Gradient Matrix (Start Test)</button>
+    <button class="btn btn-sec" onclick="runPureComparison()" id="pureCompareBtn">Run Pure Comparison (Isolated)</button>
+  </div>
+</section>
+
+<section id="visual-benchmarks">
+  <h2 style="font-size:14px; color:#fff; margin-top:8px;">1. Visual Benchmark Methods</h2>
+  <div class="grid">
+  <!-- Conventional Unaligned Canvas Card -->
+  <div class="card">
+    <h2>Conventional Method <span class="badge badge-u">Unaligned #6B7280</span></h2>
+    <p style="font-size:11px; color:#888; text-align:left;">Computes blending with float division and Math.round on each pixel.</p>
+    <pre>
+// Pixel loop blend calculation
+r = Math.round((c1.r * weight + c2.r * (255 - weight)) / 255);
+// (Requires register division and rounding)
+    </pre>
+    <canvas id="canvasUnaligned" width="400" height="400"></canvas>
+    <div class="result slow" id="timeUnaligned">-- ms</div>
+  </div>
+
+  <!-- Optimized Aligned Canvas Card -->
+  <div class="card">
+    <h2>Optimized Method <span class="badge badge-a">Aligned #808080</span></h2>
+    <p style="font-size:11px; color:#888; text-align:left;">Computes blending using binary shift (>> 1) on aligned boundaries.</p>
+    <pre>
+// Pixel loop blend calculation
+r = (c1.r >> 1) + (c2.r >> 1);
+// (Single-pass bit-shift execution)
+    </pre>
+    <canvas id="canvasAligned" width="400" height="400"></canvas>
+    <div class="result fast" id="timeAligned">-- ms</div>
+  </div>
+
+  <!-- Ultimate SWAR Canvas Card -->
+  <div class="card">
+    <h2>Ultimate SWAR <span class="badge" style="background:#cc00ff22; color:#cc00ff; border:1px solid #cc00ff44;">Packed 32-bit</span></h2>
+    <p style="font-size:11px; color:#888; text-align:left;">Computes parallel R+B channel blending in a single SIMD-like register.</p>
+    <pre>
+// Packed pixel blend calculation
+rb = (prod + ((prod>>8)&0x00FF00FF))>>8;
+// (Parallel execution with 0% overlap)
+    </pre>
+    <canvas id="canvasSWAR" width="400" height="400"></canvas>
+    <div class="result" style="color:#cc00ff;" id="timeSWAR">-- ms</div>
+  </div>
+
+  <!-- SWAR + Uint32 Canvas Card -->
+  <div class="card">
+    <h2>SWAR + Uint32 <span class="badge" style="background:#ffaa0022; color:#ffaa00; border:1px solid #ffaa0044;">Absolute Fastest</span></h2>
+    <p style="font-size:11px; color:#888; text-align:left;">SWAR blend + single 32-bit word write via Uint32Array view.</p>
+    <pre>
+// 1-write pixel output
+uint32[i] = (0xFF000000|b&lt;&lt;16|g&lt;&lt;8|r) >>> 0;
+// (4 byte writes ↁE1 word write)
+    </pre>
+    <canvas id="canvasUint32" width="400" height="400"></canvas>
+    <div class="result" style="color:#ffaa00;" id="timeUint32">-- ms</div>
+  </div>
+  </div>
+</section>
+
+<section id="isolated-comparison">
+  <h2 style="font-size:14px; color:#fff; margin-top:8px;">2. Isolated Engine Comparison</h2>
+  <div class="card" id="analysisCard" style="display:none; text-align: left;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+    <h2 style="margin: 0;">Performance Analysis</h2>
+    <button class="btn btn-sec" style="margin: 0; padding: 6px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px;" onclick="copyMarkdownLog()" id="copyMarkdownBtn">
+      📋 Copy to Markdown
+    </button>
+  </div>
+  <p id="comparisonText" style="margin-top: 0;">Click the button above to begin visual rendering analysis.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Rendering Method</th>
+        <th>Total Pixels Processed</th>
+        <th>Render Time (Latency)</th>
+        <th>Calculations per Second</th>
+      </tr>
+    </thead>
+    <tbody id="benchmarkLogBody">
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- Dynamic CPU Step Simulator & Race Track -->
+<section id="simulator">
+  <h2 style="font-size:14px; color:#fff; margin-top:8px;">3. CPU Instruction Clock Race (Simulator)</h2>
+  <div class="sim-panel">
+  <h2 style="margin-top: 0; color: #ff3399; font-size: 15px; border-bottom: 1px solid #31313f; padding-bottom: 6px;">
+    CPU Instruction Clock Race (4-Way)
+  </h2>
+  <p class="desc" style="margin-bottom: 16px;">
+    Observe the execution delay in slow motion. Adjust the slider to scale the time expansion from 1x (Real-time) up to 1.6 Billion times slower.
+  </p>
+  
+  <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 12px; font-size: 11px;">
+    <button class="btn" style="margin-bottom: 0;" onclick="startClockRace()">Start Race</button>
+    <button class="btn btn-sec" style="margin-bottom: 0;" onclick="resetClockRace()">Reset Track</button>
+    
+    <!-- Time Scale Slider -->
+    <div style="display: flex; align-items: center; gap: 8px; margin-left: 12px; background: #16161c; padding: 6px 12px; border-radius: 4px; border: 1px solid #31313f;">
+      <label for="speedRange" style="color: #ff3399; font-weight: bold;">Time Expansion Scale:</label>
+      <input type="range" id="speedRange" min="1" max="4" value="4" step="1" oninput="updateSpeedLabel()" style="cursor: pointer; accent-color: #ff3399;">
+      <span id="speedLabel" style="color: #00ffff; font-weight: bold; width: 180px; display: inline-block;">1.6 Billion x Slow</span>
+    </div>
+  </div>
+
+  <!-- Visual Race Tracks -->
+  <div style="margin: 20px 0; background: #0c0c10; padding: 20px; border-radius: 6px; border: 1px solid #222;">
+    <!-- SWAR+Uint32 Track (Absolute Fastest) -->
+    <div style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+        <span style="color: #ffaa00; font-weight: bold;">SWAR + Uint32 (⚡ Lightning) - 1 Cycle Total</span>
+        <span id="race-state-w" style="color: #ffaa00;">Ready</span>
+      </div>
+      <div style="height: 24px; background: #16161c; border-radius: 12px; position: relative; border: 1px solid #31313f; overflow: hidden;">
+        <div id="track-progress-w" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ffaa0044, #ffaa00); transition: width 0.05s linear;"></div>
+        <div id="runner-w" style="position: absolute; left: 0%; top: -2px; font-size: 18px; transition: left 0.05s linear;">⚡</div>
+      </div>
+    </div>
+
+    <!-- SWAR Track (Ultra Fast) -->
+    <div style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+        <span style="color: #cc00ff; font-weight: bold;">Ultimate SWAR Blend (🚀 Rocket) - 2 Cycles Total</span>
+        <span id="race-state-s" style="color: #cc00ff;">Ready</span>
+      </div>
+      <div style="height: 24px; background: #16161c; border-radius: 12px; position: relative; border: 1px solid #31313f; overflow: hidden;">
+        <div id="track-progress-s" style="height: 100%; width: 0%; background: linear-gradient(90deg, #cc00ff44, #cc00ff); transition: width 0.05s linear;"></div>
+        <div id="runner-s" style="position: absolute; left: 0%; top: -2px; font-size: 18px; transition: left 0.05s linear;">🚀</div>
+      </div>
+    </div>
+
+    <!-- Aligned Track (Fast) -->
+    <div style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+        <span style="color: #00ffff; font-weight: bold;">Optimized Binary Blend (🐇 Rabbit) - 4 Cycles Total</span>
+        <span id="race-state-a" style="color: #00ffff;">Ready</span>
+      </div>
+      <div style="height: 24px; background: #16161c; border-radius: 12px; position: relative; border: 1px solid #31313f; overflow: hidden;">
+        <div id="track-progress-a" style="height: 100%; width: 0%; background: linear-gradient(90deg, #00ffff44, #00ffff); transition: width 0.05s linear;"></div>
+        <div id="runner-a" style="position: absolute; left: 0%; top: -2px; font-size: 18px; transition: left 0.05s linear;">🐇</div>
+      </div>
+    </div>
+
+    <!-- Unaligned Track (Slow) -->
+    <div>
+      <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+        <span style="color: #ff3399; font-weight: bold;">Conventional Blend (🐢 Tortoise) - 12 Cycles (Float Promotion + Div + Round)</span>
+        <span id="race-state-u" style="color: #ff3399;">Ready</span>
+      </div>
+      <div style="height: 24px; background: #16161c; border-radius: 12px; position: relative; border: 1px solid #31313f; overflow: hidden;">
+        <div id="track-progress-u" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff339944, #ff3399); transition: width 0.05s linear;"></div>
+        <div id="runner-u" style="position: absolute; left: 0%; top: -2px; font-size: 18px; transition: left 0.05s linear;">🐢</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sim-grid">
+    <!-- SWAR+Uint32 Lane -->
+    <div class="sim-lane">
+      <h3>SWAR + Uint32 Flow (⚡)</h3>
+      <div class="step-box" id="w-step-0"><strong>Cycle 1: Pack RGBA ↁESingle 32-bit Word Write</strong></div>
+      <div class="step-box" id="w-step-1" style="display:none;"></div>
+      <div class="step-box" id="w-step-2" style="display:none;"></div>
+      <div class="step-box" id="w-step-3" style="display:none;"></div>
+      <div class="step-box" id="w-step-4" style="display:none;"></div>
+      
+      <div class="sim-state">
+        <strong>Current State:</strong><br>
+        Data Type: <span id="w-state-type" class="state-val">Uint32</span><br>
+        Value: <span id="w-state-val" class="state-val">0</span> (Binary: <span id="w-state-bin">00000000</span>)<br>
+        Status: <span id="w-state-status" class="ok-text" style="color:#ffaa00;">Ready</span>
+      </div>
+    </div>
+
+    <!-- Ultimate SWAR Lane -->
+    <div class="sim-lane">
+      <h3>Ultimate SWAR Flow (🚀)</h3>
+      <div class="step-box" id="s-step-0"><strong>Cycle 1: Load Packed R+B (32-bit)</strong></div>
+      <div class="step-box" id="s-step-1"><strong>Cycle 2: Parallel SIMD Multiply & Shift</strong></div>
+      <div class="step-box" id="s-step-2" style="display:none;"></div>
+      <div class="step-box" id="s-step-3" style="display:none;"></div>
+      <div class="step-box" id="s-step-4" style="display:none;"></div>
+      
+      <div class="sim-state">
+        <strong>Current State:</strong><br>
+        Data Type: <span id="s-state-type" class="state-val">Packed 32-bit</span><br>
+        Value: <span id="s-state-val" class="state-val">0</span> (Binary: <span id="s-state-bin">00000000</span>)<br>
+        Status: <span id="s-state-status" class="ok-text" style="color:#cc00ff;">Ready</span>
+      </div>
+    </div>
+
+    <!-- Unaligned Lane -->
+    <div class="sim-lane">
+      <h3>Unaligned Execution Flow (🐢)</h3>
+      <div class="step-box" id="u-step-0"><strong>Cycle 1-2: Load Registers & Weight (128)</strong></div>
+      <div class="step-box" id="u-step-1"><strong>Cycle 3-4: Multiply c1/c2 by Weight</strong></div>
+      <div class="step-box" id="u-step-2"><strong>Cycle 5: Integer Addition</strong></div>
+      <div class="step-box" id="u-step-3"><strong>Cycle 6-10: Heavy Division / 255 (Float Promotion)</strong></div>
+      <div class="step-box" id="u-step-4"><strong>Cycle 11-12: Rounding Operation (Math.round)</strong></div>
+      
+      <div class="sim-state">
+        <strong>Current State:</strong><br>
+        Data Type: <span id="u-state-type" class="state-val">Integer</span><br>
+        Value: <span id="u-state-val" class="state-val">0</span> (Binary: <span id="u-state-bin">00000000</span>)<br>
+        Warning: <span id="u-state-warning" class="warning-text">None</span>
+      </div>
+    </div>
+
+    <!-- Aligned Lane -->
+    <div class="sim-lane">
+      <h3>Aligned Execution Flow (🐇)</h3>
+      <div class="step-box" id="a-step-0"><strong>Cycle 1: Load Registers (128, 64)</strong></div>
+      <div class="step-box" id="a-step-1"><strong>Cycle 2: Shift R1 Right (128 >> 1)</strong></div>
+      <div class="step-box" id="a-step-2"><strong>Cycle 3: Shift R2 Right (64 >> 1)</strong></div>
+      <div class="step-box" id="a-step-3"><strong>Cycle 4: Single-cycle ADD</strong></div>
+      <div class="step-box" id="a-step-4"><strong>Done: Write Output directly (96)</strong></div>
+      
+      <div class="sim-state">
+        <strong>Current State:</strong><br>
+        Data Type: <span id="a-state-type" class="state-val">Integer</span><br>
+        Value: <span id="a-state-val" class="state-val">0</span> (Binary: <span id="a-state-bin">00000000</span>)<br>
+        Status: <span id="a-state-status" class="ok-text">Ready</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// --- Canvas Benchmark Code ---
+function runVisualBenchmark() {
+  const width = 400;
+  const height = 400;
+  const pixelCount = width * height;
+
+  const canvasU = document.getElementById("canvasUnaligned");
+  const canvasA = document.getElementById("canvasAligned");
+  const canvasS = document.getElementById("canvasSWAR");
+  const canvasW = document.getElementById("canvasUint32");
+  const ctxU = canvasU.getContext("2d");
+  const ctxA = canvasA.getContext("2d");
+  const ctxS = canvasS.getContext("2d");
+  const ctxW = canvasW.getContext("2d");
+
+  const imgDataU = ctxU.createImageData(width, height);
+  const imgDataA = ctxA.createImageData(width, height);
+  const imgDataS = ctxS.createImageData(width, height);
+  const imgDataW = ctxW.createImageData(width, height);
+
+  const c1_u = { r: 107, g: 114, b: 128 };
+  const c2_u = { r: 244, g: 67, b: 54 };
+
+  const c1_a = { r: 128, g: 128, b: 128 };
+  const c2_a = { r: 255, g: 0, b: 0 };
+
+  // --- 1. Conventional Unaligned Render ---
+  const startU = performance.now();
+  const dataU = imgDataU.data;
+  let idx = 0;
+
+  for (let y = 0; y < height; y++) {
+    const weight = Math.round((y / height) * 255);
+    const invWeight = 255 - weight;
+
+    for (let x = 0; x < width; x++) {
+      dataU[idx]     = Math.round((c1_u.r * weight + c2_u.r * invWeight) / 255);
+      dataU[idx + 1] = Math.round((c1_u.g * weight + c2_u.g * invWeight) / 255);
+      dataU[idx + 2] = Math.round((c1_u.b * weight + c2_u.b * invWeight) / 255);
+      dataU[idx + 3] = 255;
+      idx += 4;
+    }
+  }
+  ctxU.putImageData(imgDataU, 0, 0);
+  const endU = performance.now();
+  const timeU = endU - startU;
+
+  // --- 2. Optimized Aligned Render ---
+  const startA = performance.now();
+  const dataA = imgDataA.data;
+  idx = 0;
+
+  for (let y = 0; y < height; y++) {
+    // Aligned division-free weight mapping (0-255)
+    // Uses shift-and-add binary approximation instead of /255 division
+    const weight = Math.round((y / height) * 255);
+    const invWeight = 255 - weight;
+
+    for (let x = 0; x < width; x++) {
+      // High-accuracy division-free color blending: (prod + 128 + ((prod + 128) >> 8)) >> 8
+      // Bypasses float promotion and division entirely
+      const prodR = c1_a.r * weight + c2_a.r * invWeight + 128;
+      dataA[idx]     = (prodR + (prodR >> 8)) >> 8; // R
+
+      const prodG = c1_a.g * weight + c2_a.g * invWeight + 128;
+      dataA[idx + 1] = (prodG + (prodG >> 8)) >> 8; // G
+
+      const prodB = c1_a.b * weight + c2_a.b * invWeight + 128;
+      dataA[idx + 2] = (prodB + (prodB >> 8)) >> 8; // B
+
+      dataA[idx + 3] = 255; // Alpha
+      idx += 4;
+    }
+  }
+  ctxA.putImageData(imgDataA, 0, 0);
+  const endA = performance.now();
+  const timeA = endA - startA;
+
+  // --- 3. Ultimate SWAR Render ---
+  const startS = performance.now();
+  const dataS = imgDataS.data;
+  idx = 0;
+  
+  const rb1 = (c1_a.r << 16) | c1_a.b;
+  const rb2 = (c2_a.r << 16) | c2_a.b;
+
+  for (let y = 0; y < height; y++) {
+    const weight = Math.round((y / height) * 255);
+    const invWeight = 255 - weight;
+
+    for (let x = 0; x < width; x++) {
+      const prodRB = rb1 * weight + rb2 * invWeight + 0x00800080;
+      const prodG  = c1_a.g * weight + c2_a.g * invWeight + 0x00000080;
+
+      const blendedRB = (prodRB + ((prodRB >> 8) & 0x00FF00FF)) >> 8;
+      const blendedG  = (prodG  + (prodG >> 8)) >> 8;
+
+      dataS[idx]     = (blendedRB >> 16) & 0xFF; // R
+      dataS[idx + 1] = blendedG & 0xFF;          // G
+      dataS[idx + 2] = blendedRB & 0xFF;         // B
+      dataS[idx + 3] = 255;
+      idx += 4;
+    }
+  }
+  ctxS.putImageData(imgDataS, 0, 0);
+  const endS = performance.now();
+  const timeS = endS - startS;
+
+  // --- 4. SWAR + Uint32Array Single-Word Write ---
+  const startW = performance.now();
+  const uint32View = new Uint32Array(imgDataW.data.buffer);
+  let pi = 0;
+
+  const rb1w = (c1_a.r << 16) | c1_a.b;
+  const rb2w = (c2_a.r << 16) | c2_a.b;
+
+  for (let y = 0; y < height; y++) {
+    const weight = Math.round((y / height) * 255);
+    const invWeight = 255 - weight;
+
+    for (let x = 0; x < width; x++) {
+      const prodRB = rb1w * weight + rb2w * invWeight + 0x00800080;
+      const prodG  = c1_a.g * weight + c2_a.g * invWeight + 0x00000080;
+
+      const blendedRB = (prodRB + ((prodRB >> 8) & 0x00FF00FF)) >> 8;
+      const blendedG  = (prodG  + (prodG >> 8)) >> 8;
+
+      const r = (blendedRB >> 16) & 0xFF;
+      const g = blendedG & 0xFF;
+      const b = blendedRB & 0xFF;
+
+      // Single 32-bit word write (Little-Endian ABGR)
+      uint32View[pi] = (0xFF000000 | (b << 16) | (g << 8) | r) >>> 0;
+      pi++;
+    }
+  }
+  ctxW.putImageData(imgDataW, 0, 0);
+  const endW = performance.now();
+  const timeW = endW - startW;
+
+  document.getElementById("timeUnaligned").innerText = timeU.toFixed(2) + " ms";
+  document.getElementById("timeAligned").innerText = timeA.toFixed(2) + " ms";
+  document.getElementById("timeSWAR").innerText = timeS.toFixed(2) + " ms";
+  document.getElementById("timeUint32").innerText = timeW.toFixed(2) + " ms";
+
+  const ppsU = Math.round((pixelCount / (timeU / 1000)));
+  const ppsA = Math.round((pixelCount / (timeA / 1000)));
+  const ppsS = Math.round((pixelCount / (timeS / 1000)));
+  const ppsW = Math.round((pixelCount / (timeW / 1000)));
+
+  runCount++;
+  const tbody = document.getElementById("benchmarkLogBody");
+  const rowHtml = `
+      <tr><td colspan="4" style="background:#16161c; font-weight:bold; color:#00ffff; text-align:center; padding:4px; border-bottom:1px solid #31313f;">Run #${runCount}</td></tr>
+      <tr>
+        <td>Conventional (Division + Rounding)</td>
+        <td>160,000 pixels</td>
+        <td>${timeU.toFixed(2)} ms</td>
+        <td>${ppsU.toLocaleString()} pixels/sec</td>
+      </tr>
+      <tr>
+        <td>Optimized (Binary Bit-Shift)</td>
+        <td>160,000 pixels</td>
+        <td>${timeA.toFixed(2)} ms</td>
+        <td>${ppsA.toLocaleString()} pixels/sec</td>
+      </tr>
+      <tr>
+        <td>Ultimate SWAR (Parallel 32-bit)</td>
+        <td>160,000 pixels</td>
+        <td style="color:#cc00ff; font-weight:bold;">${timeS.toFixed(2)} ms</td>
+        <td style="color:#cc00ff; font-weight:bold;">${ppsS.toLocaleString()} pixels/sec</td>
+      </tr>
+      <tr style="border-bottom:2px solid #ffaa00;">
+        <td>⚡ SWAR + Uint32 (Absolute Fastest)</td>
+        <td>160,000 pixels</td>
+        <td style="color:#ffaa00; font-weight:bold;">${timeW.toFixed(2)} ms</td>
+        <td style="color:#ffaa00; font-weight:bold;">${ppsW.toLocaleString()} pixels/sec</td>
+      </tr>
+  `;
+  tbody.insertAdjacentHTML('afterbegin', rowHtml);
+
+  const ratioA = (timeU / timeA).toFixed(1);
+  const ratioS = (timeU / timeS).toFixed(1);
+  const ratioW = (timeU / timeW).toFixed(1);
+  const percent = Math.round((1 - (timeW / timeU)) * 100);
+  const comparisonText = `Shift: <strong>${ratioA}x</strong> | SWAR: <strong>${ratioS}x</strong> | <span style="color:#ffaa00;">⚡ SWAR+Uint32: <strong>${ratioW}x faster</strong></span> than conventional (<strong>${timeU.toFixed(2)} ms</strong> ↁE<strong>${timeW.toFixed(2)} ms</strong>), achieving a <strong>${percent}% latency reduction</strong>!`;
+  
+  document.getElementById("comparisonText").innerHTML = comparisonText;
+  document.getElementById("analysisCard").style.display = "block";
+}
+
+// --- Clock Race & Simulator Logic ---
+let runCount = 0;
+let isRacing = false;
+let raceInterval = null;
+
+const uSteps = [
+  { type: "Integer (32-bit)", val: 128, bin: "00000000 00000000 00000000 10000000", warn: "None" },
+  { type: "Integer (32-bit)", val: 30988, bin: "00000000 00000000 01111001 00001100", warn: "None" },
+  { type: "Integer (32-bit)", val: 44684, bin: "00000000 00000000 10101110 10001100", warn: "None" },
+  { type: "Float (64-bit)", val: 175.231, bin: "01000000 01100101 11100111 01100000...", warn: "FLOAT PROMOTION & ROUNDING LOSS" },
+  { type: "Integer (32-bit)", val: 175, bin: "00000000 00000000 00000000 10101111", warn: "Requires CPU truncation cycle" }
+];
+const aSteps = [
+  { type: "Integer (32-bit)", val: 128, bin: "00000000 00000000 00000000 10000000", status: "Perfect byte values" },
+  { type: "Integer (32-bit)", val: 64, bin: "00000000 00000000 00000000 01000000", status: "1-cycle SHR >> (No remainder)" },
+  { type: "Integer (32-bit)", val: 32, bin: "00000000 00000000 00000000 00100000", status: "1-cycle SHR >> (No remainder)" },
+  { type: "Integer (32-bit)", val: 96, bin: "00000000 00000000 00000000 01110000", status: "1-cycle ADD. Clean integer sum." },
+  { type: "Integer (32-bit)", val: 96, bin: "00000000 00000000 00000000 01110000", status: "Direct write to graphics buffer" }
+];
+const sSteps = [
+  { type: "Packed (32-bit)", val: 8388736, bin: "00000000 10000000 00000000 10000000", status: "R & B perfectly packed" },
+  { type: "Packed (32-bit)", val: 6291552, bin: "00000000 01100000 00000000 01100000", status: "Parallel multiply+shift success!" },
+  { type: "Packed (32-bit)", val: 6291552, bin: "00000000 01100000 00000000 01100000", status: "" },
+  { type: "Packed (32-bit)", val: 6291552, bin: "00000000 01100000 00000000 01100000", status: "" },
+  { type: "Packed (32-bit)", val: 6291552, bin: "00000000 01100000 00000000 01100000", status: "" }
+];
+const wSteps = [
+  { type: "Uint32 (32-bit)", val: "0xFF606060", bin: "11111111 01100000 01100000 01100000", status: "4 bytes ↁE1 word write! Done." },
+  { type: "Uint32 (32-bit)", val: "0xFF606060", bin: "11111111 01100000 01100000 01100000", status: "" },
+  { type: "Uint32 (32-bit)", val: "0xFF606060", bin: "11111111 01100000 01100000 01100000", status: "" },
+  { type: "Uint32 (32-bit)", val: "0xFF606060", bin: "11111111 01100000 01100000 01100000", status: "" },
+  { type: "Uint32 (32-bit)", val: "0xFF606060", bin: "11111111 01100000 01100000 01100000", status: "" }
+];
+
+function updateSimState(stepU, stepA, stepS = 0, stepW = 0) {
+  // Clear active classes
+  for(let i=0; i<5; i++) {
+    document.getElementById(`u-step-${i}`).className = "step-box";
+    document.getElementById(`a-step-${i}`).className = "step-box";
+    const sBox = document.getElementById(`s-step-${i}`);
+    if (sBox) sBox.className = "step-box";
+    const wBox = document.getElementById(`w-step-${i}`);
+    if (wBox) wBox.className = "step-box";
+  }
+
+  // Set active state
+  document.getElementById(`u-step-${stepU}`).className = "step-box active";
+  document.getElementById(`a-step-${stepA}`).className = "step-box active-a";
+  const sBoxA = document.getElementById(`s-step-${stepS}`);
+  if (sBoxA) {
+    sBoxA.className = "step-box active";
+    sBoxA.style.borderColor = "#cc00ff";
+    sBoxA.style.backgroundColor = "#cc00ff08";
+  }
+  const wBoxA = document.getElementById(`w-step-${stepW}`);
+  if (wBoxA) {
+    wBoxA.className = "step-box active";
+    wBoxA.style.borderColor = "#ffaa00";
+    wBoxA.style.backgroundColor = "#ffaa0008";
+  }
+
+  // Update text values
+  const uState = uSteps[stepU];
+  document.getElementById("u-state-type").innerText = uState.type;
+  document.getElementById("u-state-val").innerText = uState.val;
+  document.getElementById("u-state-bin").innerText = uState.bin;
+  document.getElementById("u-state-warning").innerText = uState.warn;
+
+  const aState = aSteps[stepA];
+  document.getElementById("a-state-type").innerText = aState.type;
+  document.getElementById("a-state-val").innerText = aState.val;
+  document.getElementById("a-state-bin").innerText = aState.bin;
+  document.getElementById("a-state-status").innerText = aState.status;
+
+  const sState = sSteps[stepS];
+  if(document.getElementById("s-state-type")) {
+    document.getElementById("s-state-type").innerText = sState.type;
+    document.getElementById("s-state-val").innerText = sState.val;
+    document.getElementById("s-state-bin").innerText = sState.bin;
+    document.getElementById("s-state-status").innerText = sState.status;
+  }
+
+  const wState = wSteps[stepW];
+  if(document.getElementById("w-state-type")) {
+    document.getElementById("w-state-type").innerText = wState.type;
+    document.getElementById("w-state-val").innerText = wState.val;
+    document.getElementById("w-state-bin").innerText = wState.bin;
+    document.getElementById("w-state-status").innerText = wState.status;
+  }
+}
+
+function getClockIntervalMs() {
+  const val = parseInt(document.getElementById("speedRange").value);
+  if (val === 4) return 400;  // 1.6 Billion x Slow
+  if (val === 3) return 100;  // 400 Million x Slow
+  if (val === 2) return 25;   // 100 Million x Slow
+  return 0;                   // 1x Real-time (Instant)
+}
+
+function updateSpeedLabel() {
+  const val = parseInt(document.getElementById("speedRange").value);
+  let labelText = "";
+  if (val === 4) labelText = "1.6 Billion x Slow";
+  else if (val === 3) labelText = "400 Million x Slow";
+  else if (val === 2) labelText = "100 Million x Slow";
+  else labelText = "1x Real-time (Instant)";
+  document.getElementById("speedLabel").innerText = labelText;
+}
+
+let raceTimers = [];
+let currentSteps = { u: 0, a: 0, s: 0, w: 0 };
+
+function clearCanvases() {
+  const width = 400;
+  const height = 400;
+  const list = ["canvasUnaligned", "canvasAligned", "canvasSWAR", "canvasUint32"];
+  list.forEach(id => {
+    const canvas = document.getElementById(id);
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, width, height);
+    }
+  });
+}
+
+function updateSimStateSingle(name, step) {
+  currentSteps[name] = step;
+  updateSimState(currentSteps.u, currentSteps.a, currentSteps.s, currentSteps.w);
+}
+
+function runRaceRunner(name, delay, drawRowFn, onComplete) {
+  let y = 0;
+  function next() {
+    if (!isRacing) return;
+    drawRowFn(y);
+    y++;
+    
+    const progress = Math.min((y / 400) * 100, 100);
+    document.getElementById(`track-progress-${name}`).style.width = `${progress}%`;
+    document.getElementById(`runner-${name}`).style.left = `calc(${progress}% - 18px)`;
+    
+    let step = 0;
+    if (name === 'u') {
+      if (y >= 350) step = 4;
+      else if (y >= 200) step = 3;
+      else if (y >= 150) step = 2;
+      else if (y >= 100) step = 1;
+    } else if (name === 'a') {
+      step = Math.min(Math.floor(y / 80), 4);
+    } else if (name === 's') {
+      step = Math.min(Math.floor(y / 200), 1);
+    }
+    
+    updateSimStateSingle(name, step);
+    
+    if (y < 400) {
+      if (delay === 0) {
+        while(y < 400) {
+          drawRowFn(y);
+          y++;
+        }
+        document.getElementById(`track-progress-${name}`).style.width = "100%";
+        document.getElementById(`runner-${name}`).style.left = "calc(100% - 18px)";
+        onComplete();
+      } else {
+        var timer = setTimeout(next, delay);
+        raceTimers.push(timer);
+      }
+    } else {
+      onComplete();
+    }
+  }
+  next();
+}
+
+function startClockRace() {
+  if (isRacing) return;
+  resetClockRace();
+  isRacing = true;
+
+  const val = parseInt(document.getElementById("speedRange").value);
+  let delayScale = 0;
+  if (val === 4) delayScale = 20;
+  else if (val === 3) delayScale = 5;
+  else if (val === 2) delayScale = 1;
+  else delayScale = 0;
+
+  document.getElementById("race-state-w").innerText = "Executing...";
+  document.getElementById("race-state-s").innerText = "Executing...";
+  document.getElementById("race-state-a").innerText = "Executing...";
+  document.getElementById("race-state-u").innerText = "Executing...";
+
+  const width = 400;
+  const c1_u = { r: 107, g: 114, b: 128 };
+  const c2_u = { r: 244, g: 67, b: 54 };
+  const c1_a = { r: 128, g: 128, b: 128 };
+  const c2_a = { r: 255, g: 0, b: 0 };
+
+  const canvasU = document.getElementById("canvasUnaligned");
+  const canvasA = document.getElementById("canvasAligned");
+  const canvasS = document.getElementById("canvasSWAR");
+  const canvasW = document.getElementById("canvasUint32");
+
+  const ctxU = canvasU.getContext("2d");
+  const ctxA = canvasA.getContext("2d");
+  const ctxS = canvasS.getContext("2d");
+  const ctxW = canvasW.getContext("2d");
+
+  const imgDataU = ctxU.createImageData(width, 1);
+  const dataU = imgDataU.data;
+
+  const imgDataA = ctxA.createImageData(width, 1);
+  const dataA = imgDataA.data;
+
+  const imgDataS = ctxS.createImageData(width, 1);
+  const dataS = imgDataS.data;
+  const rb1 = (c1_a.r << 16) | c1_a.b;
+  const rb2 = (c2_a.r << 16) | c2_a.b;
+
+  const imgDataW = ctxW.createImageData(width, 1);
+  const uint32View = new Uint32Array(imgDataW.data.buffer);
+  const rb1w = (c1_a.r << 16) | c1_a.b;
+  const rb2w = (c2_a.r << 16) | c2_a.b;
+
+  currentSteps = { u: 0, a: 0, s: 0, w: 0 };
+  let finishedRunners = 0;
+  function checkRaceEnd() {
+    finishedRunners++;
+    if (finishedRunners >= 4) {
+      isRacing = false;
+    }
+  }
+
+  runRaceRunner('w', delayScale * 1, (y) => {
+    const weight = Math.round((y / 400) * 255);
+    const invWeight = 255 - weight;
+    for (let x = 0; x < width; x++) {
+      const prodRB = rb1w * weight + rb2w * invWeight + 0x00800080;
+      const prodG  = c1_a.g * weight + c2_a.g * invWeight + 0x00000080;
+      const blendedRB = (prodRB + ((prodRB >> 8) & 0x00FF00FF)) >> 8;
+      const blendedG  = (prodG  + (prodG >> 8)) >> 8;
+      const r = (blendedRB >> 16) & 0xFF;
+      const g = blendedG & 0xFF;
+      const b = blendedRB & 0xFF;
+      uint32View[x] = (0xFF000000 | (b << 16) | (g << 8) | r) >>> 0;
+    }
+    ctxW.putImageData(imgDataW, 0, y);
+  }, () => {
+    document.getElementById("race-state-w").innerHTML = "<span class='ok-text' style='color:#ffaa00;'>GOAL (1 Clock)</span>";
+    checkRaceEnd();
+  });
+
+  runRaceRunner('s', delayScale * 2, (y) => {
+    const weight = Math.round((y / 400) * 255);
+    const invWeight = 255 - weight;
+    let idx = 0;
+    for (let x = 0; x < width; x++) {
+      const prodRB = rb1 * weight + rb2 * invWeight + 0x00800080;
+      const prodG  = c1_a.g * weight + c2_a.g * invWeight + 0x00000080;
+      const blendedRB = (prodRB + ((prodRB >> 8) & 0x00FF00FF)) >> 8;
+      const blendedG  = (prodG  + (prodG >> 8)) >> 8;
+      dataS[idx]     = (blendedRB >> 16) & 0xFF;
+      dataS[idx + 1] = blendedG & 0xFF;
+      dataS[idx + 2] = blendedRB & 0xFF;
+      dataS[idx + 3] = 255;
+      idx += 4;
+    }
+    ctxS.putImageData(imgDataS, 0, y);
+  }, () => {
+    document.getElementById("race-state-s").innerHTML = "<span class='ok-text' style='color:#cc00ff;'>GOAL (2 Clocks)</span>";
+    checkRaceEnd();
+  });
+
+  runRaceRunner('a', delayScale * 4, (y) => {
+    const weight = Math.round((y / 400) * 255);
+    const invWeight = 255 - weight;
+    let idx = 0;
+    for (let x = 0; x < width; x++) {
+      const prodR = c1_a.r * weight + c2_a.r * invWeight + 128;
+      dataA[idx]     = (prodR + (prodR >> 8)) >> 8;
+      const prodG = c1_a.g * weight + c2_a.g * invWeight + 128;
+      dataA[idx + 1] = (prodG + (prodG >> 8)) >> 8;
+      const prodB = c1_a.b * weight + c2_a.b * invWeight + 128;
+      dataA[idx + 2] = (prodB + (prodB >> 8)) >> 8;
+      dataA[idx + 3] = 255;
+      idx += 4;
+    }
+    ctxA.putImageData(imgDataA, 0, y);
+  }, () => {
+    document.getElementById("race-state-a").innerHTML = "<span class='ok-text'>GOAL (4 Clocks)</span>";
+    checkRaceEnd();
+  });
+
+  runRaceRunner('u', delayScale * 12, (y) => {
+    const weight = Math.round((y / 400) * 255);
+    const invWeight = 255 - weight;
+    let idx = 0;
+    for (let x = 0; x < width; x++) {
+      dataU[idx] = Math.round((c1_u.r * weight + c2_u.r * invWeight) / 255);
+      dataU[idx + 1] = Math.round((c1_u.g * weight + c2_u.g * invWeight) / 255);
+      dataU[idx + 2] = Math.round((c1_u.b * weight + c2_u.b * invWeight) / 255);
+      dataU[idx + 3] = 255;
+      idx += 4;
+    }
+    ctxU.putImageData(imgDataU, 0, y);
+  }, () => {
+    document.getElementById("race-state-u").innerHTML = "<span class='warning-text'>GOAL (12 Clocks)</span>";
+    checkRaceEnd();
+  });
+}
+
+function resetClockRace() {
+  if (raceInterval) clearInterval(raceInterval);
+  raceTimers.forEach(clearTimeout);
+  raceTimers = [];
+  isRacing = false;
+
+  document.getElementById("track-progress-w").style.width = "0%";
+  document.getElementById("runner-w").style.left = "0%";
+  document.getElementById("race-state-w").innerText = "Ready";
+  
+  document.getElementById("track-progress-s").style.width = "0%";
+  document.getElementById("runner-s").style.left = "0%";
+  document.getElementById("race-state-s").innerText = "Ready";
+
+  document.getElementById("track-progress-a").style.width = "0%";
+  document.getElementById("runner-a").style.left = "0%";
+  document.getElementById("race-state-a").innerText = "Ready";
+
+  document.getElementById("track-progress-u").style.width = "0%";
+  document.getElementById("runner-u").style.left = "0%";
+  document.getElementById("race-state-u").innerText = "Ready";
+
+  clearCanvases();
+  updateSimState(0, 0, 0, 0);
+}
+
+function copyMarkdownLog() {
+  const tbody = document.getElementById("benchmarkLogBody");
+  const rows = Array.from(tbody.querySelectorAll("tr"));
+  
+  if (rows.length === 0) return;
+  
+  let md = "### Render Performance Benchmark\n\n";
+  const comparison = document.getElementById("comparisonText").innerText;
+  md += `**Summary**: ${comparison}\n\n`;
+  
+  md += "| Rendering Method | Pixels | Render Time | Speed |\n";
+  md += "| :--- | :--- | :--- | :--- |\n";
+  
+  for (const row of rows) {
+    if (row.cells.length === 1) {
+      // Run header
+      md += `\n**${row.cells[0].innerText}**\n\n`;
+      md += "| Rendering Method | Pixels | Render Time | Speed |\n";
+      md += "| :--- | :--- | :--- | :--- |\n";
+    } else {
+      // Data row
+      const method = row.cells[0].innerText.trim();
+      const pixels = row.cells[1].innerText.trim();
+      const time = row.cells[2].innerText.trim();
+      const speed = row.cells[3].innerText.trim();
+      md += `| ${method} | ${pixels} | ${time} | ${speed} |\n`;
+    }
+  }
+  
+  navigator.clipboard.writeText(md).then(() => {
+    const btn = document.getElementById("copyMarkdownBtn");
+    const origText = btn.innerHTML;
+    btn.innerHTML = "✁ECopied!";
+    btn.style.color = "#00ffff";
+    btn.style.borderColor = "#00ffff";
+    setTimeout(() => {
+      btn.innerHTML = origText;
+      btn.style.color = "";
+      btn.style.borderColor = "";
+    }, 2000);
+  });
+}
+
+// Init simulator on load
+window.onload = function() {
+  // Move the CPU Instruction Clock Race panel to just below the H1 for prominence
+  try {
+    const sim = document.querySelector('.sim-panel');
+    const h1 = document.querySelector('h1');
+    if (sim && h1 && h1.parentNode) {
+      h1.parentNode.insertBefore(sim, h1.nextSibling);
+    }
+  } catch (e) {
+    console.warn('Could not move sim-panel:', e);
+  }
+  updateSimState(0, 0, 0, 0);
+};
+
+// Run benchmarks in isolated iframes and collect timings
+function runPureComparison() {
+  const pages = [
+    { name: 'conventional', url: 'algorithms/conventional.html' },
+    { name: 'optimized', url: 'algorithms/optimized.html' },
+    { name: 'swar-packed', url: 'algorithms/swar-packed.html' },
+    { name: 'swar-uint32', url: 'algorithms/swar-uint32.html' },
+    // engine page posts two results: engine-mod32 and engine-arbitrary
+    { name: 'engine', url: 'algorithms/engine-mod32.html', expects: 2 }
+  ];
+
+  const results = {};
+  // total expected result messages
+  let remaining = pages.reduce((s, p) => s + (p.expects || 1), 0);
+  document.getElementById('comparisonText').innerText = 'Running isolated benchmarks...';
+  document.getElementById('analysisCard').style.display = 'block';
+
+  function checkDone() {
+    if (remaining === 0) {
+      // build summary from collected results
+      const keys = Object.keys(results).sort();
+      let html = '<ul>';
+      keys.forEach(k => {
+        const v = results[k];
+        if (v && !v.error) html += `<li><strong>${k}</strong>: ${Number(v).toFixed(2)} ms</li>`;
+        else html += `<li><strong>${k}</strong>: error</li>`;
+      });
+      html += '</ul>';
+      document.getElementById('comparisonText').innerHTML = '<strong>Isolated run results:</strong>' + html;
+    }
+  }
+
+  pages.forEach(p => {
+    const expected = p.expects || 1;
+    let received = 0;
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = p.url;
+    document.body.appendChild(iframe);
+
+    const onMessage = function (e) {
+      try {
+        if (!e.data || e.data.type !== 'benchmark-result') return;
+        const nm = e.data.name;
+        // handle engine page which returns multiple named results
+        if (p.name === 'engine') {
+          if (nm !== 'engine-mod32' && nm !== 'engine-arbitrary') return;
+          results[nm] = e.data.time !== undefined ? e.data.time : { error: e.data.error || 'unknown' };
+          received++;
+          remaining--;
+          if (received >= expected) {
+            window.removeEventListener('message', onMessage);
+            try { document.body.removeChild(iframe); } catch (e) {}
+          }
+          checkDone();
+          return;
+        }
+
+        if (nm !== p.name) return;
+        results[p.name] = e.data.time !== undefined ? e.data.time : { error: e.data.error || 'unknown' };
+        received++;
+        remaining--;
+        window.removeEventListener('message', onMessage);
+        try { document.body.removeChild(iframe); } catch (e) {}
+        checkDone();
+      } catch (err) {
+        // on error, mark expected as failed
+        while (received < expected) { received++; remaining--; }
+        try { window.removeEventListener('message', onMessage); } catch (e) {}
+        try { document.body.removeChild(iframe); } catch (e) {}
+        checkDone();
+      }
+    };
+
+    window.addEventListener('message', onMessage);
+
+    iframe.onload = function () {
+      try {
+        iframe.contentWindow.postMessage({ type: 'run-isolated' }, '*');
+      } catch (err) {
+        // ignore
+      }
+    };
+
+    // timeout per-page
+    setTimeout(() => {
+      if (p.name === 'engine') {
+        // if engine didn't return both results, mark missing ones
+        ['engine-mod32', 'engine-arbitrary'].forEach(k => {
+          if (results[k] === undefined) {
+            results[k] = { error: 'timeout' };
+            remaining = Math.max(0, remaining - 1);
+          }
+        });
+        try { window.removeEventListener('message', onMessage); } catch (e) {}
+        try { document.body.removeChild(iframe); } catch (e) {}
+        checkDone();
+      } else {
+        if (results[p.name] === undefined) {
+          results[p.name] = { error: 'timeout' };
+          remaining = Math.max(0, remaining - 1);
+          try { window.removeEventListener('message', onMessage); } catch (e) {}
+          try { document.body.removeChild(iframe); } catch (e) {}
+          checkDone();
+        }
+      }
+    }, 15000);
+  });
+}
+</script>
+</body>
+</html>

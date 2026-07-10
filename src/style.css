@@ -1,0 +1,1785 @@
+:root {
+  --app-bg: #1e1e1e;
+  --app-fg: #cccccc;
+  --border-color: #3c3c3c;
+  
+  /* VS Code color system mappings */
+  --vscode-sideBar-background: #252526;
+  --vscode-sideBar-foreground: #cccccc;
+  --vscode-sideBar-border: #3c3c3c;
+  --vscode-sideBarTitle-background: #252526;
+  --vscode-sideBarTitle-foreground: #bbbbbb;
+  --vscode-sideBarSectionHeader-background: #333333;
+  --vscode-sideBarSectionHeader-foreground: #cccccc;
+  --vscode-sideBarSectionHeader-border: transparent;
+  --vscode-list-inactiveSelectionBackground: #37373d;
+  --vscode-list-inactiveSelectionForeground: #cccccc;
+  --vscode-list-activeSelectionBackground: #094771;
+  --vscode-list-activeSelectionForeground: #ffffff;
+  --vscode-list-hoverBackground: #2a2d2e;
+  --vscode-list-hoverForeground: #cccccc;
+}
+
+* { box-sizing: border-box; }
+body, html { 
+  margin: 0; padding: 0; height: 100%; width: 100vw; max-width: 100%; overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+  background: var(--app-bg); color: var(--app-fg); 
+  font-size: 13px;
+}
+
+/* Custom Dark Scrollbar (VS Code style) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(121, 121, 121, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.7);
+}
+::-webkit-scrollbar-thumb:active {
+  background: rgba(191, 191, 191, 0.4);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* VS Code Style Header */
+#top-toolbar { 
+  height: 45px; 
+  background: #3c3c3c; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 20px; 
+  color: #fff; 
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo { 
+  font-weight: 600; 
+  font-size: 14px; 
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 2px;
+  border: 1px solid #3c3c3c;
+  background: #252526;
+  transition: background 0.2s, color 0.2s;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-item:hover {
+  background: #2d2d2d;
+  color: #ffffff;
+  border-color: #444;
+}
+
+.nav-item.active {
+  color: #ffffff;
+  background: #007acc;
+  border-color: #007acc;
+  font-weight: 500;
+}
+
+.theme-controls { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+/* Unified Header Buttons */
+.header-btn, 
+.custom-file-upload,
+#reset-theme-btn {
+  padding: 8px 16px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 1px !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #3c3c3c;
+  transition: background-color 0.1s, border-color 0.1s;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Secondary Button Style (Default Dark) */
+.header-btn {
+  background: #252526;
+  color: #cccccc;
+}
+.header-btn:hover {
+  background: #2d2d2d;
+  color: #ffffff;
+  border-color: #50555a;
+}
+
+/* Primary Button Style (Blue) */
+.header-btn.primary,
+.custom-file-upload {
+  background: #0e639c;
+  color: #ffffff;
+  border-color: transparent;
+}
+.header-btn.primary:hover,
+.custom-file-upload:hover {
+  background: #1177bb;
+}
+
+/* Reset Button Style */
+.header-btn.reset,
+#reset-theme-btn {
+  background: #3a3d41;
+  border-color: #50555a;
+  color: #ffffff;
+}
+.header-btn.reset:hover,
+#reset-theme-btn:hover {
+  background: #45494e;
+}
+
+/* Success Button Style (Green Publish) */
+.header-btn.success {
+  background: #1f883d;
+  color: #ffffff;
+  border-color: transparent;
+}
+.header-btn.success:hover {
+  background: #239a45;
+}
+
+#app { display: flex; height: calc(100vh - 45px); overflow: hidden; }
+
+/* Column 1: Component Explorer */
+#component-explorer { 
+  width: 260px; 
+  background: #252526; 
+  border-right: 1px solid var(--border-color); 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.explorer-title { 
+  padding: 12px 15px; 
+  font-size: 13px; 
+  font-weight: 600; 
+  color: #858585; 
+  letter-spacing: 0.5px; 
+  border-bottom: 1px solid #2d2d2d; 
+}
+
+.explorer-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.explorer-tree {
+  display: block;
+}
+
+.directory-list { 
+  list-style: none; 
+  padding: 10px; 
+  margin: 0; 
+}
+
+.dir-node { 
+  font-weight: 500; 
+  color: #cccccc; 
+  margin-bottom: 10px; 
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+}
+.dir-node::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  color: #858585;
+}
+
+.dir-children { 
+  list-style: none; 
+  padding-left: 10px; 
+  margin: 5px 0 0 0; 
+}
+
+.file-node { 
+  font-weight: 400; 
+  color: #969696; 
+  padding: 4px 8px; 
+  cursor: pointer; 
+  border-radius: 1px; 
+  transition: background 0.1s, color 0.1s; 
+  font-size: 13px;
+}
+.file-node:hover { 
+  background: #2a2d2e; 
+  color: #e0e0e0; 
+}
+.file-node.active { 
+  background: #37373d; 
+  color: #ffffff; 
+}
+.file-node.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  font-style: italic;
+}
+.file-node.disabled:hover {
+  background: transparent;
+  color: #969696;
+}
+
+/* Column 2: Visual Mock UI */
+#preview-panel { 
+  flex: 1; 
+  background: var(--vscode-editor-background, #1e1e1e); 
+  display: flex; 
+  flex-direction: column; 
+  overflow: hidden; 
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  padding: 0 !important;
+}
+
+#sidebar-mock { 
+  width: 200px !important; 
+  height: 100% !important; 
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mock UI Components internals (Minimalist, no emojis) */
+.mock-component { transition: box-shadow 0.1s; position: relative; }
+.mock-component.highlighted::after, 
+.sidebar-header.highlighted::after, 
+.sidebar-section-header.highlighted::after, 
+.tree-item.highlighted::after {
+  content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 0 1.5px #ff0080; pointer-events: none; z-index: 10;
+}
+
+#sidebar-mock { 
+  background: var(--vscode-sideBar-background); 
+  color: var(--vscode-sideBar-foreground); 
+  border-right: 1px solid var(--vscode-sideBar-border); 
+  position: relative;
+  min-width: 150px;
+  max-width: 600px;
+}
+
+#sidebar-mock::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: ew-resize;
+  background: transparent;
+}
+
+#sidebar-mock:hover::after {
+  background: var(--vscode-sideBar-border);
+}
+
+#details-panel {
+  position: relative;
+  min-width: 200px;
+  max-width: 500px;
+}
+
+#details-panel::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: ew-resize;
+  background: transparent;
+}
+
+#details-panel:hover::after {
+  background: var(--vscode-sideBar-border);
+}
+
+.sidebar-header { 
+  padding: 10px 15px; 
+  font-size: 13px; 
+  letter-spacing: 0.8px; 
+  font-weight: 600; 
+  background: var(--vscode-sideBarTitle-background); 
+  color: var(--vscode-sideBarTitle-foreground); 
+  position: relative; 
+}
+
+.sidebar-section-header { 
+  padding: 5px 12px; 
+  font-size: 13px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  background: var(--vscode-sideBarSectionHeader-background); 
+  color: var(--vscode-sideBarSectionHeader-foreground); 
+  border-top: 1px solid var(--vscode-sideBarSectionHeader-border); 
+  border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border); 
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative; 
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid currentColor;
+}
+
+.sidebar-tree { 
+  padding: 2px 0; 
+}
+
+.tree-item { 
+  padding: 4px 12px 4px 24px; 
+  font-size: 13px; 
+  cursor: pointer; 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative; 
+}
+.file-icon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.tree-item:hover { background: var(--vscode-list-hoverBackground); color: var(--vscode-list-hoverForeground); }
+.tree-item.active { background: var(--vscode-list-activeSelectionBackground); color: var(--vscode-list-activeSelectionForeground); }
+.tree-item:not(.active):hover { background: var(--vscode-list-inactiveSelectionBackground); color: var(--vscode-list-inactiveSelectionForeground); }
+
+/* Column 3: Property Inspector */
+#inspector-panel { 
+  width: 340px;
+  min-width: 300px;
+  border-left: 1px solid var(--border-color); 
+  display: flex; 
+  flex-direction: column; 
+  background: #1e1e1e; 
+}
+
+.inspector-header { 
+  padding: 15px 20px; 
+  border-bottom: 1px solid var(--border-color); 
+}
+.inspector-header h2 { 
+  margin: 0 0 12px 0; 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #ffffff; 
+}
+
+#search-input { 
+  flex: 1; 
+  padding: 6px 10px; 
+  background: #3c3c3c; 
+  border: 1px solid #3c3c3c; 
+  color: #fff; 
+  border-radius: 1px; 
+  outline: none; 
+  font-size: 13px;
+}
+#search-input:focus { 
+  border-color: #007acc; 
+}
+
+.controls button { 
+  padding: 6px 12px; 
+  background: #3a3d41; 
+  color: #fff; 
+  border: 1px solid #50555a; 
+  border-radius: 1px; 
+  cursor: pointer; 
+  transition: background 0.1s; 
+  font-size: 12px;
+}
+.controls button:hover { 
+  background: #45494e; 
+}
+#export-btn { 
+  background: #0e639c; 
+  border-color: transparent; 
+}
+#export-btn:hover { 
+  background: #1177bb; 
+}
+
+#variables-list { flex: 1; overflow-y: auto; padding: 15px 20px; }
+
+/* Grouped Variables UI */
+.group-card { 
+  background: #252526; 
+  border-radius: 1px; 
+  margin-bottom: 15px; 
+  overflow: hidden; 
+  border: 1px solid var(--border-color); 
+}
+.group-card.highlighted { 
+  border-color: #ff0080; 
+  box-shadow: 0 0 0 1px #ff0080; 
+}
+.group-header { 
+  background: #2d2d2d; 
+  padding: 8px 15px; 
+  font-weight: 600; 
+  font-family: monospace; 
+  color: #858585; 
+  font-size: 12px; 
+  border-bottom: 1px solid var(--border-color); 
+}
+
+/* Individual Item in a Group */
+.var-item { 
+  padding: 10px 15px; 
+  border-bottom: 1px solid #2d2d2d; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+}
+.var-item:last-child { border-bottom: none; }
+.var-item:hover { background: #2a2d2e; }
+
+.var-row-top { display: flex; justify-content: space-between; align-items: center; }
+.var-name { font-family: monospace; font-size: 12px; color: #9cdcfe; font-weight: 600; }
+.var-desc { font-size: 11px; color: #858585; margin-top: 2px; line-height: 1.4; }
+
+/* Color Editor Section */
+.var-editor { display: flex; align-items: center; gap: 8px; }
+.history-color { 
+  width: 14px; 
+  height: 14px; 
+  border-radius: 50%; 
+  border: 1px solid #555; 
+  cursor: pointer; 
+  position: relative; 
+}
+.history-color:hover::after { 
+  content: 'Undo'; 
+  position: absolute; 
+  bottom: -22px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  background: #000; 
+  color: #fff; 
+  font-size: 9px; 
+  padding: 2px 4px; 
+  border-radius: 2px; 
+  z-index: 20;
+}
+
+.color-picker-input { width: 24px; height: 24px; padding: 0; border: none; background: none; cursor: pointer; }
+.color-text-input { 
+  width: 75px; 
+  background: #3c3c3c; 
+  border: 1px solid #3c3c3c; 
+  color: #cccccc; 
+  font-family: monospace; 
+  font-size: 11px; 
+  padding: 3px; 
+  text-align: center; 
+  outline: none;
+}
+.color-text-input:focus {
+  border-color: #007acc;
+}
+
+/* Contrast Badge */
+.contrast-badge { 
+  font-size: 10px; 
+  padding: 1px 5px; 
+  border-radius: 2px; 
+  font-weight: 600; 
+  background: #333; 
+  color: #858585; 
+  margin-left: 8px; 
+}
+.contrast-badge.pass { background: #1e4620; color: #a6e22e; }
+.contrast-badge.fail { background: #5a1d1d; color: #f92672; }
+
+
+/* Reference Page Styles */
+#reference-app {
+  height: calc(100vh - 45px);
+  overflow-y: auto;
+  background: #1e1e1e;
+  padding: 30px;
+}
+
+.reference-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.reference-header {
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+
+.reference-header h1 {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.subtitle {
+  color: #858585;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+}
+
+.reference-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#ref-search {
+  width: 350px;
+  padding: 6px 12px;
+  background: #3c3c3c;
+  border: 1px solid #3c3c3c;
+  color: #fff;
+  border-radius: 1px;
+  outline: none;
+  font-size: 13px;
+}
+#ref-search:focus {
+  border-color: #007acc;
+}
+
+#ref-count {
+  color: #858585;
+  font-size: 12px;
+}
+
+.reference-content {
+  background: #252526;
+  border: 1px solid var(--border-color);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.reference-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.reference-table th, .reference-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reference-table th {
+  background: #2d2d2d;
+  color: #cccccc;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reference-table tr:last-child td {
+  border-bottom: none;
+}
+
+.reference-table tr:hover td {
+  background: #2a2d2e;
+}
+
+.ref-id {
+  font-family: monospace;
+  font-weight: 600;
+  color: #9cdcfe;
+  font-size: 12px;
+  width: 30%;
+}
+
+.ref-desc {
+  color: #cccccc;
+  line-height: 1.5;
+  font-size: 12px;
+}
+
+.ref-file {
+  font-family: monospace;
+  color: #858585;
+  font-size: 11px;
+  width: 15%;
+}
+
+/* GitHub Line link hover effects */
+.github-line-link {
+  color: #858585;
+  text-decoration: none;
+  border-bottom: 1px dashed #555;
+  transition: color 0.1s;
+}
+.github-line-link:hover {
+  color: #3794ff;
+  border-bottom-style: solid;
+}
+.source-link {
+  color: #3794ff;
+  text-decoration: none;
+}
+.source-link:hover {
+  text-decoration: underline;
+}
+
+/* Sync Section & Terminal Simulation CSS */
+.sync-section {
+  margin: 15px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.terminal-container {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 1px;
+  overflow: hidden;
+  font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.terminal-header {
+  background: #252526;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #2d2d2d;
+  position: sticky;
+  top: 0;
+}
+
+.terminal-title {
+  color: #858585;
+  font-size: 11px;
+  margin-left: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.terminal-body {
+  margin: 0;
+  padding: 12px 15px;
+  color: #f1f1f1;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Appended terminal panel styles */
+.terminal-panel {
+  height: 200px;
+  background: #1e1e1e;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  transition: height 0.2s;
+}
+
+.terminal-panel.collapsed {
+  height: 35px;
+  overflow: hidden;
+}
+
+.terminal-header {
+  height: 35px;
+  min-height: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #cccccc;
+  cursor: pointer;
+}
+
+.terminal-actions .icon-btn {
+  background: transparent;
+  border: none;
+  color: #858585;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.terminal-actions .icon-btn:hover {
+  color: #cccccc;
+}
+
+.terminal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 15px;
+  background: #111111;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 12px;
+  color: #cccccc;
+}
+
+.term-line {
+  margin-bottom: 4px;
+}
+.term-line.info { color: #3794ff; }
+.term-line.success { color: #89d185; }
+.term-line.error { color: #f14c4c; }
+
+/* GitHub Style File Explorer */
+.github-box {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 1px;
+  color: #24292f;
+  margin-top: 20px;
+}
+
+.github-style-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.github-style-table th {
+  background: #f6f8fa;
+  color: #57606a;
+  font-weight: 600;
+  font-size: clamp(18px, 2.5vh, 24px);
+  padding: clamp(12px, 1.8vh, 22px) 16px;
+  border-bottom: 1px solid #d0d7de;
+  text-align: left;
+}
+
+.github-style-table td {
+  padding: clamp(10px, 1.6vh, 20px) 16px;
+  border-bottom: 1px solid #d0d7de;
+  font-size: clamp(17px, 2.3vh, 22px);
+  color: #57606a;
+}
+
+.github-style-table tr:last-child td {
+  border-bottom: none;
+}
+
+.github-style-table tr:not(.gh-file-content-row):hover td {
+  background: #f6f8fa;
+}
+
+.gh-file-name {
+  color: #24292f;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gh-icon {
+  color: #54aeff;
+}
+.gh-icon.folder {
+  color: #54aeff;
+}
+.gh-icon.file {
+  color: #57606a;
+}
+
+.gh-file-name span:not(.gh-icon) {
+  cursor: pointer;
+}
+.gh-file-name span:not(.gh-icon):hover {
+  color: #0969da;
+  text-decoration: underline;
+}
+
+.gh-commit-msg {
+  color: #57606a;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.gh-commit-msg:hover {
+  color: #0969da;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.gh-date {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* File content dropdown */
+.gh-file-content-row td {
+  padding: 0;
+  border-bottom: 1px solid #d0d7de;
+}
+.gh-file-content {
+  background: #ffffff;
+  padding: 20px 25px;
+  border-top: 1px solid #d0d7de;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.02);
+}
+.gh-file-content-title {
+  font-size: clamp(16px, 2.2vh, 22px);
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #24292f;
+  border-bottom: 1px solid #eaeef2;
+  padding-bottom: 10px;
+}
+
+.gh-color-row {
+  display: flex;
+  align-items: flex-start;
+  padding: clamp(4px, 0.8vh, 12px) 12px;
+  border-bottom: 1px solid #eaeef2;
+}
+.gh-color-row:last-child {
+  border-bottom: none;
+}
+
+.gh-color-id {
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-size: clamp(15px, 2vh, 20px);
+  color: #0550ae;
+  flex: 0 0 300px;
+  padding-right: 15px;
+}
+
+.gh-color-desc {
+  font-size: clamp(15px, 2vh, 20px);
+  color: #24292f;
+  flex: 1;
+}
+
+/* Data Flow Diagram Styles (Modern VS Code Theme) */
+.data-flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 1px;
+  padding: 16px 24px;
+  margin: 20px 0 30px 0;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.flow-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.flow-step .step-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333333;
+  border: 1px solid #444444;
+  border-radius: 1px;
+  color: #858585;
+  transition: all 0.3s ease;
+}
+
+.flow-step.active .step-icon {
+  background: #007acc;
+  border-color: #007acc;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 122, 204, 0.4);
+}
+
+.flow-step .step-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.flow-step .step-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: #e0e0e0;
+}
+
+.flow-step.active .step-title {
+  color: #ffffff;
+}
+
+.flow-step .step-desc {
+  font-size: 11px;
+  color: #858585;
+}
+
+.flow-step.active .step-desc {
+  color: #cccccc;
+}
+
+.flow-arrow {
+  color: #444444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* Modal Dialog Styles (VS Code style dark mode) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  background: #1e1e1e;
+  border: 1px solid #3c3c3c;
+  border-radius: 1px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #2d2d2d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #858585;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
+.close-btn:hover {
+  color: #ffffff;
+}
+
+.modal-body {
+  padding: 20px;
+  color: #cccccc;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.license-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.license-option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 1px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.license-option-card:hover {
+  border-color: #007acc;
+  background: #2d2d2d;
+}
+
+.license-option-card input[type="radio"] {
+  margin-top: 3px;
+  accent-color: #007acc;
+}
+
+.option-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.option-title {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.option-desc {
+  font-size: 11px;
+  color: #858585;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #2d2d2d;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-btn {
+  padding: 6px 14px;
+  border-radius: 1px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s;
+}
+.modal-btn.primary {
+  background: #007acc;
+  color: #ffffff;
+  border-color: #007acc;
+}
+.modal-btn.primary:hover {
+  background: #0062a3;
+}
+
+/* VS Code QuickPick Style Suggestions Box */
+.suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #252526;
+  border: 1px solid #3c3c3c;
+  border-radius: 1px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-top: 4px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.suggestion-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #2d2d2d;
+  color: #cccccc;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover, .suggestion-item.focused {
+  background: #007acc;
+  color: #ffffff;
+}
+
+.suggestion-item .theme-name {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.suggestion-item .theme-repo {
+  font-size: 10px;
+  color: #858585;
+  margin-top: 2px;
+}
+
+.suggestion-item:hover .theme-repo, .suggestion-item.focused .theme-repo {
+  color: #dddddd;
+}
+
+.gh-color-link {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.gh-color-link:hover {
+  text-decoration: underline;
+}
+
+
+
+
+/* --- Editor Enhancements (Design Philosophy, Popover, Contrast, Toast) --- */
+/* 1. Design Philosophy: Darker headers, Lighter bodies, Larger fonts */
+#top-toolbar { background: #111111; }
+#top-toolbar .logo { font-size: 16px; }
+
+.inspector-header { background: #111111; }
+.inspector-header h2 { font-size: 15px; }
+.var-item { font-size: 13px; }
+.var-id { font-size: 13px; }
+
+/* 2. WYSIWYG Popover */
+.popover {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    background: #252526;
+    border: 1px solid #454545;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    z-index: 1000;
+    width: 300px;
+    border-radius: 4px;
+}
+/* Quick Edit Popover (Blue VS Code border) */
+.quick-edit-popover {
+  position: absolute;
+  background: #252526;
+  border: 1px solid #007acc; /* VS Code Blue indicator */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  z-index: 2000;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.popover-header {
+    background: #111111;
+    padding: 8px 12px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #454545;
+}
+.popover-close { cursor: pointer; color: #aaa; }
+.popover-close:hover { color: #fff; }
+
+.quick-palette {
+    padding: 8px 12px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #454545;
+}
+.swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid #454545;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.swatch:hover { transform: scale(1.1); border-color: #fff; }
+
+.popover-content {
+    padding: 8px 12px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* 3. Contrast Preview Box */
+.contrast-preview-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #555;
+    margin-left: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    min-width: 30px;
+}
+.contrast-badge {
+    font-size: 13px; /* Increased */
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+/* 4. Toast Notifications */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.toast {
+    background: #007acc;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    font-size: 13px;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+.toast.fade-out { opacity: 0; }
+
+/* High-Fidelity Mock Components Styles */
+
+#titlebar-mock {
+    background: var(--vscode-titleBar-activeBackground);
+    color: var(--vscode-titleBar-activeForeground);
+}
+
+#activitybar-mock {
+    background: var(--vscode-activityBar-background);
+    color: var(--vscode-activityBar-foreground);
+}
+
+.activity-icon {
+    font-size: 18px;
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--vscode-activityBar-inactiveForeground);
+    transition: color 0.1s;
+}
+
+.activity-icon.active {
+    color: var(--vscode-activityBar-foreground);
+    border-left: 2px solid var(--vscode-activityBar-activeBorder, var(--vscode-activityBar-foreground));
+}
+
+.activity-icon:hover {
+    color: var(--vscode-activityBar-foreground);
+}
+
+#sidebar-mock {
+    background: var(--vscode-sideBar-background);
+    color: var(--vscode-sideBar-foreground);
+    width: 200px !important;
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    background: var(--vscode-sideBar-background);
+    color: var(--vscode-sideBarTitle-foreground);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.sidebar-section-header {
+    background: var(--vscode-sideBarSectionHeader-background);
+    color: var(--vscode-sideBarSectionHeader-foreground);
+    border-top: 1px solid var(--vscode-sideBarSectionHeader-border);
+    border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border);
+}
+
+.tree-item {
+    color: var(--vscode-sideBar-foreground);
+}
+
+.tree-item.active {
+    background: var(--vscode-list-activeSelectionBackground) !important;
+    color: var(--vscode-list-activeSelectionForeground) !important;
+}
+
+.tree-item:hover:not(.active) {
+    background: var(--vscode-list-hoverBackground) !important;
+    color: var(--vscode-list-hoverForeground) !important;
+}
+
+#editor-mock {
+    background: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    width: 100% !important;
+    flex: 1 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-tabs {
+    background: var(--vscode-editorGroupHeader-tabsBackground);
+    border-bottom: 1px solid var(--vscode-editorGroupHeader-tabsBorder);
+}
+
+.editor-tab.active {
+    background: var(--vscode-tab-activeBackground);
+    color: var(--vscode-tab-activeForeground);
+    border-top: 2px solid var(--vscode-tab-activeBorder);
+    border-right: 1px solid var(--vscode-tab-border);
+}
+
+.editor-tab.inactive {
+    background: var(--vscode-tab-inactiveBackground);
+    color: var(--vscode-tab-inactiveForeground);
+    border-right: 1px solid var(--vscode-tab-border);
+    border-top: 2px solid transparent;
+}
+
+.breadcrumbs {
+    background: var(--vscode-breadcrumb-background);
+    color: var(--vscode-breadcrumb-foreground);
+}
+
+.editor-minimap {
+    background: var(--vscode-minimap-background);
+}
+
+.editor-line-numbers {
+    color: var(--vscode-editorLineNumber-foreground);
+}
+
+#panel-mock {
+    background: var(--vscode-panel-background);
+    border-top: 1px solid var(--vscode-panel-border);
+    width: 100% !important;
+    height: 180px !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    background: var(--vscode-panel-background);
+}
+
+.panel-title.active {
+    color: var(--vscode-panelTitle-activeForeground);
+    border-bottom: 1px solid var(--vscode-panelTitle-activeBorder);
+}
+
+.panel-title.inactive {
+    color: var(--vscode-panelTitle-inactiveForeground);
+}
+
+.panel-content {
+    background: var(--vscode-terminal-background, var(--vscode-panel-background));
+    color: var(--vscode-terminal-foreground, var(--vscode-panel-foreground));
+}
+
+#statusbar-mock {
+    background: var(--vscode-statusBar-background);
+    color: var(--vscode-statusBar-foreground);
+    border-top: 1px solid var(--vscode-statusBar-border);
+    width: 100% !important;
+    height: 22px !important;
+}
+
+.statusbar-item {
+    padding: 2px 6px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+.statusbar-item:hover {
+    background-color: var(--vscode-statusBarItem-hoverBackground);
+}
+
+#titlebar-mock {
+    width: 100% !important;
+    height: 35px;
+}
+
+/* Global Layout & Dimensions override */
+#app {
+    height: calc(100vh - 45px - 22px); /* Titlebar is 45px, Statusbar is 22px */
+    overflow: hidden;
+}
+
+#top-toolbar {
+    background: var(--vscode-titleBar-activeBackground, #1e1e1e) !important;
+    color: var(--vscode-titleBar-activeForeground, #cccccc) !important;
+    border-bottom: 1px solid var(--vscode-titleBar-border, rgba(255,255,255,0.05)) !important;
+    height: 35px;
+    box-sizing: border-box;
+}
+
+#top-toolbar .menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#top-toolbar .window-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#top-toolbar .window-icon.close-icon:hover {
+    background: #e81123;
+    color: white;
+}
+
+#activitybar-mock {
+    background: var(--vscode-activityBar-background, #333333) !important;
+    color: var(--vscode-activityBar-foreground, #ffffff) !important;
+    border-right: 1px solid var(--vscode-activityBar-border, rgba(255,255,255,0.05)) !important;
+    width: 48px !important;
+    height: 100% !important;
+    display: flex !important; /* Force display on outer shell */
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+#statusbar-mock {
+    background: var(--vscode-statusBar-background, #007acc) !important;
+    color: var(--vscode-statusBar-foreground, #ffffff) !important;
+    border-top: 1px solid var(--vscode-statusBar-border, rgba(255,255,255,0.05)) !important;
+    height: 22px !important;
+    display: flex !important;
+    box-sizing: border-box;
+}
+
+/* Component Explorer Sidebar Styles */
+#sidebar-mock {
+    background: var(--vscode-sideBar-background, #252526) !important;
+    color: var(--vscode-sideBar-foreground, #cccccc) !important;
+    border-right: 1px solid var(--vscode-sideBar-border, rgba(255,255,255,0.05)) !important;
+    width: 200px !important;
+    user-select: none;
+}
+#sidebar-mock .explorer-header {
+    background: var(--vscode-sideBar-background, #252526);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+#sidebar-mock .explorer-section-header {
+    background: var(--vscode-sideBarSectionHeader-background, #1e1e1e) !important;
+    color: var(--vscode-sideBarSectionHeader-foreground, #cccccc) !important;
+    border-top: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255,255,255,0.05)) !important;
+    border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255,255,255,0.05)) !important;
+    cursor: pointer;
+}
+#sidebar-mock .file-node {
+    padding: 4px 20px !important;
+    color: var(--vscode-sideBar-foreground, #cccccc) !important;
+    background: transparent !important;
+    font-weight: normal !important;
+    transition: background 0.05s, color 0.05s;
+    border: none !important;
+}
+#sidebar-mock .file-node:hover:not(.disabled) {
+    background: var(--vscode-list-hoverBackground, #2a2d2e) !important;
+    color: var(--vscode-list-hoverForeground, #ffffff) !important;
+}
+#sidebar-mock .file-node.active {
+    background: var(--vscode-list-activeSelectionBackground, #37373d) !important;
+    color: var(--vscode-list-activeSelectionForeground, #ffffff) !important;
+    font-weight: bold !important;
+}
+#sidebar-mock .file-node.disabled {
+    color: #6a6a6a !important;
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+#inspector-panel {
+    width: 340px !important;
+    background: var(--vscode-sideBar-background, #1e1e1e);
+    border-left: 1px solid var(--vscode-sideBar-border, rgba(255,255,255,0.05));
+}
+#inspector-panel .inspector-header {
+    background: var(--vscode-sideBarSectionHeader-background, #111111);
+}
+
+/* Glow selection outline for selected active components */
+.mock-component.selected {
+    box-shadow: inset 0 0 0 2px var(--vscode-focusBorder, #ff0080) !important;
+    position: relative;
+    z-index: 10;
+}
+.mock-component.selected::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 10px var(--vscode-focusBorder, #ff0080);
+    pointer-events: none;
+}
+
+/* Menu Bar Styles */
+.menu-item:hover {
+  background: var(--vscode-menu-selectionBackground) !important;
+  color: var(--vscode-menu-selectionForeground) !important;
+}
+
+.mock-dropdown-item:hover {
+  background: var(--vscode-menu-selectionBackground) !important;
+  color: var(--vscode-menu-selectionForeground) !important;
+}
+
+.mock-dropdown-item.active .codicon-check {
+  display: inline-block !important;
+}
+
+/* --- Custom Color Palette Popover --- */
+/* Custom Palette Popover (Blue VS Code border) */
+.custom-palette-popover {
+  position: absolute;
+  background: #252526;
+  border: 1px solid #007acc; /* VS Code Blue indicator */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #cccccc;
+}
+
+.palette-header {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.palette-dropdown {
+  width: 100%;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 11px;
+  outline: none;
+  cursor: pointer;
+}
+.palette-dropdown:focus {
+  border-color: #ff0080;
+}
+
+.palette-grid-container {
+  height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+}
+.palette-grid-container::-webkit-scrollbar {
+  width: 6px;
+}
+.palette-grid-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.palette-grid-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16px, 1fr));
+  gap: 2px;
+}
+
+.palette-swatch-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.palette-swatch-cell:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 1px #ff0080;
+  z-index: 2;
+  position: relative;
+}
+.palette-swatch-cell.wcag-fail {
+  opacity: 0.15;
+  cursor: not-allowed;
+}
+.palette-swatch-cell.wcag-fail:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.palette-footer {
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.palette-hex-input {
+  width: 100%;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  box-sizing: border-box;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.palette-hex-input:focus {
+  border-color: #ff0080;
+}
+
+.custom-color-picker-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Segmented Control Styles */
+.palette-segmented-control {
+  display: flex;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.segment-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #888;
+  padding: 4px 6px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+.segment-btn:last-child {
+  border-right: none;
+}
+.segment-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+}
+.segment-btn.active {
+  background: #ff0080;
+  color: white;
+  font-weight: bold;
+}
+.palette-segmented-control.disabled .segment-btn {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: transparent !important;
+  color: #888 !important;
+}
+
+/* --- Step Dropdown Menus --- */
+.step-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.step-dropdown-title {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+  color: #007acc;
+}
+
+.step-dropdown:hover .step-dropdown-title {
+  background: rgba(0, 122, 204, 0.2);
+  color: #569cd6;
+}
+
+.step-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #252526;
+  border: 1px solid #007acc;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  min-width: 140px;
+  z-index: 2000;
+  border-radius: 4px;
+  padding: 4px 0;
+}
+
+.step-dropdown:hover .step-dropdown-menu {
+  display: block;
+}
+
+.step-dropdown-item {
+  padding: 8px 15px;
+  color: #cccccc;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.step-dropdown-item:hover {
+  background: #094771;
+  color: #ffffff;
+}

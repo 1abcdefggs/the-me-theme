@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<!-- While the previous 3 files pursued the limits of "rendering (drawing colors on screen) speed", this color-benchmark-parser.html is a benchmark that pursues the limits of "loading (JSON file parsing) speed and memory consumption".
+
+Although it targets a different phase, it is built on the same philosophy and purpose: "improving overall software performance by limiting to specific, easily calculable colors (Mod17 boundary)".
+
+Why is this important?
+VS Code theme files (like Cyber Pink) are internally written as massive JSON files. With tens of thousands of color settings, the V8 engine parses and interprets this JSON behind the scenes every time VS Code starts.
+
+This benchmark proves the following facts:
+
+Long Hex (Standard color format: #FF3399) has more characters (7-9 bytes per color), resulting in a massive JSON file and longer parsing times.
+Short Hex (Abbreviated color format: #F39) allows colors where R, G, and B are repeating digits (Mod17 boundary), like #FF3399, to be shortened to 3 characters like #F39. This reduces the character count by approximately 40%, proving that "the file size becomes significantly lighter, and VS Code startup load (parsing) time is dramatically reduced".
+
+The "Ultimate Conclusion" derived from all tools
+The tools we've seen so far (color tables and various benchmarks) are not just random experiments, but a set designed to prove one grand conclusion.
+
+Rendering tests: "It's faster to render neatly aligned colors (Mod32/Mod16 boundary) on screen than arbitrary colors."
+Parsing tests: "If we limit colors to repeating digits (Mod17 boundary), the file size shrinks and loading becomes faster."
+Color Table: "Then, which are the most beautiful colors that satisfy those conditions? (The colors with the ✨Web Safe badge)"
+
+In this way, this suite of files serves as a powerful verification system (engine) to scientifically derive: "Which color codes are the lightest in operation and the most visually beautiful (with guaranteed contrast) when creating VS Code themes?" -->
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>TheMeTheme - Color Short Hex Map</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0c0c10;
+      color: #b8b8c7;
+      font-family: monospace;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: #ff3399;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      color: #00ffcc;
+      font-size: 14px;
+      margin: 20px 0 8px;
+      border-bottom: 1px solid #31313f;
+      padding-bottom: 4px;
+    }
+
+    .desc {
+      font-size: 12px;
+      color: #888;
+      max-width: 900px;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Theory Cards */
+    .theory-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .theory-card {
+      background: #111115;
+      border: 1px solid #31313f;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 11px;
+    }
+
+    .theory-card.long {
+      border-color: #555;
+    }
+
+    .theory-card.short {
+      border-color: #ff3399;
+      box-shadow: 0 0 12px rgba(255, 51, 153, 0.08);
+    }
+
+    .theory-card h3 {
+      font-size: 12px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .theory-card.long h3 {
+      color: #888;
+    }
+
+    .theory-card.short h3 {
+      color: #ff3399;
+    }
+
+    .theory-card code {
+      display: block;
+      background: #09090c;
+      border: 1px solid #222;
+      border-radius: 4px;
+      padding: 8px;
+      color: #67e8f9;
+      margin: 8px 0;
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    /* Config Panel */
+    .config-panel {
+      background: #111115;
+      border: 1px solid #31313f;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    .config-group label {
+      display: block;
+      font-size: 10px;
+      color: #888;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .config-group input[type="number"] {
+      background: #0c0c10;
+      border: 1px solid #31313f;
+      color: #fff;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      width: 150px;
+    }
+
+    .config-group select {
+      background: #0c0c10;
+      border: 1px solid #31313f;
+      color: #fff;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Payload Inspector */
+    .payload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .payload-card {
+      background: #111115;
+      border: 1px solid #31313f;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .payload-card-header {
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .payload-card-header.long {
+      background: #1a1a22;
+      color: #888;
+    }
+
+    .payload-card-header.short {
+      background: #1a0912;
+      color: #ff3399;
+    }
+
+    .payload-preview {
+      padding: 12px 14px;
+      font-size: 10px;
+      color: #67e8f9;
+      line-height: 1.8;
+      max-height: 150px;
+      overflow-y: auto;
+      border-top: 1px solid #222;
+      white-space: pre;
+    }
+
+    .payload-meta {
+      padding: 8px 14px;
+      font-size: 11px;
+      border-top: 1px solid #1a1a22;
+      display: flex;
+      gap: 16px;
+    }
+
+    .payload-meta .val-bytes {
+      color: #888;
+    }
+
+    .payload-meta .val-bytes.long {
+      color: #888;
+    }
+
+    .payload-meta .val-bytes.short {
+      color: #ff3399;
+      font-weight: bold;
+    }
+
+    /* Size comparison bar */
+    .size-bar-container {
+      background: #111115;
+      border: 1px solid #31313f;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+
+    .size-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 6px 0;
+    }
+
+    .size-bar-label {
+      font-size: 11px;
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .size-bar-bg {
+      flex: 1;
+      background: #1a1a22;
+      border-radius: 4px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    .size-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    .size-bar-num {
+      font-size: 11px;
+      width: 100px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Run Button */
+    .run-btn {
+      background: linear-gradient(135deg, #ff3399, #cc2277);
+      border: none;
+      color: #fff;
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 12px 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(255, 51, 153, 0.3);
+    }
+
+    .run-btn:hover {
+      box-shadow: 0 0 30px rgba(255, 51, 153, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .run-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Summary Banner */
+    .summary-banner {
+      background: #1a0912;
+      border: 1px solid #ff3399;
+      border-radius: 8px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #ff3399;
+      display: none;
+    }
+
+    .summary-banner .speedup {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* Results Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin-bottom: 16px;
+    }
+
+    thead {
+      background: #111115;
+      position: sticky;
+      top: 0;
+    }
+
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      color: #fff;
+      border-right: 1px solid #31313f;
+      font-size: 11px;
+    }
+
+    td {
+      padding: 9px 14px;
+      border-right: 1px solid #1a1a22;
+      border-bottom: 1px solid #1a1a22;
+    }
+
+    tr.run-header td {
+      background: #111115;
+      color: #ff3399;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    td.val-long {
+      color: #888;
+    }
+
+    td.val-short {
+      color: #ff3399;
+      font-weight: bold;
+    }
+
+    td.val-reduction {
+      color: #ffcc00;
+      font-weight: bold;
+    }
+
+    /* Log Controls */
+    .log-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .copy-btn {
+      background: #1a1a22;
+      border: 1px solid #31313f;
+      color: #fff;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      border-color: #ff3399;
+      color: #ff3399;
+    }
+
+    .clear-btn {
+      background: #1a1a22;
+      border: 1px solid #31313f;
+      color: #666;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .clear-btn:hover {
+      border-color: #ff3399;
+      color: #ff3399;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ff3399;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .warn-box {
+      background: #1a1200;
+      border: 1px solid #ffcc00;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 11px;
+      color: #ffcc99;
+      margin-bottom: 20px;
+    }
+
+    .warn-box strong {
+      color: #ffcc00;
+    }
+
+    /* Hex format chips */
+    .chip {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .chip-long {
+      background: rgba(100, 100, 120, 0.3);
+      color: #aaa;
+    }
+
+    .chip-short {
+      background: rgba(255, 51, 153, 0.2);
+      color: #ff3399;
+    }
+  </style>
+</head>
+
+<body>
+
+<div style="padding: 10px 20px; background: #16161c; border-bottom: 1px solid #31313f; margin-bottom: 20px; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000;">
+  <a href="benchmark-hub" style="color: #00ffcc; text-decoration: none; font-weight: bold; font-family: monospace; font-size: 14px;">⬅ Back to Benchmark Hub</a>
+</div>
+
+  <div class="container">
+
+    <h1>JSON Parser Benchmark — Short Hex vs Long Hex</h1>
+    <p style="color:#ff3399; font-size:12px; margin-bottom:4px; font-weight:bold;">
+      Short Hex (#F39 / #RRGGBBAA) vs Long Hex (#FF3399) — Parse Speed & Payload Size
+    </p>
+    <p class="desc">
+      When loading a theme, VS Code internally parses <code>themes/*.json</code>.
+      By using Short Hex (<code>#RGB</code> / <code>#RGBA</code>), the JSON payload size (in bytes) is reduced, 
+      decreasing both the time taken for the V8 engine's <code>JSON.parse()</code> and memory usage.
+      This benchmark demonstrates that difference.
+    </p>
+
+    <div class="warn-box">
+      <strong>⚠️ Measurement Note:</strong>
+      <code>JSON.parse()</code> processing time is affected by V8's JIT and string caching.
+      <strong>Please run it 10 or more times to see stabilized measurements.</strong>
+      The difference in payload size (bytes) can be verified as a stable absolute value.
+    </div>
+
+    <!-- Theory Cards -->
+    <h2>🔬 Verification Theory</h2>
+    <div class="theory-grid">
+      <div class="theory-card long">
+        <h3>❌ Long Hex (Standard 6-digit / 8-digit)</h3>
+        <code>{
+  "editor.background": "#FF3399",
+  "editor.foreground": "#FFFFFFCC",
+  "focusBorder":       "#E04080FF",
+  // 7 to 11 bytes per color
+  // 100,000 colors ≈ 700KB to 1.1MB JSON
+}</code>
+        <p>The standard format used by VS Code. Each color code string is long, increasing the theme JSON size and startup parsing load.</p>
+      </div>
+      <div class="theory-card short">
+        <h3>✅ Short Hex (3-digit / 4-digit Abbreviation)</h3>
+        <code>{
+  "editor.background": "#F39",
+  "editor.foreground": "#FFFC",
+  "focusBorder":       "#E48F",
+  // 4 to 6 bytes per color (approx. 40% reduction)
+  // 100,000 colors ≈ 400KB to 600KB JSON
+}</code>
+        <p>Only colors on the Mod17 boundary can be used. Character count is roughly halved, drastically reducing JSON load bytes and parsing time.</p>
+      </div>
+    </div>
+
+    <!-- Config Panel -->
+    <h2>⚙️ Benchmark Configuration</h2>
+    <div class="config-panel">
+      <div class="config-group">
+        <label>Entries (Number of color settings)</label>
+        <input type="number" id="cfgEntries" value="100000" min="1000" max="2000000" step="10000"
+          oninput="updatePayloadPreview()">
+      </div>
+      <div class="config-group">
+        <label>Trials</label>
+        <input type="number" id="cfgRuns" value="5" min="1" max="30">
+      </div>
+      <div class="config-group">
+        <label>Representative Color Set</label>
+        <select id="cfgColorSet" onchange="updatePayloadPreview()">
+          <option value="pink">💗 Cyber Pink (#FF3399 / #F39)</option>
+          <option value="cyan">💙 Cyber Cyan (#00CCFF / #0CF)</option>
+          <option value="mixed">🎨 Mixed (Multi-color rotation)</option>
+        </select>
+      </div>
+      <div class="config-group">
+        <label>Include Alpha (8-digit / 4-digit)</label>
+        <select id="cfgIncludeAlpha" onchange="updatePayloadPreview()">
+          <option value="no">Exclude (6-digit / 3-digit only)</option>
+          <option value="yes">Include (8-digit / 4-digit at 50% ratio)</option>
+        </select>
+      </div>
+      <div class="config-group">
+        <button class="run-btn" id="runBtn" onclick="runBenchmark()">▶ RUN BENCHMARK</button>
+      </div>
+    </div>
+
+    <!-- Payload Preview -->
+    <h2>📦 Payload Preview (Actual JSON generated)</h2>
+    <div class="payload-grid">
+      <div class="payload-card">
+        <div class="payload-card-header long">
+          <span>❌ Long Hex JSON (First 10 lines)</span>
+          <span class="chip chip-long">#RRGGBB / #RRGGBBAA</span>
+        </div>
+        <pre class="payload-preview" id="previewLong"></pre>
+        <div class="payload-meta">
+          <span class="val-bytes long">Total bytes: <strong id="bytesLong">-</strong></span>
+          <span style="font-size:10px; color:#444;">chars/entry: <span id="charsLong">-</span></span>
+        </div>
+      </div>
+      <div class="payload-card">
+        <div class="payload-card-header short">
+          <span>✅ Short Hex JSON (First 10 lines)</span>
+          <span class="chip chip-short">#RGB / #RGBA</span>
+        </div>
+        <pre class="payload-preview" id="previewShort"></pre>
+        <div class="payload-meta">
+          <span class="val-bytes short">Total bytes: <strong id="bytesShort">-</strong></span>
+          <span style="font-size:10px; color:#ff3399;">chars/entry: <span id="charsShort">-</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Size Comparison Bar -->
+    <div class="size-bar-container">
+      <h3 style="font-size:12px; color:#fff; margin-bottom:12px;">📊 Payload Size Comparison</h3>
+      <div class="size-bar-row">
+        <span class="size-bar-label" style="color:#888;">❌ Long Hex</span>
+        <div class="size-bar-bg">
+          <div class="size-bar-fill" id="barLong" style="width:100%; background:#333;"></div>
+        </div>
+        <span class="size-bar-num" id="barLongNum" style="color:#888;">-</span>
+      </div>
+      <div class="size-bar-row">
+        <span class="size-bar-label" style="color:#ff3399;">✅ Short Hex</span>
+        <div class="size-bar-bg">
+          <div class="size-bar-fill" id="barShort" style="background: linear-gradient(90deg, #ff3399, #cc2277);"></div>
+        </div>
+        <span class="size-bar-num" id="barShortNum" style="color:#ff3399; font-weight:bold;">-</span>
+      </div>
+      <div style="font-size:11px; color:#ffcc00; margin-top:8px; font-weight:bold;">
+        Reduction: <span id="barReduction">Calculating...</span>
+      </div>
+    </div>
+
+    <!-- Summary Banner -->
+    <div class="summary-banner" id="summaryBanner"></div>
+
+    <!-- Results Table -->
+    <h2>📊 Benchmark Results Log</h2>
+    <div class="log-controls">
+      <button class="copy-btn" onclick="copyMarkdown()">📋 Copy to Markdown</button>
+      <button class="clear-btn" onclick="clearLog()">🗑 Clear Log</button>
+      <span style="font-size:11px; color:#555;" id="runCount">Total Runs: 0</span>
+    </div>
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Run</th>
+          <th>Method</th>
+          <th>Format</th>
+          <th>Entries</th>
+          <th>Payload (bytes)</th>
+          <th>Parse Time (ms)</th>
+          <th>MB/s</th>
+          <th>Size Reduction</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody">
+        <tr>
+          <td colspan="8" style="text-align:center; color:#444; padding:24px;">
+            ▶ Click RUN BENCHMARK to display results here
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    var runHistory = [];
+    var totalRuns = 0;
+
+    // Color sets (long → short pairs, all Short Hex are Mod17)
+    var COLOR_SETS = {
+      pink: [['#FF3399', '#F39'], ['#FFFFFF', '#FFF'], ['#CC2277', '#C27']],
+      cyan: [['#00CCFF', '#0CF'], ['#FFFFFF', '#FFF'], ['#00AADD', '#0AD']],
+      mixed: [
+        ['#FF3399', '#F39'], ['#00FFCC', '#0FC'], ['#AAFFEE', '#AFE'],
+        ['#3300FF', '#30F'], ['#FFFFFF', '#FFF'], ['#112233', '#123']
+      ]
+    };
+    var ALPHA_PAIRS = [['FF339980', 'F398'], ['FFFFFF40', 'FFF4'], ['00CCFFCC', '0CFC']];
+
+    function getColorPairs() {
+      var set = COLOR_SETS[document.getElementById('cfgColorSet').value];
+      var includeAlpha = document.getElementById('cfgIncludeAlpha').value === 'yes';
+      var pairs = set.slice();
+      if (includeAlpha) {
+        ALPHA_PAIRS.forEach(function (p) { pairs.push(['#' + p[0], '#' + p[1]]); });
+      }
+      return pairs;
+    }
+
+    function generateJsonString(entries, useShort) {
+      var pairs = getColorPairs();
+      var lines = ['{'];
+      for (var i = 0; i < entries; i++) {
+        var pair = pairs[i % pairs.length];
+        var val = useShort ? pair[1] : pair[0];
+        var comma = i < entries - 1 ? ',' : '';
+        lines.push('  "color' + i + '": "' + val + '"' + comma);
+      }
+      lines.push('}');
+      return lines.join('\n');
+    }
+
+    function updatePayloadPreview() {
+      var entries = Math.min(parseInt(document.getElementById('cfgEntries').value) || 100, 100000);
+
+      var longStr = generateJsonString(entries, false);
+      var shortStr = generateJsonString(entries, true);
+
+      var longBytes = new TextEncoder().encode(longStr).length;
+      var shortBytes = new TextEncoder().encode(shortStr).length;
+
+      // Preview (first 10 lines)
+      var previewLines = 10;
+      document.getElementById('previewLong').textContent = longStr.split('\n').slice(0, previewLines + 2).join('\n') + '\n  ...';
+      document.getElementById('previewShort').textContent = shortStr.split('\n').slice(0, previewLines + 2).join('\n') + '\n  ...';
+
+      document.getElementById('bytesLong').textContent = longBytes.toLocaleString() + ' B (' + (longBytes / 1024).toFixed(1) + ' KB)';
+      document.getElementById('bytesShort').textContent = shortBytes.toLocaleString() + ' B (' + (shortBytes / 1024).toFixed(1) + ' KB)';
+
+      var pairs = getColorPairs();
+      var avgLong = pairs.reduce(function (s, p) { return s + p[0].length; }, 0) / pairs.length;
+      var avgShort = pairs.reduce(function (s, p) { return s + p[1].length; }, 0) / pairs.length;
+      document.getElementById('charsLong').textContent = avgLong.toFixed(1);
+      document.getElementById('charsShort').textContent = avgShort.toFixed(1);
+
+      // Size bars
+      var pct = (shortBytes / longBytes) * 100;
+      document.getElementById('barLong').style.width = '100%';
+      document.getElementById('barShort').style.width = pct.toFixed(1) + '%';
+      document.getElementById('barLongNum').textContent = (longBytes / 1024).toFixed(1) + ' KB';
+      document.getElementById('barShortNum').textContent = (shortBytes / 1024).toFixed(1) + ' KB';
+      var reduction = ((1 - shortBytes / longBytes) * 100).toFixed(1);
+      document.getElementById('barReduction').textContent =
+        (longBytes - shortBytes).toLocaleString() + ' bytes (' + reduction + '% reduced) → Short Hex is ' + (longBytes / shortBytes).toFixed(2) + 'x smaller';
+
+      return { longStr, shortStr, longBytes, shortBytes };
+    }
+
+    function measureParseTime(jsonStr, runs) {
+      // Warm up
+      JSON.parse(jsonStr);
+
+      var times = [];
+      for (var r = 0; r < runs; r++) {
+        var t0 = performance.now();
+        JSON.parse(jsonStr);
+        var t1 = performance.now();
+        times.push(t1 - t0);
+      }
+      return times;
+    }
+
+    function runBenchmark() {
+      var btn = document.getElementById('runBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Running...';
+
+      var entries = parseInt(document.getElementById('cfgEntries').value);
+      var runs = parseInt(document.getElementById('cfgRuns').value);
+
+      setTimeout(function () {
+        var payload = updatePayloadPreview();
+        var longStr = generateJsonString(entries, false);
+        var shortStr = generateJsonString(entries, true);
+        var longBytes = new TextEncoder().encode(longStr).length;
+        var shortBytes = new TextEncoder().encode(shortStr).length;
+
+        var longTimes = measureParseTime(longStr, runs);
+        var shortTimes = measureParseTime(shortStr, runs);
+
+        var avgLong = longTimes.reduce(function (s, t) { return s + t; }, 0) / runs;
+        var avgShort = shortTimes.reduce(function (s, t) { return s + t; }, 0) / runs;
+
+        var longMBs = (longBytes / 1024 / 1024) / (avgLong / 1000);
+        var shortMBs = (shortBytes / 1024 / 1024) / (avgShort / 1000);
+
+        var sizeReduction = ((1 - shortBytes / longBytes) * 100).toFixed(1);
+        var speedup = (avgLong / avgShort).toFixed(2);
+
+        totalRuns++;
+        var tbody = document.getElementById('resultsBody');
+        var placeholder = tbody.querySelector('td[colspan="8"]');
+        if (placeholder) placeholder.parentNode.remove();
+
+        // Header row
+        var headerRow = document.createElement('tr');
+        headerRow.className = 'run-header';
+        headerRow.innerHTML =
+          '<td colspan="8">▸ Run #' + totalRuns +
+          '  |  Long: ' + avgLong.toFixed(2) + 'ms  →  Short: ' + avgShort.toFixed(2) + 'ms  |  ' +
+          'Size: ' + (longBytes / 1024).toFixed(1) + 'KB → ' + (shortBytes / 1024).toFixed(1) + 'KB  |  ' +
+          '⚡ Parse speedup: ' + speedup + 'x  |  Payload reduction: ' + sizeReduction + '%</td>';
+        tbody.insertBefore(headerRow, tbody.firstChild);
+
+        // Detail rows
+        for (var ri = runs - 1; ri >= 0; ri--) {
+          var shortMBsRow = (shortBytes / 1024 / 1024) / (shortTimes[ri] / 1000);
+          var longMBsRow = (longBytes / 1024 / 1024) / (longTimes[ri] / 1000);
+          var rowSpeedup = (longTimes[ri] / shortTimes[ri]).toFixed(2);
+
+          var shortRow = document.createElement('tr');
+          shortRow.innerHTML =
+            '<td>#' + totalRuns + '-' + (ri + 1) + '</td>' +
+            '<td class="val-short">✅ Short Hex</td>' +
+            '<td><span class="chip chip-short">#RGB/#RGBA</span></td>' +
+            '<td>' + entries.toLocaleString() + '</td>' +
+            '<td class="val-short">' + shortBytes.toLocaleString() + ' B</td>' +
+            '<td class="val-short">' + shortTimes[ri].toFixed(2) + ' ms</td>' +
+            '<td>' + shortMBsRow.toFixed(1) + ' MB/s</td>' +
+            '<td class="val-reduction">-' + sizeReduction + '%  (' + rowSpeedup + 'x)</td>';
+          tbody.insertBefore(shortRow, headerRow.nextSibling);
+
+          var longRow = document.createElement('tr');
+          longRow.innerHTML =
+            '<td>#' + totalRuns + '-' + (ri + 1) + '</td>' +
+            '<td class="val-long">❌ Long Hex</td>' +
+            '<td><span class="chip chip-long">#RRGGBB/#RRGGBBAA</span></td>' +
+            '<td>' + entries.toLocaleString() + '</td>' +
+            '<td class="val-long">' + longBytes.toLocaleString() + ' B</td>' +
+            '<td class="val-long">' + longTimes[ri].toFixed(2) + ' ms</td>' +
+            '<td>' + longMBsRow.toFixed(1) + ' MB/s</td>' +
+            '<td>-</td>';
+          tbody.insertBefore(longRow, shortRow.nextSibling);
+        }
+
+        runHistory.push({
+          runNo: totalRuns, entries, runs,
+          longBytes, shortBytes, sizeReduction,
+          avgLong, avgShort, speedup,
+          longTimes, shortTimes
+        });
+
+        // Summary banner
+        var banner = document.getElementById('summaryBanner');
+        banner.style.display = 'block';
+        banner.innerHTML =
+          '<strong>Summary (Run #' + totalRuns + '):</strong> ' +
+          'Payload: <strong>' + (longBytes / 1024).toFixed(1) + 'KB → ' + (shortBytes / 1024).toFixed(1) + 'KB</strong> (-' + sizeReduction + '%) | ' +
+          'Parse: <strong>' + avgLong.toFixed(2) + 'ms → ' + avgShort.toFixed(2) + 'ms</strong> | ' +
+          '<span class="speedup">⚡ ' + speedup + 'x faster parse, ' + sizeReduction + '% smaller JSON</span>';
+
+        document.getElementById('runCount').textContent = 'Total Runs: ' + totalRuns;
+        btn.disabled = false;
+        btn.textContent = '▶ RUN BENCHMARK';
+      }, 50);
+    }
+
+    function copyMarkdown() {
+      if (runHistory.length === 0) { showToast('No log available'); return; }
+
+      var md = '### ⚡ JSON Parser Benchmark — Short Hex vs Long Hex\n\n';
+
+      var avgAllLong = runHistory.reduce(function (s, r) { return s + r.avgLong; }, 0) / runHistory.length;
+      var avgAllShort = runHistory.reduce(function (s, r) { return s + r.avgShort; }, 0) / runHistory.length;
+      var totalSpeedup = (avgAllLong / avgAllShort).toFixed(2);
+      var lastRed = runHistory[runHistory.length - 1].sizeReduction;
+
+      md += '**Summary**: Long Hex avg: ' + avgAllLong.toFixed(2) + 'ms | Short Hex avg: ' + avgAllShort.toFixed(2) + 'ms | Parse speedup: **' + totalSpeedup + 'x** | Size reduced: **' + lastRed + '%**\n\n';
+      md += '| Run | Method | Format | Entries | Payload (bytes) | Time (ms) | MB/s | Speedup / Reduction |\n';
+      md += '| :-- | :----- | :----- | ------: | --------------: | --------: | ---: | ------------------: |\n';
+
+      runHistory.forEach(function (r) {
+        var len = r.longTimes.length;
+        for (var i = 0; i < len; i++) {
+          var sMBs = (r.shortBytes / 1024 / 1024) / (r.shortTimes[i] / 1000);
+          var lMBs = (r.longBytes / 1024 / 1024) / (r.longTimes[i] / 1000);
+          var rowSpeed = (r.longTimes[i] / r.shortTimes[i]).toFixed(2);
+
+          md += '| #' + r.runNo + '-' + (i + 1) + ' | ❌ Long Hex | `#RRGGBB` | ' + r.entries.toLocaleString() + ' | ' + r.longBytes.toLocaleString() + ' | ' + r.longTimes[i].toFixed(2) + ' ms | ' + lMBs.toFixed(1) + ' | - |\n';
+          md += '| #' + r.runNo + '-' + (i + 1) + ' | ✅ Short Hex | `#RGB` | ' + r.entries.toLocaleString() + ' | ' + r.shortBytes.toLocaleString() + ' | ' + r.shortTimes[i].toFixed(2) + ' ms | ' + sMBs.toFixed(1) + ' | **' + rowSpeed + 'x** (-' + r.sizeReduction + '%) |\n';
+        }
+      });
+
+      navigator.clipboard.writeText(md).then(function () { showToast('📋 Markdown copied!'); });
+    }
+
+    function clearLog() {
+      runHistory = [];
+      totalRuns = 0;
+      document.getElementById('resultsBody').innerHTML =
+        '<tr><td colspan="8" style="text-align:center; color:#444; padding:24px;">▶ Click RUN BENCHMARK to display results here</td></tr>';
+      document.getElementById('summaryBanner').style.display = 'none';
+      document.getElementById('runCount').textContent = 'Total Runs: 0';
+    }
+
+    function showToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 2500);
+    }
+
+    // Init preview on load
+    document.addEventListener('DOMContentLoaded', updatePayloadPreview);
+    document.querySelectorAll('input, select').forEach(function (el) {
+      el.addEventListener('change', updatePayloadPreview);
+    });
+    updatePayloadPreview();
+  </script>
+</body>
+
+</html>

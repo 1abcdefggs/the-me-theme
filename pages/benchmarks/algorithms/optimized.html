@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Benchmark — Optimized (Latency Test)</title>
+  <style>
+    body {
+      background: #0c0c10;
+      color: #b8b8c7;
+      font-family: monospace;
+      padding: 24px;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+    .card {
+      background: #16161c;
+      border: 1px solid #31313f;
+      padding: 24px;
+      border-radius: 6px;
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    h1 {
+      color: #ff3399;
+      font-size: 16px;
+      border-bottom: 1px solid #31313f;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+    .desc {
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: left;
+    }
+    pre {
+      background: #111115;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      border: 1px solid #222;
+      overflow-x: auto;
+      color: #ff92df;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+    .btn {
+      background: #ff3399;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 13px;
+      width: 100%;
+      margin-bottom: 12px;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #e02b84;
+    }
+    canvas {
+      border: 1px solid #31313f;
+      background: #000;
+      image-rendering: pixelated;
+      max-width: 100%;
+      height: auto;
+      margin-top: 12px;
+    }
+    .result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 12px;
+      color: #ff3399;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Optimized Latency Test</h1>
+    <p class="desc">Renders a 400 &times; 400 gradient using division-free binary shifts. Executes in an isolated context.</p>
+
+    <pre>
+// Pixel blending formula
+prod = c1.r * weight + c2.r * invWeight + 128;
+r = (prod + (prod >> 8)) >> 8;
+    </pre>
+
+    <button class="btn" onclick="runOptimizedTest()">Execute Render</button>
+    <br>
+    <canvas id="canvasTarget" width="400" height="400"></canvas>
+    <div class="result" id="timeResult">-- ms</div>
+  </div>
+
+  <script>
+    function runOptimizedTest() {
+      const width = 400;
+      const height = 400;
+      const canvas = document.getElementById("canvasTarget");
+      const ctx = canvas.getContext("2d");
+      const imgData = ctx.createImageData(width, height);
+      const data = imgData.data;
+
+      // Aligned Baseline Colors (#808080 mid-gray & #FF0000 pure red)
+      const c1 = { r: 128, g: 128, b: 128 };
+      const c2 = { r: 255, g: 0, b: 0 };
+
+      const start = performance.now();
+      let idx = 0;
+
+      for (let y = 0; y < height; y++) {
+        const weight = Math.round((y / height) * 255);
+        const invWeight = 255 - weight;
+
+        for (let x = 0; x < width; x++) {
+          // Optimized Bit-shift & Add approximation of division by 255
+          const prodR = c1.r * weight + c2.r * invWeight + 128;
+          data[idx]     = (prodR + (prodR >> 8)) >> 8; // R
+
+          const prodG = c1.g * weight + c2.g * invWeight + 128;
+          data[idx + 1] = (prodG + (prodG >> 8)) >> 8; // G
+
+          const prodB = c1.b * weight + c2.b * invWeight + 128;
+          data[idx + 2] = (prodB + (prodB >> 8)) >> 8; // B
+
+          data[idx + 3] = 255;
+          idx += 4;
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+      const end = performance.now();
+      const elapsed = end - start;
+      document.getElementById("timeResult").innerText = elapsed.toFixed(2) + " ms";
+      return elapsed;
+    }
+
+    window.addEventListener('message', function (e) {
+      try {
+        if (!e.data || e.data.type !== 'run-isolated') return;
+        const t = runOptimizedTest();
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'benchmark-result', name: 'optimized', time: t }, '*');
+        }
+      } catch (err) {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'benchmark-result', name: 'optimized', error: String(err) }, '*');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
