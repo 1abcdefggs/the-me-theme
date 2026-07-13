@@ -3,8 +3,8 @@ import { resolve } from 'path';
 
 const cleanUrlPlugin = () => ({
   name: 'clean-urls',
-  configureServer(server) {
-    server.middlewares.use((req, res, next) => {
+  configureServer(server: any) {
+    server.middlewares.use((req: any, res: any, next: any) => {
       if (req.url && !req.url.endsWith('/') && !req.url.includes('.')) {
         req.url += '.html';
       }
@@ -23,5 +23,10 @@ export default defineConfig({
         reference: resolve(__dirname, 'pages/color-reference.html')
       }
     }
+  },
+  server: {
+    host: 'localhost',
+    port: 5173,
+    open: true
   }
 });
