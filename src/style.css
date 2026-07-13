@@ -2,7 +2,7 @@
   --app-bg: #1e1e1e;
   --app-fg: #cccccc;
   --border-color: #3c3c3c;
-  
+
   /* VS Code color system mappings */
   --vscode-sideBar-background: #252526;
   --vscode-sideBar-foreground: #cccccc;
@@ -20,11 +20,21 @@
   --vscode-list-hoverForeground: #cccccc;
 }
 
-* { box-sizing: border-box; }
-body, html { 
-  margin: 0; padding: 0; height: 100%; width: 100vw; max-width: 100%; overflow-x: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-  background: var(--app-bg); color: var(--app-fg); 
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100vw;
+  max-width: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--app-bg);
+  color: var(--app-fg);
   font-size: 13px;
 }
 
@@ -33,31 +43,36 @@ body, html {
   width: 12px;
   height: 12px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(121, 121, 121, 0.4);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 100, 100, 0.7);
 }
+
 ::-webkit-scrollbar-thumb:active {
   background: rgba(191, 191, 191, 0.4);
 }
+
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
 /* VS Code Style Header */
-#top-toolbar { 
-  height: 45px; 
-  background: #3c3c3c; 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  padding: 0 20px; 
-  color: #fff; 
+#top-toolbar {
+  height: 45px;
+  background: #3c3c3c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: #fff;
   border-bottom: 1px solid #2d2d2d;
 }
 
@@ -67,9 +82,9 @@ body, html {
   gap: 30px;
 }
 
-.logo { 
-  font-weight: 600; 
-  font-size: 14px; 
+.logo {
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .nav-links {
@@ -104,14 +119,14 @@ body, html {
   font-weight: 500;
 }
 
-.theme-controls { 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
+.theme-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Unified Header Buttons */
-.header-btn, 
+.header-btn,
 .custom-file-upload,
 #reset-theme-btn {
   padding: 8px 16px;
@@ -137,6 +152,7 @@ body, html {
   background: #252526;
   color: #cccccc;
 }
+
 .header-btn:hover {
   background: #2d2d2d;
   color: #ffffff;
@@ -150,6 +166,7 @@ body, html {
   color: #ffffff;
   border-color: transparent;
 }
+
 .header-btn.primary:hover,
 .custom-file-upload:hover {
   background: #1177bb;
@@ -162,6 +179,7 @@ body, html {
   border-color: #50555a;
   color: #ffffff;
 }
+
 .header-btn.reset:hover,
 #reset-theme-btn:hover {
   background: #45494e;
@@ -173,28 +191,33 @@ body, html {
   color: #ffffff;
   border-color: transparent;
 }
+
 .header-btn.success:hover {
   background: #239a45;
 }
 
-#app { display: flex; height: calc(100vh - 45px); overflow: hidden; }
-
-/* Column 1: Component Explorer */
-#component-explorer { 
-  width: 260px; 
-  background: #252526; 
-  border-right: 1px solid var(--border-color); 
-  display: flex; 
-  flex-direction: column; 
+#app {
+  display: flex;
+  height: calc(100vh - 45px);
+  overflow: hidden;
 }
 
-.explorer-title { 
-  padding: 12px 15px; 
-  font-size: 13px; 
-  font-weight: 600; 
-  color: #858585; 
-  letter-spacing: 0.5px; 
-  border-bottom: 1px solid #2d2d2d; 
+/* Column 1: Component Explorer */
+#component-explorer {
+  width: 260px;
+  background: #252526;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.explorer-title {
+  padding: 12px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #858585;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #2d2d2d;
 }
 
 .explorer-scroll-container {
@@ -206,20 +229,21 @@ body, html {
   display: block;
 }
 
-.directory-list { 
-  list-style: none; 
-  padding: 10px; 
-  margin: 0; 
+.directory-list {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
 }
 
-.dir-node { 
-  font-weight: 500; 
-  color: #cccccc; 
-  margin-bottom: 10px; 
+.dir-node {
+  font-weight: 500;
+  color: #cccccc;
+  margin-bottom: 10px;
   position: relative;
   padding-left: 14px;
   font-size: 13px;
 }
+
 .dir-node::before {
   content: '▸';
   position: absolute;
@@ -228,71 +252,84 @@ body, html {
   color: #858585;
 }
 
-.dir-children { 
-  list-style: none; 
-  padding-left: 10px; 
-  margin: 5px 0 0 0; 
+.dir-children {
+  list-style: none;
+  padding-left: 10px;
+  margin: 5px 0 0 0;
 }
 
-.file-node { 
-  font-weight: 400; 
-  color: #969696; 
-  padding: 4px 8px; 
-  cursor: pointer; 
-  border-radius: 1px; 
-  transition: background 0.1s, color 0.1s; 
+.file-node {
+  font-weight: 400;
+  color: #969696;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: background 0.1s, color 0.1s;
   font-size: 13px;
 }
-.file-node:hover { 
-  background: #2a2d2e; 
-  color: #e0e0e0; 
+
+.file-node:hover {
+  background: #2a2d2e;
+  color: #e0e0e0;
 }
-.file-node.active { 
-  background: #37373d; 
-  color: #ffffff; 
+
+.file-node.active {
+  background: #37373d;
+  color: #ffffff;
 }
+
 .file-node.disabled {
   opacity: 0.5;
   cursor: not-allowed;
   font-style: italic;
 }
+
 .file-node.disabled:hover {
   background: transparent;
   color: #969696;
 }
 
 /* Column 2: Visual Mock UI */
-#preview-panel { 
-  flex: 1; 
-  background: var(--vscode-editor-background, #1e1e1e); 
-  display: flex; 
-  flex-direction: column; 
-  overflow: hidden; 
+#preview-panel {
+  flex: 1;
+  background: var(--vscode-editor-background, #1e1e1e);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   align-items: stretch !important;
   justify-content: flex-start !important;
   padding: 0 !important;
 }
 
-#sidebar-mock { 
-  width: 200px !important; 
-  height: 100% !important; 
+#sidebar-mock {
+  width: 200px !important;
+  height: 100% !important;
   display: flex;
   flex-direction: column;
 }
 
 /* Mock UI Components internals (Minimalist, no emojis) */
-.mock-component { transition: box-shadow 0.1s; position: relative; }
-.mock-component.highlighted::after, 
-.sidebar-header.highlighted::after, 
-.sidebar-section-header.highlighted::after, 
-.tree-item.highlighted::after {
-  content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 0 1.5px #ff0080; pointer-events: none; z-index: 10;
+.mock-component {
+  transition: box-shadow 0.1s;
+  position: relative;
 }
 
-#sidebar-mock { 
-  background: var(--vscode-sideBar-background); 
-  color: var(--vscode-sideBar-foreground); 
-  border-right: 1px solid var(--vscode-sideBar-border); 
+.mock-component.highlighted::after,
+.sidebar-header.highlighted::after,
+.sidebar-section-header.highlighted::after,
+.tree-item.highlighted::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1.5px #ff0080;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#sidebar-mock {
+  background: var(--vscode-sideBar-background);
+  color: var(--vscode-sideBar-foreground);
+  border-right: 1px solid var(--vscode-sideBar-border);
   position: relative;
   min-width: 150px;
   max-width: 600px;
@@ -313,50 +350,29 @@ body, html {
   background: var(--vscode-sideBar-border);
 }
 
-#details-panel {
+.sidebar-header {
+  padding: 10px 15px;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  background: var(--vscode-sideBarTitle-background);
+  color: var(--vscode-sideBarTitle-foreground);
   position: relative;
-  min-width: 200px;
-  max-width: 500px;
 }
 
-#details-panel::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  cursor: ew-resize;
-  background: transparent;
-}
-
-#details-panel:hover::after {
-  background: var(--vscode-sideBar-border);
-}
-
-.sidebar-header { 
-  padding: 10px 15px; 
-  font-size: 13px; 
-  letter-spacing: 0.8px; 
-  font-weight: 600; 
-  background: var(--vscode-sideBarTitle-background); 
-  color: var(--vscode-sideBarTitle-foreground); 
-  position: relative; 
-}
-
-.sidebar-section-header { 
-  padding: 5px 12px; 
-  font-size: 13px; 
-  font-weight: 600; 
-  cursor: pointer; 
-  background: var(--vscode-sideBarSectionHeader-background); 
-  color: var(--vscode-sideBarSectionHeader-foreground); 
-  border-top: 1px solid var(--vscode-sideBarSectionHeader-border); 
-  border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border); 
+.sidebar-section-header {
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--vscode-sideBarSectionHeader-background);
+  color: var(--vscode-sideBarSectionHeader-foreground);
+  border-top: 1px solid var(--vscode-sideBarSectionHeader-border);
+  border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border);
   display: flex;
   align-items: center;
   gap: 6px;
-  position: relative; 
+  position: relative;
 }
 
 .arrow-down {
@@ -367,19 +383,20 @@ body, html {
   border-top: 4px solid currentColor;
 }
 
-.sidebar-tree { 
-  padding: 2px 0; 
+.sidebar-tree {
+  padding: 2px 0;
 }
 
-.tree-item { 
-  padding: 4px 12px 4px 24px; 
-  font-size: 13px; 
-  cursor: pointer; 
+.tree-item {
+  padding: 4px 12px 4px 24px;
+  font-size: 13px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  position: relative; 
+  position: relative;
 }
+
 .file-icon {
   width: 6px;
   height: 6px;
@@ -388,157 +405,224 @@ body, html {
   opacity: 0.7;
 }
 
-.tree-item:hover { background: var(--vscode-list-hoverBackground); color: var(--vscode-list-hoverForeground); }
-.tree-item.active { background: var(--vscode-list-activeSelectionBackground); color: var(--vscode-list-activeSelectionForeground); }
-.tree-item:not(.active):hover { background: var(--vscode-list-inactiveSelectionBackground); color: var(--vscode-list-inactiveSelectionForeground); }
+.tree-item:hover {
+  background: var(--vscode-list-hoverBackground);
+  color: var(--vscode-list-hoverForeground);
+}
+
+.tree-item.active {
+  background: var(--vscode-list-activeSelectionBackground);
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+.tree-item:not(.active):hover {
+  background: var(--vscode-list-inactiveSelectionBackground);
+  color: var(--vscode-list-inactiveSelectionForeground);
+}
 
 /* Column 3: Property Inspector */
-#inspector-panel { 
+#inspector-panel {
   width: 340px;
   min-width: 300px;
-  border-left: 1px solid var(--border-color); 
-  display: flex; 
-  flex-direction: column; 
-  background: #1e1e1e; 
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  background: #1e1e1e;
 }
 
-.inspector-header { 
-  padding: 15px 20px; 
-  border-bottom: 1px solid var(--border-color); 
-}
-.inspector-header h2 { 
-  margin: 0 0 12px 0; 
-  font-size: 14px; 
-  font-weight: 600; 
-  color: #ffffff; 
+.inspector-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-#search-input { 
-  flex: 1; 
-  padding: 6px 10px; 
-  background: #3c3c3c; 
-  border: 1px solid #3c3c3c; 
-  color: #fff; 
-  border-radius: 1px; 
-  outline: none; 
+.inspector-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+#search-input {
+  flex: 1;
+  padding: 6px 10px;
+  background: #3c3c3c;
+  border: 1px solid #3c3c3c;
+  color: #fff;
+  border-radius: 1px;
+  outline: none;
   font-size: 13px;
 }
-#search-input:focus { 
-  border-color: #007acc; 
+
+#search-input:focus {
+  border-color: #007acc;
 }
 
-.controls button { 
-  padding: 6px 12px; 
-  background: #3a3d41; 
-  color: #fff; 
-  border: 1px solid #50555a; 
-  border-radius: 1px; 
-  cursor: pointer; 
-  transition: background 0.1s; 
+.controls button {
+  padding: 6px 12px;
+  background: #3a3d41;
+  color: #fff;
+  border: 1px solid #50555a;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.1s;
   font-size: 12px;
 }
-.controls button:hover { 
-  background: #45494e; 
-}
-#export-btn { 
-  background: #0e639c; 
-  border-color: transparent; 
-}
-#export-btn:hover { 
-  background: #1177bb; 
+
+.controls button:hover {
+  background: #45494e;
 }
 
-#variables-list { flex: 1; overflow-y: auto; padding: 15px 20px; }
+#export-btn {
+  background: #0e639c;
+  border-color: transparent;
+}
+
+#export-btn:hover {
+  background: #1177bb;
+}
+
+#variables-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px 20px;
+}
 
 /* Grouped Variables UI */
-.group-card { 
-  background: #252526; 
-  border-radius: 1px; 
-  margin-bottom: 15px; 
-  overflow: hidden; 
-  border: 1px solid var(--border-color); 
+.group-card {
+  background: #252526;
+  border-radius: 1px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
 }
-.group-card.highlighted { 
-  border-color: #ff0080; 
-  box-shadow: 0 0 0 1px #ff0080; 
+
+.group-card.highlighted {
+  border-color: #ff0080;
+  box-shadow: 0 0 0 1px #ff0080;
 }
-.group-header { 
-  background: #2d2d2d; 
-  padding: 8px 15px; 
-  font-weight: 600; 
-  font-family: monospace; 
-  color: #858585; 
-  font-size: 12px; 
-  border-bottom: 1px solid var(--border-color); 
+
+.group-header {
+  background: #2d2d2d;
+  padding: 8px 15px;
+  font-weight: 600;
+  font-family: monospace;
+  color: #858585;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* Individual Item in a Group */
-.var-item { 
-  padding: 10px 15px; 
-  border-bottom: 1px solid #2d2d2d; 
-  display: flex; 
-  flex-direction: column; 
-  gap: 6px; 
+.var-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #2d2d2d;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.var-item:last-child { border-bottom: none; }
-.var-item:hover { background: #2a2d2e; }
 
-.var-row-top { display: flex; justify-content: space-between; align-items: center; }
-.var-name { font-family: monospace; font-size: 12px; color: #9cdcfe; font-weight: 600; }
-.var-desc { font-size: 11px; color: #858585; margin-top: 2px; line-height: 1.4; }
+.var-item:last-child {
+  border-bottom: none;
+}
+
+.var-item:hover {
+  background: #2a2d2e;
+}
+
+.var-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.var-name {
+  font-family: monospace;
+  font-size: 12px;
+  color: #9cdcfe;
+  font-weight: 600;
+}
+
+.var-desc {
+  font-size: 11px;
+  color: #858585;
+  margin-top: 2px;
+  line-height: 1.4;
+}
 
 /* Color Editor Section */
-.var-editor { display: flex; align-items: center; gap: 8px; }
-.history-color { 
-  width: 14px; 
-  height: 14px; 
-  border-radius: 50%; 
-  border: 1px solid #555; 
-  cursor: pointer; 
-  position: relative; 
+.var-editor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.history-color:hover::after { 
-  content: 'Undo'; 
-  position: absolute; 
-  bottom: -22px; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  background: #000; 
-  color: #fff; 
-  font-size: 9px; 
-  padding: 2px 4px; 
-  border-radius: 2px; 
+
+.history-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #555;
+  cursor: pointer;
+  position: relative;
+}
+
+.history-color:hover::after {
+  content: 'Undo';
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  font-size: 9px;
+  padding: 2px 4px;
+  border-radius: 2px;
   z-index: 20;
 }
 
-.color-picker-input { width: 24px; height: 24px; padding: 0; border: none; background: none; cursor: pointer; }
-.color-text-input { 
-  width: 75px; 
-  background: #3c3c3c; 
-  border: 1px solid #3c3c3c; 
-  color: #cccccc; 
-  font-family: monospace; 
-  font-size: 11px; 
-  padding: 3px; 
-  text-align: center; 
+.color-picker-input {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.color-text-input {
+  width: 75px;
+  background: #3c3c3c;
+  border: 1px solid #3c3c3c;
+  color: #cccccc;
+  font-family: monospace;
+  font-size: 11px;
+  padding: 3px;
+  text-align: center;
   outline: none;
 }
+
 .color-text-input:focus {
   border-color: #007acc;
 }
 
 /* Contrast Badge */
-.contrast-badge { 
-  font-size: 10px; 
-  padding: 1px 5px; 
-  border-radius: 2px; 
-  font-weight: 600; 
-  background: #333; 
-  color: #858585; 
-  margin-left: 8px; 
+.contrast-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-weight: 600;
+  background: #333;
+  color: #858585;
+  margin-left: 8px;
 }
-.contrast-badge.pass { background: #1e4620; color: #a6e22e; }
-.contrast-badge.fail { background: #5a1d1d; color: #f92672; }
+
+.contrast-badge.pass {
+  background: #1e4620;
+  color: #a6e22e;
+}
+
+.contrast-badge.fail {
+  background: #5a1d1d;
+  color: #f92672;
+}
 
 
 /* Reference Page Styles */
@@ -590,6 +674,7 @@ body, html {
   outline: none;
   font-size: 13px;
 }
+
 #ref-search:focus {
   border-color: #007acc;
 }
@@ -612,7 +697,8 @@ body, html {
   text-align: left;
 }
 
-.reference-table th, .reference-table td {
+.reference-table th,
+.reference-table td {
   padding: 10px 15px;
   border-bottom: 1px solid var(--border-color);
 }
@@ -662,14 +748,17 @@ body, html {
   border-bottom: 1px dashed #555;
   transition: color 0.1s;
 }
+
 .github-line-link:hover {
   color: #3794ff;
   border-bottom-style: solid;
 }
+
 .source-link {
   color: #3794ff;
   text-decoration: none;
 }
+
 .source-link:hover {
   text-decoration: underline;
 }
@@ -688,7 +777,7 @@ body, html {
   border-radius: 1px;
   overflow: hidden;
   font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   max-height: 250px;
   overflow-y: auto;
 }
@@ -716,9 +805,18 @@ body, html {
   border-radius: 50%;
   display: inline-block;
 }
-.dot.red { background: #ff5f56; }
-.dot.yellow { background: #ffbd2e; }
-.dot.green { background: #27c93f; }
+
+.dot.red {
+  background: #ff5f56;
+}
+
+.dot.yellow {
+  background: #ffbd2e;
+}
+
+.dot.green {
+  background: #27c93f;
+}
 
 .terminal-body {
   margin: 0;
@@ -764,6 +862,7 @@ body, html {
   cursor: pointer;
   padding: 4px 8px;
 }
+
 .terminal-actions .icon-btn:hover {
   color: #cccccc;
 }
@@ -781,9 +880,18 @@ body, html {
 .term-line {
   margin-bottom: 4px;
 }
-.term-line.info { color: #3794ff; }
-.term-line.success { color: #89d185; }
-.term-line.error { color: #f14c4c; }
+
+.term-line.info {
+  color: #3794ff;
+}
+
+.term-line.success {
+  color: #89d185;
+}
+
+.term-line.error {
+  color: #f14c4c;
+}
 
 /* GitHub Style File Explorer */
 .github-box {
@@ -834,9 +942,11 @@ body, html {
 .gh-icon {
   color: #54aeff;
 }
+
 .gh-icon.folder {
   color: #54aeff;
 }
+
 .gh-icon.file {
   color: #57606a;
 }
@@ -844,6 +954,7 @@ body, html {
 .gh-file-name span:not(.gh-icon) {
   cursor: pointer;
 }
+
 .gh-file-name span:not(.gh-icon):hover {
   color: #0969da;
   text-decoration: underline;
@@ -854,6 +965,7 @@ body, html {
   display: inline-block;
   vertical-align: bottom;
 }
+
 .gh-commit-msg:hover {
   color: #0969da;
   text-decoration: underline;
@@ -870,12 +982,14 @@ body, html {
   padding: 0;
   border-bottom: 1px solid #d0d7de;
 }
+
 .gh-file-content {
   background: #ffffff;
   padding: 20px 25px;
   border-top: 1px solid #d0d7de;
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.02);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.02);
 }
+
 .gh-file-content-title {
   font-size: clamp(16px, 2.2vh, 22px);
   font-weight: 600;
@@ -891,6 +1005,7 @@ body, html {
   padding: clamp(4px, 0.8vh, 12px) 12px;
   border-bottom: 1px solid #eaeef2;
 }
+
 .gh-color-row:last-child {
   border-bottom: none;
 }
@@ -920,7 +1035,7 @@ body, html {
   padding: 16px 24px;
   margin: 20px 0 30px 0;
   gap: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .flow-step {
@@ -1003,7 +1118,7 @@ body, html {
   border-radius: 1px;
   width: 500px;
   max-width: 90%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
 }
@@ -1031,6 +1146,7 @@ body, html {
   cursor: pointer;
   line-height: 1;
 }
+
 .close-btn:hover {
   color: #ffffff;
 }
@@ -1105,11 +1221,13 @@ body, html {
   border: 1px solid transparent;
   transition: background-color 0.2s;
 }
+
 .modal-btn.primary {
   background: #007acc;
   color: #ffffff;
   border-color: #007acc;
 }
+
 .modal-btn.primary:hover {
   background: #0062a3;
 }
@@ -1126,7 +1244,7 @@ body, html {
   max-height: 180px;
   overflow-y: auto;
   margin-top: 4px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   z-index: 100;
 }
 
@@ -1143,7 +1261,8 @@ body, html {
   border-bottom: none;
 }
 
-.suggestion-item:hover, .suggestion-item.focused {
+.suggestion-item:hover,
+.suggestion-item.focused {
   background: #007acc;
   color: #ffffff;
 }
@@ -1159,7 +1278,8 @@ body, html {
   margin-top: 2px;
 }
 
-.suggestion-item:hover .theme-repo, .suggestion-item.focused .theme-repo {
+.suggestion-item:hover .theme-repo,
+.suggestion-item.focused .theme-repo {
   color: #dddddd;
 }
 
@@ -1177,32 +1297,50 @@ body, html {
 
 /* --- Editor Enhancements (Design Philosophy, Popover, Contrast, Toast) --- */
 /* 1. Design Philosophy: Darker headers, Lighter bodies, Larger fonts */
-#top-toolbar { background: #111111; }
-#top-toolbar .logo { font-size: 16px; }
+#top-toolbar {
+  background: #111111;
+}
 
-.inspector-header { background: #111111; }
-.inspector-header h2 { font-size: 15px; }
-.var-item { font-size: 13px; }
-.var-id { font-size: 13px; }
+#top-toolbar .logo {
+  font-size: 16px;
+}
+
+.inspector-header {
+  background: #111111;
+}
+
+.inspector-header h2 {
+  font-size: 15px;
+}
+
+.var-item {
+  font-size: 13px;
+}
+
+.var-id {
+  font-size: 13px;
+}
 
 /* 2. WYSIWYG Popover */
 .popover {
-    position: absolute;
-    display: none;
-    flex-direction: column;
-    background: #252526;
-    border: 1px solid #454545;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    z-index: 1000;
-    width: 300px;
-    border-radius: 4px;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  background: #252526;
+  border: 1px solid #454545;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  width: 300px;
+  border-radius: 4px;
 }
+
 /* Quick Edit Popover (Blue VS Code border) */
 .quick-edit-popover {
   position: absolute;
   background: #252526;
-  border: 1px solid #007acc; /* VS Code Blue indicator */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  border: 1px solid #007acc;
+  /* VS Code Blue indicator */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
   z-index: 2000;
   padding: 10px;
   border-radius: 4px;
@@ -1210,357 +1348,387 @@ body, html {
   flex-direction: column;
   gap: 10px;
 }
+
 .popover-header {
-    background: #111111;
-    padding: 8px 12px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #454545;
+  background: #111111;
+  padding: 8px 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #454545;
 }
-.popover-close { cursor: pointer; color: #aaa; }
-.popover-close:hover { color: #fff; }
+
+.popover-close {
+  cursor: pointer;
+  color: #aaa;
+}
+
+.popover-close:hover {
+  color: #fff;
+}
 
 .quick-palette {
-    padding: 8px 12px;
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid #454545;
+  padding: 8px 12px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #454545;
 }
+
 .swatch {
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-    border: 1px solid #454545;
-    cursor: pointer;
-    transition: transform 0.1s;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid #454545;
+  cursor: pointer;
+  transition: transform 0.1s;
 }
-.swatch:hover { transform: scale(1.1); border-color: #fff; }
+
+.swatch:hover {
+  transform: scale(1.1);
+  border-color: #fff;
+}
 
 .popover-content {
-    padding: 8px 12px;
-    max-height: 250px;
-    overflow-y: auto;
+  padding: 8px 12px;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 /* 3. Contrast Preview Box */
 .contrast-preview-box {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2px 6px;
-    border-radius: 3px;
-    border: 1px solid #555;
-    margin-left: 8px;
-    font-weight: bold;
-    font-size: 12px;
-    min-width: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid #555;
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 12px;
+  min-width: 30px;
 }
+
 .contrast-badge {
-    font-size: 13px; /* Increased */
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-left: 6px;
-    font-weight: 600;
+  font-size: 13px;
+  /* Increased */
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  font-weight: 600;
 }
 
 /* 4. Toast Notifications */
 .toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
 .toast {
-    background: #007acc;
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    font-size: 13px;
-    opacity: 1;
-    transition: opacity 0.3s;
+  background: #007acc;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-size: 13px;
+  opacity: 1;
+  transition: opacity 0.3s;
 }
-.toast.fade-out { opacity: 0; }
+
+.toast.fade-out {
+  opacity: 0;
+}
 
 /* High-Fidelity Mock Components Styles */
 
 #titlebar-mock {
-    background: var(--vscode-titleBar-activeBackground);
-    color: var(--vscode-titleBar-activeForeground);
+  background: var(--vscode-titleBar-activeBackground);
+  color: var(--vscode-titleBar-activeForeground);
 }
 
 #activitybar-mock {
-    background: var(--vscode-activityBar-background);
-    color: var(--vscode-activityBar-foreground);
+  background: var(--vscode-activityBar-background);
+  color: var(--vscode-activityBar-foreground);
 }
 
 .activity-icon {
-    font-size: 18px;
-    padding: 10px 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--vscode-activityBar-inactiveForeground);
-    transition: color 0.1s;
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--vscode-activityBar-inactiveForeground);
+  transition: color 0.1s;
 }
 
 .activity-icon.active {
-    color: var(--vscode-activityBar-foreground);
-    border-left: 2px solid var(--vscode-activityBar-activeBorder, var(--vscode-activityBar-foreground));
+  color: var(--vscode-activityBar-foreground);
+  border-left: 2px solid var(--vscode-activityBar-activeBorder, var(--vscode-activityBar-foreground));
 }
 
 .activity-icon:hover {
-    color: var(--vscode-activityBar-foreground);
+  color: var(--vscode-activityBar-foreground);
 }
 
 #sidebar-mock {
-    background: var(--vscode-sideBar-background);
-    color: var(--vscode-sideBar-foreground);
-    width: 200px !important;
-    height: 100% !important;
-    display: flex;
-    flex-direction: column;
+  background: var(--vscode-sideBar-background);
+  color: var(--vscode-sideBar-foreground);
+  width: 200px !important;
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-header {
-    background: var(--vscode-sideBar-background);
-    color: var(--vscode-sideBarTitle-foreground);
-    font-size: 11px;
-    font-weight: 600;
+  background: var(--vscode-sideBar-background);
+  color: var(--vscode-sideBarTitle-foreground);
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .sidebar-section-header {
-    background: var(--vscode-sideBarSectionHeader-background);
-    color: var(--vscode-sideBarSectionHeader-foreground);
-    border-top: 1px solid var(--vscode-sideBarSectionHeader-border);
-    border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border);
+  background: var(--vscode-sideBarSectionHeader-background);
+  color: var(--vscode-sideBarSectionHeader-foreground);
+  border-top: 1px solid var(--vscode-sideBarSectionHeader-border);
+  border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border);
 }
 
 .tree-item {
-    color: var(--vscode-sideBar-foreground);
+  color: var(--vscode-sideBar-foreground);
 }
 
 .tree-item.active {
-    background: var(--vscode-list-activeSelectionBackground) !important;
-    color: var(--vscode-list-activeSelectionForeground) !important;
+  background: var(--vscode-list-activeSelectionBackground) !important;
+  color: var(--vscode-list-activeSelectionForeground) !important;
 }
 
 .tree-item:hover:not(.active) {
-    background: var(--vscode-list-hoverBackground) !important;
-    color: var(--vscode-list-hoverForeground) !important;
+  background: var(--vscode-list-hoverBackground) !important;
+  color: var(--vscode-list-hoverForeground) !important;
 }
 
 #editor-mock {
-    background: var(--vscode-editor-background);
-    color: var(--vscode-editor-foreground);
-    width: 100% !important;
-    flex: 1 !important;
-    display: flex;
-    flex-direction: column;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .editor-tabs {
-    background: var(--vscode-editorGroupHeader-tabsBackground);
-    border-bottom: 1px solid var(--vscode-editorGroupHeader-tabsBorder);
+  background: var(--vscode-editorGroupHeader-tabsBackground);
+  border-bottom: 1px solid var(--vscode-editorGroupHeader-tabsBorder);
 }
 
 .editor-tab.active {
-    background: var(--vscode-tab-activeBackground);
-    color: var(--vscode-tab-activeForeground);
-    border-top: 2px solid var(--vscode-tab-activeBorder);
-    border-right: 1px solid var(--vscode-tab-border);
+  background: var(--vscode-tab-activeBackground);
+  color: var(--vscode-tab-activeForeground);
+  border-top: 2px solid var(--vscode-tab-activeBorder);
+  border-right: 1px solid var(--vscode-tab-border);
 }
 
 .editor-tab.inactive {
-    background: var(--vscode-tab-inactiveBackground);
-    color: var(--vscode-tab-inactiveForeground);
-    border-right: 1px solid var(--vscode-tab-border);
-    border-top: 2px solid transparent;
+  background: var(--vscode-tab-inactiveBackground);
+  color: var(--vscode-tab-inactiveForeground);
+  border-right: 1px solid var(--vscode-tab-border);
+  border-top: 2px solid transparent;
 }
 
 .breadcrumbs {
-    background: var(--vscode-breadcrumb-background);
-    color: var(--vscode-breadcrumb-foreground);
+  background: var(--vscode-breadcrumb-background);
+  color: var(--vscode-breadcrumb-foreground);
 }
 
 .editor-minimap {
-    background: var(--vscode-minimap-background);
+  background: var(--vscode-minimap-background);
 }
 
 .editor-line-numbers {
-    color: var(--vscode-editorLineNumber-foreground);
+  color: var(--vscode-editorLineNumber-foreground);
 }
 
 #panel-mock {
-    background: var(--vscode-panel-background);
-    border-top: 1px solid var(--vscode-panel-border);
-    width: 100% !important;
-    height: 180px !important;
-    display: flex;
-    flex-direction: column;
+  background: var(--vscode-panel-background);
+  border-top: 1px solid var(--vscode-panel-border);
+  width: 100% !important;
+  height: 180px !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .panel-header {
-    background: var(--vscode-panel-background);
+  background: var(--vscode-panel-background);
 }
 
 .panel-title.active {
-    color: var(--vscode-panelTitle-activeForeground);
-    border-bottom: 1px solid var(--vscode-panelTitle-activeBorder);
+  color: var(--vscode-panelTitle-activeForeground);
+  border-bottom: 1px solid var(--vscode-panelTitle-activeBorder);
 }
 
 .panel-title.inactive {
-    color: var(--vscode-panelTitle-inactiveForeground);
+  color: var(--vscode-panelTitle-inactiveForeground);
 }
 
 .panel-content {
-    background: var(--vscode-terminal-background, var(--vscode-panel-background));
-    color: var(--vscode-terminal-foreground, var(--vscode-panel-foreground));
+  background: var(--vscode-terminal-background, var(--vscode-panel-background));
+  color: var(--vscode-terminal-foreground, var(--vscode-panel-foreground));
 }
 
 #statusbar-mock {
-    background: var(--vscode-statusBar-background);
-    color: var(--vscode-statusBar-foreground);
-    border-top: 1px solid var(--vscode-statusBar-border);
-    width: 100% !important;
-    height: 22px !important;
+  background: var(--vscode-statusBar-background);
+  color: var(--vscode-statusBar-foreground);
+  border-top: 1px solid var(--vscode-statusBar-border);
+  width: 100% !important;
+  height: 22px !important;
 }
 
 .statusbar-item {
-    padding: 2px 6px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background-color 0.1s;
+  padding: 2px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.1s;
 }
 
 .statusbar-item:hover {
-    background-color: var(--vscode-statusBarItem-hoverBackground);
+  background-color: var(--vscode-statusBarItem-hoverBackground);
 }
 
 #titlebar-mock {
-    width: 100% !important;
-    height: 35px;
+  width: 100% !important;
+  height: 35px;
 }
 
 /* Global Layout & Dimensions override */
 #app {
-    height: calc(100vh - 45px - 22px); /* Titlebar is 45px, Statusbar is 22px */
-    overflow: hidden;
+  height: calc(100vh - 45px - 22px);
+  /* Titlebar is 45px, Statusbar is 22px */
+  overflow: hidden;
 }
 
 #top-toolbar {
-    background: var(--vscode-titleBar-activeBackground, #1e1e1e) !important;
-    color: var(--vscode-titleBar-activeForeground, #cccccc) !important;
-    border-bottom: 1px solid var(--vscode-titleBar-border, rgba(255,255,255,0.05)) !important;
-    height: 35px;
-    box-sizing: border-box;
+  background: var(--vscode-titleBar-activeBackground, #1e1e1e) !important;
+  color: var(--vscode-titleBar-activeForeground, #cccccc) !important;
+  border-bottom: 1px solid var(--vscode-titleBar-border, rgba(255, 255, 255, 0.05)) !important;
+  height: 35px;
+  box-sizing: border-box;
 }
 
 #top-toolbar .menu-item:hover {
-    background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 #top-toolbar .window-icon:hover {
-    background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 #top-toolbar .window-icon.close-icon:hover {
-    background: #e81123;
-    color: white;
+  background: #e81123;
+  color: white;
 }
 
 #activitybar-mock {
-    background: var(--vscode-activityBar-background, #333333) !important;
-    color: var(--vscode-activityBar-foreground, #ffffff) !important;
-    border-right: 1px solid var(--vscode-activityBar-border, rgba(255,255,255,0.05)) !important;
-    width: 48px !important;
-    height: 100% !important;
-    display: flex !important; /* Force display on outer shell */
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    box-sizing: border-box;
+  background: var(--vscode-activityBar-background, #333333) !important;
+  color: var(--vscode-activityBar-foreground, #ffffff) !important;
+  border-right: 1px solid var(--vscode-activityBar-border, rgba(255, 255, 255, 0.05)) !important;
+  width: 48px !important;
+  height: 100% !important;
+  display: flex !important;
+  /* Force display on outer shell */
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  box-sizing: border-box;
 }
 
 #statusbar-mock {
-    background: var(--vscode-statusBar-background, #007acc) !important;
-    color: var(--vscode-statusBar-foreground, #ffffff) !important;
-    border-top: 1px solid var(--vscode-statusBar-border, rgba(255,255,255,0.05)) !important;
-    height: 22px !important;
-    display: flex !important;
-    box-sizing: border-box;
+  background: var(--vscode-statusBar-background, #007acc) !important;
+  color: var(--vscode-statusBar-foreground, #ffffff) !important;
+  border-top: 1px solid var(--vscode-statusBar-border, rgba(255, 255, 255, 0.05)) !important;
+  height: 22px !important;
+  display: flex !important;
+  box-sizing: border-box;
 }
 
 /* Component Explorer Sidebar Styles */
 #sidebar-mock {
-    background: var(--vscode-sideBar-background, #252526) !important;
-    color: var(--vscode-sideBar-foreground, #cccccc) !important;
-    border-right: 1px solid var(--vscode-sideBar-border, rgba(255,255,255,0.05)) !important;
-    width: 200px !important;
-    user-select: none;
+  background: var(--vscode-sideBar-background, #252526) !important;
+  color: var(--vscode-sideBar-foreground, #cccccc) !important;
+  border-right: 1px solid var(--vscode-sideBar-border, rgba(255, 255, 255, 0.05)) !important;
+  width: 200px !important;
+  user-select: none;
 }
+
 #sidebar-mock .explorer-header {
-    background: var(--vscode-sideBar-background, #252526);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--vscode-sideBar-background, #252526);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 #sidebar-mock .explorer-section-header {
-    background: var(--vscode-sideBarSectionHeader-background, #1e1e1e) !important;
-    color: var(--vscode-sideBarSectionHeader-foreground, #cccccc) !important;
-    border-top: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255,255,255,0.05)) !important;
-    border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255,255,255,0.05)) !important;
-    cursor: pointer;
+  background: var(--vscode-sideBarSectionHeader-background, #1e1e1e) !important;
+  color: var(--vscode-sideBarSectionHeader-foreground, #cccccc) !important;
+  border-top: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255, 255, 255, 0.05)) !important;
+  border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255, 255, 255, 0.05)) !important;
+  cursor: pointer;
 }
+
 #sidebar-mock .file-node {
-    padding: 4px 20px !important;
-    color: var(--vscode-sideBar-foreground, #cccccc) !important;
-    background: transparent !important;
-    font-weight: normal !important;
-    transition: background 0.05s, color 0.05s;
-    border: none !important;
+  padding: 4px 20px !important;
+  color: var(--vscode-sideBar-foreground, #cccccc) !important;
+  background: transparent !important;
+  font-weight: normal !important;
+  transition: background 0.05s, color 0.05s;
+  border: none !important;
 }
+
 #sidebar-mock .file-node:hover:not(.disabled) {
-    background: var(--vscode-list-hoverBackground, #2a2d2e) !important;
-    color: var(--vscode-list-hoverForeground, #ffffff) !important;
+  background: var(--vscode-list-hoverBackground, #2a2d2e) !important;
+  color: var(--vscode-list-hoverForeground, #ffffff) !important;
 }
+
 #sidebar-mock .file-node.active {
-    background: var(--vscode-list-activeSelectionBackground, #37373d) !important;
-    color: var(--vscode-list-activeSelectionForeground, #ffffff) !important;
-    font-weight: bold !important;
+  background: var(--vscode-list-activeSelectionBackground, #37373d) !important;
+  color: var(--vscode-list-activeSelectionForeground, #ffffff) !important;
+  font-weight: bold !important;
 }
+
 #sidebar-mock .file-node.disabled {
-    color: #6a6a6a !important;
-    opacity: 0.5;
-    cursor: not-allowed !important;
+  color: #6a6a6a !important;
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
 
 #inspector-panel {
-    width: 340px !important;
-    background: var(--vscode-sideBar-background, #1e1e1e);
-    border-left: 1px solid var(--vscode-sideBar-border, rgba(255,255,255,0.05));
+  width: 340px !important;
+  background: var(--vscode-sideBar-background, #1e1e1e);
+  border-left: 1px solid var(--vscode-sideBar-border, rgba(255, 255, 255, 0.05));
 }
+
 #inspector-panel .inspector-header {
-    background: var(--vscode-sideBarSectionHeader-background, #111111);
+  background: var(--vscode-sideBarSectionHeader-background, #111111);
 }
 
 /* Glow selection outline for selected active components */
 .mock-component.selected {
-    box-shadow: inset 0 0 0 2px var(--vscode-focusBorder, #ff0080) !important;
-    position: relative;
-    z-index: 10;
+  box-shadow: inset 0 0 0 2px var(--vscode-focusBorder, #ff0080) !important;
+  position: relative;
+  z-index: 10;
 }
+
 .mock-component.selected::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    box-shadow: 0 0 10px var(--vscode-focusBorder, #ff0080);
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 10px var(--vscode-focusBorder, #ff0080);
+  pointer-events: none;
 }
 
 /* Menu Bar Styles */
@@ -1583,8 +1751,9 @@ body, html {
 .custom-palette-popover {
   position: absolute;
   background: #252526;
-  border: 1px solid #007acc; /* VS Code Blue indicator */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  border: 1px solid #007acc;
+  /* VS Code Blue indicator */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -1612,6 +1781,7 @@ body, html {
   outline: none;
   cursor: pointer;
 }
+
 .palette-dropdown:focus {
   border-color: #ff0080;
 }
@@ -1621,12 +1791,15 @@ body, html {
   overflow-y: auto;
   padding: 10px;
 }
+
 .palette-grid-container::-webkit-scrollbar {
   width: 6px;
 }
+
 .palette-grid-container::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .palette-grid-container::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
@@ -1646,16 +1819,19 @@ body, html {
   border: 1px solid rgba(0, 0, 0, 0.2);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
+
 .palette-swatch-cell:hover {
   transform: scale(1.2);
   box-shadow: 0 0 0 1px #ff0080;
   z-index: 2;
   position: relative;
 }
+
 .palette-swatch-cell.wcag-fail {
   opacity: 0.15;
   cursor: not-allowed;
 }
+
 .palette-swatch-cell.wcag-fail:hover {
   transform: none;
   box-shadow: none;
@@ -1680,6 +1856,7 @@ body, html {
   outline: none;
   transition: border-color 0.2s ease;
 }
+
 .palette-hex-input:focus {
   border-color: #ff0080;
 }
@@ -1704,6 +1881,7 @@ body, html {
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
+
 .segment-btn {
   flex: 1;
   background: transparent;
@@ -1715,18 +1893,22 @@ body, html {
   transition: all 0.2s;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .segment-btn:last-child {
   border-right: none;
 }
+
 .segment-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
   color: #ccc;
 }
+
 .segment-btn.active {
   background: #ff0080;
   color: white;
   font-weight: bold;
 }
+
 .palette-segmented-control.disabled .segment-btn {
   opacity: 0.3;
   cursor: not-allowed;
@@ -1734,24 +1916,212 @@ body, html {
   color: #888 !important;
 }
 
+/* --- TheMe Top Bar --- */
+#theme-top-bar {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  min-height: 40px;
+}
+
+/* --- TheMe Left Tool Sidebar --- */
+#theme-tool-sidebar {
+  width: 170px;
+  min-width: 170px;
+  background: #111111;
+  /* border-right removed; moved to #vscode-mock-wrapper */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.2s ease, min-width 0.2s ease;
+}
+
+#theme-tool-sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  display: none !important;
+}
+
+#theme-tool-sidebar .tool-section {
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+#theme-tool-sidebar .tool-section-title {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+#theme-tool-sidebar .tool-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 11px;
+  color: #aaaaaa;
+}
+
+#theme-tool-sidebar .tool-stat-value {
+  color: #0098ff;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+#theme-tool-sidebar .tool-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+#theme-tool-sidebar .tool-btn {
+  padding: 5px 8px;
+  font-size: 11px;
+  background: #252526;
+  color: #cccccc;
+  border: 1px solid #3c3c3c;
+  border-radius: 2px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: inherit;
+}
+
+#theme-tool-sidebar .tool-btn:hover {
+  background: #2d2d2d;
+  border-color: #555;
+  color: #fff;
+}
+
+#theme-tool-sidebar .tool-btn.active {
+  background: #0e639c;
+  border-color: #0e639c;
+  color: #fff;
+}
+
+#theme-tool-sidebar .tool-btn.primary {
+  background: #0098ff;
+  border-color: #0098ff;
+  color: #fff;
+}
+
+#theme-tool-sidebar .tool-btn.primary:hover {
+  background: #007acc;
+  border-color: #007acc;
+}
+
+#theme-top-bar .tool-logo {
+  width: 170px;
+  min-width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  color: #ffffff;
+  white-space: nowrap;
+  background: #111111;
+  box-sizing: border-box;
+  transition: width 0.2s ease, min-width 0.2s ease, padding 0.2s ease;
+}
+
+#theme-top-bar .tool-logo.collapsed {
+  width: 45px;
+  min-width: 45px;
+  padding: 0;
+  justify-content: center;
+}
+
+#theme-top-bar .tool-logo.collapsed .logo-content {
+  display: none;
+}
+
+#theme-top-bar .tool-logo .logo-content {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#theme-top-bar .sidebar-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #888;
+  transition: background 0.1s, color 0.1s;
+}
+
+#theme-top-bar .sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+#theme-top-bar .tool-logo .codicon {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+#theme-top-bar .tool-logo-sub {
+  font-size: 11px;
+  color: #888;
+  font-weight: normal;
+}
+
+#theme-top-bar .top-bar-steps {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  /* border-bottom removed; moved to #vscode-mock-wrapper */
+  padding-left: 10px;
+}
+
+/* Separator between logo and step menus */
+#theme-top-bar .top-bar-sep {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 8px 4px;
+  flex-shrink: 0;
+}
+
 /* --- Step Dropdown Menus --- */
 .step-dropdown {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: stretch;
   cursor: pointer;
 }
 
 .step-dropdown-title {
-  padding: 4px 8px;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  font-size: 14px;
   font-weight: bold;
-  transition: background 0.2s, color 0.2s;
-  color: #007acc;
+  color: #ffffff;
+  white-space: nowrap;
+  border-radius: 0;
+  transition: background 0.15s ease;
+  user-select: none;
 }
 
-.step-dropdown:hover .step-dropdown-title {
-  background: rgba(0, 122, 204, 0.2);
-  color: #569cd6;
+.step-dropdown:hover .step-dropdown-title,
+.step-dropdown-title:hover {
+  background: #007acc;
+  color: #ffffff;
 }
 
 .step-dropdown-menu {
@@ -1760,12 +2130,13 @@ body, html {
   top: 100%;
   left: 0;
   background: #252526;
-  border: 1px solid #007acc;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-  min-width: 140px;
+  border: 3px solid #0098FF;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.4);
+  min-width: 200px;
   z-index: 2000;
   border-radius: 4px;
   padding: 4px 0;
+  margin-top: 0;
 }
 
 .step-dropdown:hover .step-dropdown-menu {
@@ -1773,13 +2144,667 @@ body, html {
 }
 
 .step-dropdown-item {
-  padding: 8px 15px;
+  padding: 8px 16px;
   color: #cccccc;
   font-size: 13px;
-  transition: background 0.2s;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
 }
 
 .step-dropdown-item:hover {
-  background: #094771;
+  background: #0098ff;
   color: #ffffff;
+}
+
+/* Section label inside dropdown (non-clickable) */
+.step-dropdown-menu .menu-section-label {
+  padding: 6px 16px;
+  font-size: 11px;
+  color: #0098ff;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+/* Divider inside dropdown */
+.step-dropdown-menu .menu-divider {
+  height: 1px;
+  background: #3c3c3c;
+  margin: 4px 0;
+}
+
+
+/* Override inline styles for sidebar rows */
+.file-node,
+.tree-node {
+  padding: 0 20px !important;
+  height: 22px !important;
+  line-height: 22px !important;
+  font-size: 13px !important;
+  box-sizing: border-box !important;
+}
+
+/* Permanent borders between panels */
+#activitybar-mock {
+  border-right: 1px solid var(--vscode-editorGroup-border, #444) !important;
+}
+
+#sidebar-mock {
+  border-right: 1px solid var(--vscode-editorGroup-border, #444) !important;
+}
+
+#preview-panel {
+  border-right: 1px solid var(--vscode-editorGroup-border, #444) !important;
+}
+
+
+/* Editor Tab Close Icon Hover */
+.editor-tab:hover .tab-close-icon {
+  opacity: 1 !important;
+}
+
+.tab-close-icon:hover {
+  background: var(--vscode-toolbar-hoverBackground, rgba(255, 255, 255, 0.1));
+}
+
+/* Terminal Action Buttons Hover */
+.terminal-action-btn {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+
+.terminal-action-btn:hover {
+  background: var(--vscode-toolbar-hoverBackground, rgba(255, 255, 255, 0.1));
+}
+
+/* ============================================================
+   Phase 1 — Header Navigation New Style
+   ============================================================ */
+
+/* Step Number Badge */
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-dropdown-title.active .step-number,
+.step-btn.active .step-number {
+  background: rgba(255, 255, 255, 0.9);
+  color: #007acc;
+}
+
+/* Arrow between steps */
+.top-bar-step-arrow {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 2px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* 2. EDIT — mode switch button (no dropdown) */
+.step-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  color: #cccccc;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+  border-radius: 0;
+}
+
+.step-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.step-btn.active {
+  background: #007acc;
+  color: #ffffff;
+}
+
+/* top-bar-steps gap reset with arrows instead */
+#theme-top-bar .top-bar-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  flex: 1;
+}
+
+/* Step dropdown title — active state */
+#theme-top-bar .step-dropdown-title.active {
+  background: #007acc;
+  color: #ffffff;
+}
+
+/* Step dropdown item — icon+text flex */
+#theme-top-bar .step-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Right side of top-bar */
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  flex-shrink: 0;
+  height: 100%;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Dark/Light Base Indicator */
+.theme-base-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.theme-base-indicator:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-base-indicator.dark {
+  background: rgba(0, 152, 255, 0.15);
+  border-color: rgba(0, 152, 255, 0.4);
+}
+
+.theme-base-indicator.light {
+  background: rgba(255, 200, 50, 0.15);
+  border-color: rgba(255, 200, 50, 0.4);
+}
+
+/* Base check mark in dropdown */
+.base-check {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ============================================================
+   Phase 2 — Sidebar tab & 7 areas
+   ============================================================ */
+
+/* Sidebar tab bar */
+.sidebar-tab-bar {
+  display: flex;
+  border-bottom: 1px solid #2a2a2a;
+  flex-shrink: 0;
+}
+
+.sidebar-tab {
+  flex: 1;
+  padding: 8px 6px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.sidebar-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #cccccc;
+}
+
+.sidebar-tab.active {
+  color: #0098ff;
+  border-bottom-color: #0098ff;
+  background: rgba(0, 152, 255, 0.07);
+}
+
+/* Sidebar panel (tab content) */
+.sidebar-panel {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-panel.active {
+  display: flex;
+}
+
+/* Tip message at top of simple panel */
+.sidebar-tip {
+  padding: 8px 12px;
+  font-size: 10px;
+  color: #888;
+  background: rgba(0, 152, 255, 0.06);
+  border-bottom: 1px solid #222;
+  line-height: 1.5;
+}
+
+.sidebar-tip strong {
+  color: #0098ff;
+}
+
+/* 7-area color editor row */
+.area-editor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #1e1e1e;
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+}
+
+.area-editor-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.area-editor-row:last-child {
+  border-bottom: none;
+}
+
+/* Color swatch */
+.area-color-preview {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  transition: border-color 0.15s;
+  cursor: pointer;
+}
+
+.area-editor-row:hover .area-color-preview {
+  border-color: #0098ff;
+}
+
+/* Area label and var name */
+.area-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.area-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.area-var-name {
+  font-size: 10px;
+  color: #555;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hidden color input — triggered by clicking swatch */
+.area-color-input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border: none;
+  padding: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Default badge for unset values */
+.default-badge {
+  font-size: 10px;
+  color: #555;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* ============================================================
+   Phase 3 — Bidirectional hover linkage & cursor management
+   ============================================================ */
+
+/* --- Sidebar row: active state (hover linkage) --- */
+.area-editor-row.area-active {
+  background: rgba(0, 152, 255, 0.12) !important;
+  border-left: 3px solid #0098ff;
+  padding-left: 7px;
+  /* Left border correction */
+}
+
+.area-editor-row.area-active .area-label {
+  color: #ffffff;
+}
+
+.area-editor-row.area-active .area-color-preview {
+  border-color: #0098ff;
+  box-shadow: 0 0 0 2px rgba(0, 152, 255, 0.35);
+}
+
+/* Active swatch pulse animation */
+@keyframes swatchPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 152, 255, 0.6);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(0, 152, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 152, 255, 0);
+  }
+}
+
+.area-editor-row.area-active .area-color-preview {
+  animation: swatchPulse 1.2s ease-out infinite;
+}
+
+/* --- VSCode Mock: Active area highlight --- */
+.mock-area-active {
+  outline: 2px solid #0098ff !important;
+  outline-offset: -2px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Highlight overlay (outline only, do not change background color) */
+.mock-area-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 152, 255, 0.06);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- Edit Mode: cursor management --- */
+
+/* Theme-editable background areas → crosshair (color selection cursor) */
+body.theme-edit-mode #titlebar-mock,
+body.theme-edit-mode #activitybar-mock,
+body.theme-edit-mode #sidebar-mock,
+body.theme-edit-mode #editor-mock,
+body.theme-edit-mode #panel-mock,
+body.theme-edit-mode #statusbar-mock {
+  cursor: crosshair;
+}
+
+/* Interactive child elements in mock → pointer (finger cursor) */
+body.theme-edit-mode .editor-tab,
+body.theme-edit-mode .file-node,
+body.theme-edit-mode .tree-node,
+body.theme-edit-mode .activity-icon,
+body.theme-edit-mode .sidebar-section-header,
+body.theme-edit-mode .panel-tab,
+body.theme-edit-mode .codicon[class*="codicon-"],
+body.theme-edit-mode .mock-btn,
+body.theme-edit-mode button {
+  cursor: pointer;
+}
+
+/* Text-selectable parts → text */
+body.theme-edit-mode .editor-line,
+body.theme-edit-mode .terminal-line,
+body.theme-edit-mode code,
+body.theme-edit-mode .code-token {
+  cursor: text;
+}
+
+/* Scrollbar → default */
+body.theme-edit-mode ::-webkit-scrollbar {
+  cursor: default;
+}
+
+/* --- Tooltip (color change guidance on hover) --- */
+.area-color-tooltip {
+  position: fixed;
+  background: #1a1a1a;
+  border: 1px solid rgba(0, 152, 255, 0.6);
+  border-radius: 5px;
+  color: #e0e0e0;
+  font-size: 11px;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-weight: 500;
+  padding: 5px 10px;
+  z-index: 99999;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 152, 255, 0.2);
+  transition: opacity 0.1s ease;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   Phase 4 — Custom Color Palette & Mock Base Indicator
+   ============================================================ */
+
+/* Mock Theme Base Indicator in Status Bar */
+#mock-theme-base-indicator {
+  transition: background-color 0.2s, transform 0.1s;
+  user-select: none;
+}
+
+#mock-theme-base-indicator:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.05);
+}
+
+#mock-theme-base-indicator:active {
+  transform: scale(0.95);
+}
+
+/* Mock color picker div replacing the input[type="color"] */
+.area-color-input-mock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  /* invisible but clickable over the entire row */
+}
+
+/* Custom Color Popover styling */
+.custom-color-popover {
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  width: 320px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.palette-header {
+  padding: 12px 16px;
+  background: #252526;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.palette-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.palette-hex-wrapper {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.palette-hex-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: monospace;
+  font-size: 13px;
+  width: 60px;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.palette-controls {
+  padding: 12px 16px;
+  background: #1e1e1e;
+  border-bottom: 1px solid #2d2d2d;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.segment-control {
+  display: flex;
+  background: #111;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.segment-btn {
+  flex: 1;
+  text-align: center;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #888;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.segment-btn:hover {
+  color: #ccc;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.segment-btn.active {
+  background: #007acc;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.palette-grid-container {
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 12px;
+  background: #1a1a1a;
+}
+
+/* Custom scrollbar for grid container */
+.palette-grid-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.palette-grid-container::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.palette-grid-container::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+.palette-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+.palette-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: flex-start;
+}
+
+.palette-swatch-cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.palette-swatch-cell:hover {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 1px #fff, 0 2px 6px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+/* Dim swatches that fail WCAG contrast */
+.palette-swatch-cell.wcag-fail {
+  opacity: 0.15;
+  pointer-events: none;
+  /* Disable clicking on failed contrast colors */
+}
+
+/* SETUP Mode Overrides */
+body:not(.theme-edit-mode) #setup-welcome-screen {
+  display: flex !important;
+}
+
+body.theme-edit-mode #setup-welcome-screen {
+  display: none !important;
+}
+
+body:not(.theme-edit-mode) #editor-tabs,
+body:not(.theme-edit-mode) #editor-content {
+  display: none !important;
 }

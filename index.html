@@ -31,6 +31,27 @@
 </head>
 
 <body>
+  <!-- Missing Vite Warning -->
+  <div id="vite-warning"
+    style="display: none; background: #e74c3c; color: white; padding: 20px; text-align: center; font-size: 16px; font-weight: bold; position: absolute; z-index: 99999; top: 0; left: 0; right: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+    ⚠️ Warning: This preview does not work correctly.<br><br>
+    Opening the HTML directly with Live Server or Simple Browser (TypeScript cannot run, causing the editor to appear
+    black).<br>
+    Be sure to run `npm run dev` in the terminal and open the provided <b>http://localhost:5173/</b> in a browser.
+  </div>
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(() => {
+        const editorContent = document.getElementById('editor-mock');
+        if (editorContent && editorContent.children.length <= 1) {
+          const isLocalhost5173 = window.location.port === '5173' || window.location.port === '5174';
+          if (!isLocalhost5173 && window.location.protocol !== 'https:') {
+            document.getElementById('vite-warning').style.display = 'block';
+          }
+        }
+      }, 2000);
+    });
+  </script>
   <!-- Welcome / Onboarding Overlay -->
 
 
@@ -39,7 +60,8 @@
     style="display: flex; flex-direction: column; height: 100vh; overflow: hidden; background: #000;">
 
     <!-- TheMe Top Bar (App Level) -->
-    <div id="theme-top-bar" class="mock-component" data-color-keys="titleBar.activeBackground,titleBar.activeForeground,titleBar.border"
+    <div id="theme-top-bar" class="mock-component"
+      data-color-keys="titleBar.activeBackground,titleBar.activeForeground,titleBar.border"
       style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: var(--vscode-titleBar-activeBackground, #1e1e1e); color: var(--vscode-titleBar-activeForeground, #cccccc); border-bottom: 1px solid var(--vscode-titleBar-border, #007acc); flex-shrink: 0;">
       <div style="display: flex; align-items: center; gap: 30px;">
         <div style="font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 10px;">
@@ -52,26 +74,26 @@
         <div style="display: flex; gap: 10px; font-size: 13px;">
           <div class="step-dropdown">
             <div class="step-dropdown-title"
-              style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 14px;">1, SETUP ≫ <span
+              style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 14px;">1, SETUP<span
                 class="codicon codicon-chevron-down" style="font-size: 12px;"></span></div>
             <div class="step-dropdown-menu" style="min-width: 320px; padding: 10px 0;">
               <div
-                style="padding: 6px 15px; font-size: 11px; color: #007acc; font-weight: bold; letter-spacing: 0.5px;">⚡
+                style="padding: 6px 15px; font-size: 11px; color: #007acc; font-weight: bold; letter-spacing: 0.5px;">
                 Quick Start</div>
-              <div class="step-dropdown-item" id="step1-quick-start">📄 Start Blank (VS Code Default)</div>
+              <div class="step-dropdown-item" id="step1-quick-start">Start Blank (VS Code Default)</div>
 
               <div style="height: 1px; background: #333; margin: 10px 0;"></div>
 
               <div
-                style="padding: 6px 15px; font-size: 11px; color: #007acc; font-weight: bold; letter-spacing: 0.5px;">📂
+                style="padding: 6px 15px; font-size: 11px; color: #007acc; font-weight: bold; letter-spacing: 0.5px;">
                 Load Existing Theme</div>
-              <div class="step-dropdown-item" id="step1-import-btn">📥 Import Theme (File/GitHub/vsce)</div>
+              <div class="step-dropdown-item" id="step1-import-btn">Import Theme (File/GitHub/vsce)</div>
             </div>
           </div>
           <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.2); margin: auto 4px;"></div>
           <div class="step-dropdown">
             <div class="step-dropdown-title"
-              style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 14px;">2, EDIT ≫</div>
+              style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 14px;">2, EDIT</div>
             <div class="step-dropdown-menu" style="min-width: 250px;">
               <div class="step-dropdown-item">Settings & Layout</div>
             </div>
@@ -87,17 +109,27 @@
           </div>
         </div>
       </div>
-      <!-- Removed duplicate buttons from here -->
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button id="toggle-layout-btn" class="modal-btn"
+          style="background: transparent; border: 1px solid #555; color: #ccc; font-size: 12px; padding: 4px 10px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+          <span class="codicon codicon-layout-sidebar-left"></span> Toggle UI Mode
+        </button>
+      </div>
     </div>
 
     <!-- Main Content Area -->
-    <div style="display: flex; flex: 1; overflow: hidden;">
+    <div id="main-content-area" style="display: flex; flex: 1; overflow: hidden;">
+
+      <!-- Tool Mode Left Column -->
+      <div id="tool-mode-left"
+        style="display: none; height: 100%; background: #1e1e1e; border-right: 1px solid #3c3c3c; z-index: 10; flex-direction: column;">
+      </div>
 
       <!-- VS Code Mock Container -->
       <div id="vscode-mock-wrapper"
-        style="flex: 1; display: flex; flex-direction: column; padding: 20px; background: #000; align-items: center; justify-content: center; overflow-x: auto;">
+        style="flex: 1; display: flex; flex-direction: column; padding: 20px; background: #000; align-items: center; justify-content: center; overflow-x: auto; transition: padding 0.3s ease;">
         <div id="vscode-mock-container"
-          style="width: 100%; height: 100%; display: flex; flex-direction: column; border: 1px solid #3c3c3c; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow: hidden; max-width: 1600px;">
+          style="width: 100%; height: 100%; display: flex; flex-direction: column; border: 1px solid #3c3c3c; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow: hidden; max-width: 1600px; transition: border-radius 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;">
 
           <!-- Top Toolbar (VS Code Style) -->
           <header id="top-toolbar" class="mock-component"
@@ -165,7 +197,7 @@
             </div>
           </header>
 
-          <div id="app" style="display: flex; height: calc(100vh - 35px); overflow: hidden;">
+          <div id="app" style="display: flex; height: calc(100% - 35px); overflow: hidden;">
             <!-- Activity Bar Mock -->
             <div id="activitybar-mock" class="mock-component"
               data-color-keys="activityBar.background,activityBar.border,activityBar.foreground,activityBar.inactiveForeground"
@@ -193,11 +225,6 @@
               </div>
               <div class="activity-bottom"
                 style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%;">
-                <div id="activity-details" class="activity-icon active"
-                  data-color-keys="activityBar.foreground,activityBar.inactiveForeground"
-                  style="cursor: pointer; position: relative;" title="Toggle Details Panel">
-                  <span class="codicon codicon-info"></span>
-                </div>
                 <div class="activity-icon inactive" data-color-keys="activityBar.inactiveForeground">
                   <span class="codicon codicon-account"></span>
                 </div>
@@ -287,21 +314,6 @@
                           style="display: flex; align-items: center; gap: 6px; padding: 4px 20px; font-size: 13px; cursor: pointer; color: #cccccc;">
                           <span class="codicon codicon-file-code" style="color: #519aba;"></span>
                           <span>list / tree (Sidebar)</span>
-                        </div>
-                        <div class="file-node" data-component="button"
-                          style="display: flex; align-items: center; gap: 6px; padding: 4px 20px; font-size: 13px; cursor: pointer; color: #cccccc;">
-                          <span class="codicon codicon-file-code" style="color: #519aba;"></span>
-                          <span>button</span>
-                        </div>
-                        <div class="file-node" data-component="input"
-                          style="display: flex; align-items: center; gap: 6px; padding: 4px 20px; font-size: 13px; cursor: pointer; color: #cccccc;">
-                          <span class="codicon codicon-file-code" style="color: #519aba;"></span>
-                          <span>input</span>
-                        </div>
-                        <div class="file-node" data-component="scrollbar"
-                          style="display: flex; align-items: center; gap: 6px; padding: 4px 20px; font-size: 13px; cursor: pointer; color: #cccccc;">
-                          <span class="codicon codicon-file-code" style="color: #519aba;"></span>
-                          <span>scrollbar</span>
                         </div>
                       </div>
 
@@ -514,132 +526,6 @@
               </div>
             </div>
 
-            <!-- Column 1.5: Details Panel (NEW) -->
-            <div id="details-panel" class="mock-component"
-              style="display: flex; width: 300px; min-width: 300px; flex-direction: column; background: #1e1e1e; border-right: 1px solid var(--vscode-sideBar-border); box-sizing: border-box; overflow-y: auto; transition: width 0.3s ease, min-width 0.3s ease; white-space: nowrap;">
-              <div class="explorer-header"
-                style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; font-size: 11px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.05); text-transform: uppercase; color: #858585;">
-                <span>DETAILS</span>
-                <span id="close-details-btn" class="codicon codicon-chevron-left"
-                  style="cursor: pointer; opacity: 0.8; font-size: 14px;" title="Hide Details"></span>
-              </div>
-              <div id="details-content"
-                style="padding: 15px; color: #cccccc; font-size: 13px; line-height: 1.5; white-space: normal;">
-                <h2
-                  style="color: #ffffff; font-weight: 300; border-bottom: 1px solid #3c3c3c; padding-bottom: 8px; margin-top: 0;">
-                  Details</h2>
-                <p style="font-size: 13px;">Select an item from the Explorer on the left to see its description here.
-                </p>
-
-                <p><a
-                    href="https://code.visualstudio.com/docs/configure/themes#_workbench-colors">https://code.visualstudio.com/docs/configure/themes#_workbench-colors</a>
-                </p>
-
-                <div
-                  style="background: rgba(0, 122, 204, 0.1); border-left: 4px solid #007acc; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px;">
-                  <h3 style="margin-top: 0; color: #569cd6; font-size: 14px; margin-bottom: 8px;">💡 Basic Rules for
-                    JSON Syntax</h3>
-                  <p style="margin: 0; font-size: 12px; color: #cccccc; line-height: 1.6;">
-                    These are strict rules for editing VS Code's <code>settings.json</code>. Please follow them
-                    carefully to prevent errors.
-                  </p>
-                </div>
-
-                <h4
-                  style="color: #d4d4d4; font-size: 13px; border-bottom: 1px solid #3c3c3c; padding-bottom: 5px; margin-top: 20px;">
-                  <span style="color: #c586c0;">1.</span> Enclose Keys and Values in Double Quotes
-                </h4>
-                <p style="font-size: 12px; color: #cccccc; line-height: 1.5; margin-bottom: 8px;">
-                  In JSON, keys (the name on the left) and string values (the content on the right) must always be
-                  enclosed in double quotes <code>"</code>. Single quotes <code>'</code> cannot be used.
-                </p>
-                <div
-                  style="background: #1e1e1e; border: 1px solid #333; padding: 10px; border-radius: 4px; font-family: Consolas, monospace; font-size: 12px; margin-bottom: 15px;">
-                  <div style="color: #4CAF50; margin-bottom: 4px;">✔ Correct Example:</div>
-                  <span style="color: #9cdcfe;">"sideBar.background"</span><span style="color: #d4d4d4;">: </span><span
-                    style="color: #ce9178;">"#000000"</span>
-                  <div style="color: #F44336; margin-top: 10px; margin-bottom: 4px;">✖ Incorrect Example (Causes an
-                    error):</div>
-                  <span style="color: #d4d4d4;">sideBar.background: #000000</span>
-                </div>
-
-                <h4
-                  style="color: #d4d4d4; font-size: 13px; border-bottom: 1px solid #3c3c3c; padding-bottom: 5px; margin-top: 20px;">
-                  <span style="color: #c586c0;">2.</span> Punctuation Rules
-                </h4>
-                <ul style="font-size: 12px; color: #cccccc; padding-left: 20px; line-height: 1.6; margin-bottom: 15px;">
-                  <li><strong>Between key and value:</strong> Separate with a colon <code>:</code>.</li>
-                  <li><strong>Between items:</strong> Separate with a comma <code>,</code>.</li>
-                  <li><strong>At the very end:</strong> <span style="color: #F44336; font-weight: bold;">Do not place a
-                      comma after the final item</span> (this is a major cause of syntax errors).</li>
-                </ul>
-
-                <h4
-                  style="color: #d4d4d4; font-size: 13px; border-bottom: 1px solid #3c3c3c; padding-bottom: 5px; margin-top: 20px;">
-                  <span style="color: #c586c0;">3.</span> Data Type Differences
-                </h4>
-                <p style="font-size: 12px; color: #cccccc; line-height: 1.5; margin-bottom: 8px;">
-                  If a value is a "string", it must be enclosed in <code>"..."</code>. However, numbers and booleans
-                  should not be enclosed.
-                </p>
-                <table
-                  style="width: 100%; font-size: 12px; color: #cccccc; border-collapse: collapse; margin-bottom: 15px; border: 1px solid #333;">
-                  <thead>
-                    <tr style="background: #252526; border-bottom: 1px solid #333;">
-                      <th style="padding: 8px; text-align: left; border-right: 1px solid #333;">Type</th>
-                      <th style="padding: 8px; text-align: left; border-right: 1px solid #333;">Example</th>
-                      <th style="padding: 8px; text-align: left;">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr style="border-bottom: 1px solid #333;">
-                      <td style="padding: 8px; border-right: 1px solid #333; color: #ce9178;">String</td>
-                      <td style="padding: 8px; border-right: 1px solid #333;"><code>"red"</code> /
-                        <code>"#ff0000"</code>
-                      </td>
-                      <td style="padding: 8px;">Must be enclosed in <code>""</code></td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #333;">
-                      <td style="padding: 8px; border-right: 1px solid #333; color: #b5cea8;">Number</td>
-                      <td style="padding: 8px; border-right: 1px solid #333;"><code>12</code></td>
-                      <td style="padding: 8px;">No <code>""</code> needed</td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 8px; border-right: 1px solid #333; color: #569cd6;">Boolean</td>
-                      <td style="padding: 8px; border-right: 1px solid #333;"><code>true</code> / <code>false</code>
-                      </td>
-                      <td style="padding: 8px;">No <code>""</code> needed</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <h4
-                  style="color: #d4d4d4; font-size: 13px; border-bottom: 1px solid #3c3c3c; padding-bottom: 5px; margin-top: 20px;">
-                  <span style="color: #c586c0;">4.</span> The Role of <code>"default"</code>
-                </h4>
-                <p style="font-size: 12px; color: #cccccc; line-height: 1.6; margin-bottom: 15px;">
-                  Writing <code>"default"</code> as a value has the exact same effect as deleting the entire line: it
-                  reverts the setting to the original color of your currently installed theme.<br><br>
-                  The main reason to explicitly write <code>"default"</code> is <strong>to keep the setting name (key)
-                    in your file</strong>. This is useful when you don't want to override the color right now, but want
-                  to keep the setting available for future edits.
-                </p>
-
-                <div
-                  style="background: rgba(255, 204, 0, 0.1); border-left: 4px solid #d7ba7d; padding: 12px 16px; margin-top: 20px; border-radius: 4px;">
-                  <h4 style="margin-top: 0; color: #d7ba7d; font-size: 13px; margin-bottom: 5px;">⚠️ Common Error
-                    Checklist</h4>
-                  <ul style="margin: 0; font-size: 12px; color: #cccccc; padding-left: 20px; line-height: 1.6;">
-                    <li>Did you forget to close any <code>"</code>?</li>
-                    <li>Is there an extra <code>,</code> after the very last item?</li>
-                    <li>Are you using <code>'</code> (single quotes) instead of double quotes?</li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-
-
             <!-- Column 2: Visual Mock UI (Enlarged to 1:1 Editor Workspace) -->
             <div id="preview-panel" style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
               <!-- Editor Mock -->
@@ -691,12 +577,20 @@
                     <span class="codicon codicon-symbol-color" style="color: #cbcb41; font-size: 13px;"></span>
                     <span>sidebar</span>
                   </div>
-                  
+
                   <!-- Editor Actions (Right aligned) -->
-                  <div class="editor-actions" style="margin-left: auto; display: flex; align-items: center; padding: 0 10px; gap: 10px;">
-                    <button id="theme-mode-btn" class="header-btn primary" data-mode="dark" style="background: #007acc; border-color: #007acc; width: auto; padding: 4px 8px; font-size: 11px; white-space: nowrap; line-height: 1;">🌙 Dark Mode Base</button>
-                    <button id="color-lab-btn" class="header-btn" onclick="window.location.href='pages/color-lab'" style="width: auto; padding: 4px 8px; font-size: 11px; white-space: nowrap; line-height: 1;">Color Lab</button>
-                    <span id="clear-comments-btn" class="codicon codicon-clear-all" style="cursor: pointer; color: var(--vscode-tab-activeForeground); opacity: 0.7; font-size: 16px;" title="Clear Comments (Remove all // comments from JSON)" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"></span>
+                  <div class="editor-actions"
+                    style="margin-left: auto; display: flex; align-items: center; padding: 0 10px; gap: 10px;">
+                    <button id="theme-mode-btn" class="header-btn primary" data-mode="dark"
+                      style="background: #007acc; border-color: #007acc; width: auto; padding: 4px 8px; font-size: 11px; white-space: nowrap; line-height: 1;">Dark
+                      Mode Base</button>
+                    <button id="color-lab-btn" class="header-btn" onclick="window.location.href='pages/color-lab'"
+                      style="width: auto; padding: 4px 8px; font-size: 11px; white-space: nowrap; line-height: 1;">Color
+                      Lab</button>
+                    <span id="clear-comments-btn" class="codicon codicon-clear-all"
+                      style="cursor: pointer; color: var(--vscode-tab-activeForeground); opacity: 0.7; font-size: 16px;"
+                      title="Clear Comments (Remove all // comments from JSON)" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.7'"></span>
                   </div>
                 </div>
                 <!-- Breadcrumbs -->
@@ -784,71 +678,43 @@
 
               <!-- Panel Mock -->
               <div id="panel-mock" class="mock-component" data-color-keys="panel.background,panel.border"
-                style="display: none; height: 180px; box-sizing: border-box; flex-direction: column; border-top: 1px solid var(--vscode-panel-border);">
+                style="display: flex; height: 180px; box-sizing: border-box; flex-direction: column; border-top: 1px solid var(--vscode-panel-border);">
                 <div class="panel-header"
                   data-color-keys="panelTitle.activeForeground,panelTitle.activeBorder,panelTitle.inactiveForeground"
                   style="display: flex; gap: 20px; padding: 0 15px; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); box-sizing: border-box;">
-                  <div class="panel-title active"
-                    style="padding: 8px 0; font-weight: bold; border-bottom: 1px solid var(--vscode-panelTitle-activeBorder); color: var(--vscode-panelTitle-activeForeground);">
+                  <div class="panel-title inactive"
+                    style="padding: 8px 0; opacity: 0.6; color: var(--vscode-panelTitle-inactiveForeground);">
                     PROBLEMS</div>
                   <div class="panel-title inactive"
                     style="padding: 8px 0; opacity: 0.6; color: var(--vscode-panelTitle-inactiveForeground);">OUTPUT
                   </div>
-                  <div class="panel-title inactive"
-                    style="padding: 8px 0; opacity: 0.6; color: var(--vscode-panelTitle-inactiveForeground);">TERMINAL
+                  <div class="panel-title active"
+                    style="padding: 8px 0; font-weight: bold; border-bottom: 1px solid var(--vscode-panelTitle-activeBorder); color: var(--vscode-panelTitle-activeForeground);">
+                    TERMINAL
                   </div>
                 </div>
                 <div class="panel-content"
                   style="padding: 10px 15px; font-family: monospace; font-size: 12px; flex: 1; overflow: auto; box-sizing: border-box;">
                   <div data-color-keys="terminal.foreground,terminal.background"
-                    style="display: flex; flex-direction: column; gap: 4px;">
-                    <div style="color: #858585;">No problems have been detected in the workspace so far.</div>
+                    style="display: flex; flex-direction: column; gap: 4px; padding: 5px; height: 100%; box-sizing: border-box; background: var(--vscode-terminal-background); color: var(--vscode-terminal-foreground);">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span style="color: #569cd6;">➜</span>
+                      <span style="color: #4ec9b0;">the-me-theme</span>
+                      <span style="color: #9cdcfe;">git:(</span><span style="color: #c586c0;">main</span><span
+                        style="color: #9cdcfe;">)</span>
+                      <span style="color: #d4d4d4;">npm run dev</span>
+                    </div>
+                    <div style="color: #ce9178; margin-top: 5px;">
+                      Vite server running at:
+                    </div>
+                    <div>
+                      <span style="color: #4ec9b0;">➜</span> Local: <a href="#"
+                        style="color: #3794ff; text-decoration: none;">http://localhost:5173/</a>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Button Mock (Hidden by default, used for preview) -->
-              <div id="button-mock" class="mock-component"
-                data-color-keys="button.background,button.foreground,button.hoverBackground"
-                style="padding: 20px; align-items: center; justify-content: center; width: 100%; text-align: center;">
-                <button
-                  style="background: var(--vscode-button-background); color: var(--vscode-button-foreground); border: none; padding: 8px 14px; border-radius: 2px; cursor: pointer; font-size: 13px;">Sample
-                  Button</button>
-              </div>
-
-              <!-- Input Mock (Hidden by default) -->
-              <div id="input-mock" class="mock-component"
-                data-color-keys="input.background,input.foreground,input.border,inputOption.activeBorder"
-                style="padding: 20px; align-items: center; justify-content: center; width: 100%; text-align: center;">
-                <input type="text" placeholder="Sample Input..."
-                  style="background: var(--vscode-input-background); color: var(--vscode-input-foreground); border: 1px solid var(--vscode-input-border); padding: 6px; width: 200px; border-radius: 2px; font-size: 13px;">
-              </div>
-
-              <!-- Scrollbar Mock (Hidden by default) -->
-              <div id="scrollbar-mock" class="mock-component"
-                data-color-keys="scrollbarSlider.background,scrollbarSlider.hoverBackground,scrollbarSlider.activeBackground"
-                style="padding: 20px; align-items: center; justify-content: center; width: 100%; display: flex; flex-direction: column; gap: 10px;">
-                <div style="font-size: 13px; color: var(--vscode-editor-foreground); margin-bottom: 10px;">Scrollbar
-                  Preview (Backgrounds)</div>
-                <div
-                  style="width: 200px; height: 12px; background: rgba(0,0,0,0.1); border-radius: 6px; position: relative; border: 1px solid #333;">
-                  <div
-                    style="position: absolute; left: 10%; top: 0; width: 40px; height: 100%; background: var(--vscode-scrollbarSlider-background); border-radius: 6px;">
-                  </div>
-                </div>
-                <div
-                  style="width: 200px; height: 12px; background: rgba(0,0,0,0.1); border-radius: 6px; position: relative; border: 1px solid #333;">
-                  <div
-                    style="position: absolute; left: 40%; top: 0; width: 40px; height: 100%; background: var(--vscode-scrollbarSlider-hoverBackground); border-radius: 6px;">
-                  </div>
-                </div>
-                <div
-                  style="width: 200px; height: 12px; background: rgba(0,0,0,0.1); border-radius: 6px; position: relative; border: 1px solid #333;">
-                  <div
-                    style="position: absolute; left: 70%; top: 0; width: 40px; height: 100%; background: var(--vscode-scrollbarSlider-activeBackground); border-radius: 6px;">
-                  </div>
-                </div>
-              </div>
             </div>
 
             <!-- Right Sash for resizing the inspector panel -->
@@ -1035,291 +901,301 @@
                     URL</button>
                 </div>
 
-                <div style="text-align: center; color: #858585; margin-bottom: 20px;">— OR —</div>
+                <div style="text-align: center; color: #858585; margin-bottom: 20px;"> OR /div>
 
-                <p style="margin-top: 0; font-weight: 600;">2. Import Local File</p>
-                <div id="drag-drop-zone"
-                  style="border: 2px dashed #3c3c3c; border-radius: 6px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-                  <div style="font-size: 24px; margin-bottom: 10px;">📂</div>
-                  <div>Drag & drop a .json / .vsix file here</div>
-                  <div style="font-size: 12px; color: #858585; margin-top: 5px;">or click to browse</div>
-                  <input type="file" id="theme-import" accept=".json,.vsix" style="display: none;" />
+                  <p style="margin-top: 0; font-weight: 600;">2. Import Local File</p>
+                  <div id="drag-drop-zone"
+                    style="border: 2px dashed #3c3c3c; border-radius: 6px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                    <div style="font-size: 24px; margin-bottom: 10px;"> </div>
+                    <div>Drag & drop a .json / .vsix file here</div>
+                    <div style="font-size: 12px; color: #858585; margin-top: 5px;">or click to browse</div>
+                    <input type="file" id="theme-import" accept=".json,.vsix" style="display: none;" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Create Blank Modal -->
-          <div id="create-blank-modal" class="modal-overlay" style="display: none;">
-            <div class="modal-card">
-              <div class="modal-header">
-                <h3>Create Blank Theme</h3>
-                <button id="close-blank-modal-btn" class="close-btn">&times;</button>
-              </div>
-              <div class="modal-body">
-                <p style="margin-top: 0;">Start from a clean slate. All previous colors will be cleared, leaving a
-                  minimal dark
-                  background.</p>
-                <p>You can then click any component in the preview to start painting your own original theme!</p>
-                <input type="text" id="blank-theme-name-input" placeholder="Enter theme name (e.g. My Cyber Theme)"
-                  style="width: 100%; padding: 10px; border: 1px solid #3c3c3c; background: #252526; color: #ffffff; border-radius: 4px; font-size: 13px; outline: none; margin-top: 10px;" />
-              </div>
-              <div class="modal-footer">
-                <button id="confirm-blank-btn" class="modal-btn primary">Create New Canvas</button>
+            <!-- Create Blank Modal -->
+            <div id="create-blank-modal" class="modal-overlay" style="display: none;">
+              <div class="modal-card">
+                <div class="modal-header">
+                  <h3>Create Blank Theme</h3>
+                  <button id="close-blank-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p style="margin-top: 0;">Start from a clean slate. All previous colors will be cleared, leaving a
+                    minimal dark
+                    background.</p>
+                  <p>You can then click any component in the preview to start painting your own original theme!</p>
+                  <input type="text" id="blank-theme-name-input" placeholder="Enter theme name (e.g. My Cyber Theme)"
+                    style="width: 100%; padding: 10px; border: 1px solid #3c3c3c; background: #252526; color: #ffffff; border-radius: 4px; font-size: 13px; outline: none; margin-top: 10px;" />
+                </div>
+                <div class="modal-footer">
+                  <button id="confirm-blank-btn" class="modal-btn primary">Create New Canvas</button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Export Settings Modal -->
-          <div id="export-settings-modal" class="modal-overlay" style="display: none;">
-            <div class="modal-card">
-              <div class="modal-header">
-                <h3>Export Theme Settings</h3>
-                <button id="close-export-modal-btn" class="close-btn">&times;</button>
+            <!-- Export Settings Modal -->
+            <div id="export-settings-modal" class="modal-overlay" style="display: none;">
+              <div class="modal-card">
+                <div class="modal-header">
+                  <h3>Export Theme Settings</h3>
+                  <button id="close-export-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p style="margin-top: 0; font-size: 13px; color: #cccccc;">Review theme metadata before exporting the
+                    JSON file.
+                  </p>
+
+                  <div style="margin-bottom: 15px;">
+                    <label
+                      style="display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #858585;">Theme
+                      Name</label>
+                    <input type="text" id="export-theme-name" placeholder="e.g. My Awesome Theme"
+                      style="width: 100%; padding: 8px; border: 1px solid #3c3c3c; background: #1e1e1e; color: #d4d4d4; border-radius: 3px; font-size: 13px; box-sizing: border-box; outline: none;" />
+                  </div>
+
+                  <div style="margin-bottom: 15px;">
+                    <label
+                      style="display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #858585;">Author
+                      Name</label>
+                    <input type="text" id="export-theme-author" placeholder="e.g. your_username"
+                      style="width: 100%; padding: 8px; border: 1px solid #3c3c3c; background: #1e1e1e; color: #d4d4d4; border-radius: 3px; font-size: 13px; box-sizing: border-box; outline: none;" />
+                  </div>
+
+                  <div style="margin-bottom: 20px;">
+                    <label
+                      style="display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #858585;">License</label>
+                    <select id="export-theme-license"
+                      style="width: 100%; padding: 8px; border: 1px solid #3c3c3c; background: #1e1e1e; color: #d4d4d4; border-radius: 3px; font-size: 13px; box-sizing: border-box; outline: none;">
+                      <option value="MIT">MIT License (Recommended, Open Source)</option>
+                      <option value="GPL-3.0">GPL-3.0 (Copyleft Open Source)</option>
+                      <option value="Apache-2.0">Apache License 2.0</option>
+                      <option value="Unlicense">The Unlicense (Public Domain)</option>
+                      <option value="Proprietary">Proprietary (Closed Source)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+                  <button id="export-settings-json-btn" class="modal-btn"
+                    style="background: #2d2d2d; border: 1px solid #3c3c3c;">Copy Settings JSON</button>
+                  <button id="download-json-btn" class="modal-btn"
+                    style="background: #2d2d2d; border: 1px solid #3c3c3c;">Download .json</button>
+                  <button id="download-zip-btn" class="modal-btn primary">Download Extension (.vsix/.zip)</button>
+                </div>
               </div>
-              <div class="modal-body">
-                <p style="margin-top: 0; font-size: 13px; color: #cccccc;">Review theme metadata before exporting the
-                  JSON file.
+            </div>
+
+            <!-- License Verification Modal -->
+            <div id="license-modal" class="modal-overlay" style="display: none;">
+              <div class="modal-card">
+                <div class="modal-header">
+                  <h3>Theme License Verification</h3>
+                  <button id="close-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p style="margin-top: 0;">This editor allows sharing customized themes back to the community gallery.
+                    To
+                    avoid
+                    copyright disputes, please classify the license of your theme:</p>
+
+                  <div class="license-options">
+                    <label class="license-option-card">
+                      <input type="radio" name="license-type" value="permissive" checked />
+                      <div class="option-details">
+                        <span class="option-title">Completely Usable License (MIT / CC0 / Unlicense)</span>
+                        <span class="option-desc">This theme is fully open source. Sharing, publishing, and merging back
+                          to the
+                          community database are allowed.</span>
+                      </div>
+                    </label>
+
+                    <label class="license-option-card">
+                      <input type="radio" name="license-type" value="restricted" />
+                      <div class="option-details">
+                        <span class="option-title">Private / Restrictive License (Proprietary / Copyleft / CC-BY-NC /
+                          Unknown)</span>
+                        <span class="option-desc">This theme has proprietary restrictions, needs custom attribution, or
+                          has an
+                          unknown license. All public sharing features will be disabled.</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="confirm-license-btn" class="modal-btn primary">Confirm & Import</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Theme Mode Notification Modal -->
+            <div id="mode-notification-modal" class="modal-overlay"
+              style="display: none; z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center;">
+              <div class="modal-content"
+                style="background: #1e1e1e; border: 1px solid #007acc; border-radius: 6px; padding: 20px; width: 400px; color: #fff;">
+                <div
+                  style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                  <span class="codicon codicon-info" style="color: #007acc; font-size: 24px;"></span>
+                  <h3 id="mode-notification-title" style="margin: 0; font-size: 16px;">Dark Mode Theme Editing</h3>
+                </div>
+                <p id="mode-notification-desc"
+                  style="font-size: 13px; color: #ccc; line-height: 1.5; margin-bottom: 20px;">
+                  You are currently creating a theme based on <strong>Dark Mode</strong>.<br>
+                  The base colors will be initialized with VS Code's default dark theme. When selecting background
+                  colors,
+                  the palette will prioritize darker shades.
                 </p>
-
-                <div style="margin-bottom: 15px;">
-                  <label
-                    style="display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #858585;">Theme
-                    Name</label>
-                  <input type="text" id="export-theme-name" placeholder="e.g. My Awesome Theme"
-                    style="width: 100%; padding: 8px; border: 1px solid #3c3c3c; background: #1e1e1e; color: #d4d4d4; border-radius: 3px; font-size: 13px; box-sizing: border-box; outline: none;" />
+                <div style="text-align: right;">
+                  <button id="close-mode-modal-btn" class="modal-btn"
+                    style="background: #007acc; color: white; border: none;">Got it</button>
                 </div>
-
-                <div style="margin-bottom: 15px;">
-                  <label
-                    style="display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #858585;">Author
-                    Name</label>
-                  <input type="text" id="export-theme-author" placeholder="e.g. your_username"
-                    style="width: 100%; padding: 8px; border: 1px solid #3c3c3c; background: #1e1e1e; color: #d4d4d4; border-radius: 3px; font-size: 13px; box-sizing: border-box; outline: none;" />
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                  <label
-                    style="display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #858585;">License</label>
-                  <select id="export-theme-license"
-                    style="width: 100%; padding: 8px; border: 1px solid #3c3c3c; background: #1e1e1e; color: #d4d4d4; border-radius: 3px; font-size: 13px; box-sizing: border-box; outline: none;">
-                    <option value="MIT">MIT License (Recommended, Open Source)</option>
-                    <option value="GPL-3.0">GPL-3.0 (Copyleft Open Source)</option>
-                    <option value="Apache-2.0">Apache License 2.0</option>
-                    <option value="Unlicense">The Unlicense (Public Domain)</option>
-                    <option value="Proprietary">Proprietary (Closed Source)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
-                <button id="export-settings-json-btn" class="modal-btn"
-                  style="background: #2d2d2d; border: 1px solid #3c3c3c;">📋 Copy Settings JSON</button>
-                <button id="download-json-btn" class="modal-btn"
-                  style="background: #2d2d2d; border: 1px solid #3c3c3c;">⬇️
-                  Download .json</button>
-                <button id="download-zip-btn" class="modal-btn primary">📦 Download Extension (.vsix/.zip)</button>
               </div>
             </div>
-          </div>
 
-          <!-- License Verification Modal -->
-          <div id="license-modal" class="modal-overlay" style="display: none;">
-            <div class="modal-card">
-              <div class="modal-header">
-                <h3>Theme License Verification</h3>
-                <button id="close-modal-btn" class="close-btn">&times;</button>
-              </div>
-              <div class="modal-body">
-                <p style="margin-top: 0;">This editor allows sharing customized themes back to the community gallery. To
-                  avoid
-                  copyright disputes, please classify the license of your theme:</p>
+            <script type="module" src="src/main.ts"></script>
 
-                <div class="license-options">
-                  <label class="license-option-card">
-                    <input type="radio" name="license-type" value="permissive" checked />
-                    <div class="option-details">
-                      <span class="option-title">Completely Usable License (MIT / CC0 / Unlicense)</span>
-                      <span class="option-desc">This theme is fully open source. Sharing, publishing, and merging back
-                        to the
-                        community database are allowed.</span>
-                    </div>
-                  </label>
-
-                  <label class="license-option-card">
-                    <input type="radio" name="license-type" value="restricted" />
-                    <div class="option-details">
-                      <span class="option-title">Private / Restrictive License (Proprietary / Copyleft / CC-BY-NC /
-                        Unknown)</span>
-                      <span class="option-desc">This theme has proprietary restrictions, needs custom attribution, or
-                        has an
-                        unknown license. All public sharing features will be disabled.</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button id="confirm-license-btn" class="modal-btn primary">Confirm & Import</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Theme Mode Notification Modal -->
-          <div id="mode-notification-modal" class="modal-overlay"
-            style="display: none; z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center;">
-            <div class="modal-content"
-              style="background: #1e1e1e; border: 1px solid #007acc; border-radius: 6px; padding: 20px; width: 400px; color: #fff;">
-              <div
-                style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <span class="codicon codicon-info" style="color: #007acc; font-size: 24px;"></span>
-                <h3 id="mode-notification-title" style="margin: 0; font-size: 16px;">Dark Mode Theme Editing</h3>
-              </div>
-              <p id="mode-notification-desc"
-                style="font-size: 13px; color: #ccc; line-height: 1.5; margin-bottom: 20px;">
-                You are currently creating a theme based on <strong>Dark Mode</strong>.<br>
-                The base colors will be initialized with VS Code's default dark theme. When selecting background colors,
-                the palette will prioritize darker shades.
-              </p>
-              <div style="text-align: right;">
-                <button id="close-mode-modal-btn" class="modal-btn"
-                  style="background: #007acc; color: white; border: none;">Got it</button>
-              </div>
-            </div>
-          </div>
-
-          <script type="module" src="src/main.ts"></script>
-
-        </div>
-      </div>
-    </div> <!-- /vscode-mock-wrapper -->
-  </div> <!-- /theme-app-layout -->
-
-  <!-- Custom Color Palette Popover -->
-  <div id="custom-palette-popover" class="custom-palette-popover" style="display: none;">
-    <div class="palette-header-title" id="palette-title"
-      style="font-size: 11px; color: #a6e22e; padding: 4px 8px; font-weight: bold; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">
-      color.id
-    </div>
-    <div class="palette-header" style="flex-direction: column; gap: 6px;">
-      <div id="palette-aesthetic-filter" class="palette-segmented-control" data-value="216">
-        <button class="segment-btn active" data-value="216">Web Safe (216)</button>
-        <button class="segment-btn" data-value="4096">All (4096)</button>
-        <button class="segment-btn" data-value="90">Neon (90)</button>
-      </div>
-      <div id="palette-wcag-filter" class="palette-segmented-control" data-value="none">
-        <button class="segment-btn active" data-value="none">WCAG: Off</button>
-        <button class="segment-btn" data-value="aa">AA (4.5:1)</button>
-        <button class="segment-btn" data-value="aaa">AAA (7:1)</button>
-      </div>
-    </div>
-    <div class="palette-grid-container">
-      <div id="palette-grid" class="palette-grid">
-        <!-- Color swatches generated by JS -->
-      </div>
-    </div>
-    <div class="palette-footer">
-      <input type="text" id="palette-hex-input" class="palette-hex-input" placeholder="#FFFFFF" />
-    </div>
-  </div>
-
-  <!-- WYSIWYG Popover -->
-  <div id="quick-edit-popover" class="quick-edit-popover" style="display: none;">
-    <div class="popover-header">
-      <span class="popover-title">Quick Edit</span>
-      <button id="close-popover-btn" class="popover-close">&times;</button>
-    </div>
-    <div class="color-palette" id="quick-color-palette">
-      <!-- Palette swatches will be injected here -->
-    </div>
-    <div id="quick-edit-content" class="popover-content"></div>
-  </div>
-
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="toast-container"></div>
-  <!-- Advanced Import Modal -->
-  <div id="advanced-import-modal" class="modal-overlay"
-    style="display: none; z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px);">
-    <div class="modal-content"
-      style="background: #1e1e1e; border: 1px solid #007acc; border-radius: 8px; width: 600px; max-width: 90vw; color: #fff; box-shadow: 0 15px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column;">
-      <div
-        style="padding: 15px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; background: #252526; border-radius: 8px 8px 0 0;">
-        <h3 style="margin: 0; font-size: 16px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
-          <span class="codicon codicon-package" style="color: #007acc; font-size: 20px;"></span> 📦 Import Theme
-        </h3>
-        <span class="codicon codicon-close" id="close-advanced-import-x"
-          style="cursor: pointer; font-size: 18px; color: #888;"></span>
-      </div>
-
-      <div style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
-
-        <div>
-          <div style="font-size: 12px; font-weight: bold; color: #858585; margin-bottom: 8px;">Select Method</div>
-          <div style="display: flex; gap: 15px; font-size: 13px;">
-            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <input type="radio" name="import-method" value="local" checked style="accent-color: #007acc;"> Local File
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <input type="radio" name="import-method" value="github" style="accent-color: #007acc;"> GitHub Repository
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <input type="radio" name="import-method" value="vsce" style="accent-color: #007acc;"> Extension (.vsix)
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <input type="radio" name="import-method" value="url" style="accent-color: #007acc;"> URL
-            </label>
           </div>
         </div>
+      </div> <!-- /vscode-mock-wrapper -->
 
-        <div id="import-dnd-area"
-          style="border: 2px dashed #444; border-radius: 6px; padding: 40px 20px; text-align: center; background: #111; cursor: pointer; transition: all 0.2s;">
-          <span class="codicon codicon-cloud-upload"
-            style="font-size: 32px; color: #007acc; margin-bottom: 10px; display: block;"></span>
-          <div style="font-size: 14px; margin-bottom: 5px;">Drag & drop a JSON or VSIX file here</div>
-          <div style="font-size: 12px; color: #888; margin-bottom: 15px;">or</div>
-          <button class="modal-btn" style="background: #333; color: #fff; border: 1px solid #555;">Browse Files</button>
+      <!-- Tool Mode Right Column -->
+      <div id="tool-mode-right"
+        style="display: none; height: 100%; background: #1e1e1e; border-left: 1px solid #3c3c3c; z-index: 10; flex-direction: column;">
+      </div>
+
+    </div> <!-- /theme-app-layout -->
+
+    <!-- Custom Color Palette Popover -->
+    <div id="custom-palette-popover" class="custom-palette-popover" style="display: none;">
+      <div class="palette-header-title" id="palette-title"
+        style="font-size: 11px; color: #a6e22e; padding: 4px 8px; font-weight: bold; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">
+        color.id
+      </div>
+      <div class="palette-header" style="flex-direction: column; gap: 6px;">
+        <div id="palette-aesthetic-filter" class="palette-segmented-control" data-value="216">
+          <button class="segment-btn active" data-value="216">Web Safe (216)</button>
+          <button class="segment-btn" data-value="4096">All (4096)</button>
+          <button class="segment-btn" data-value="90">Neon (90)</button>
+        </div>
+        <div id="palette-wcag-filter" class="palette-segmented-control" data-value="none">
+          <button class="segment-btn active" data-value="none">WCAG: Off</button>
+          <button class="segment-btn" data-value="aa">AA (4.5:1)</button>
+          <button class="segment-btn" data-value="aaa">AAA (7:1)</button>
+        </div>
+      </div>
+      <div class="palette-grid-container">
+        <div id="palette-grid" class="palette-grid">
+          <!-- Color swatches generated by JS -->
+        </div>
+      </div>
+      <div class="palette-footer">
+        <input type="text" id="palette-hex-input" class="palette-hex-input" placeholder="#FFFFFF" />
+      </div>
+    </div>
+
+    <!-- WYSIWYG Popover -->
+    <div id="quick-edit-popover" class="quick-edit-popover" style="display: none;">
+      <div class="popover-header">
+        <span class="popover-title">Quick Edit</span>
+        <button id="close-popover-btn" class="popover-close">&times;</button>
+      </div>
+      <div class="color-palette" id="quick-color-palette">
+        <!-- Palette swatches will be injected here -->
+      </div>
+      <div id="quick-edit-content" class="popover-content"></div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+    <!-- Advanced Import Modal -->
+    <div id="advanced-import-modal" class="modal-overlay"
+      style="display: none; z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px);">
+      <div class="modal-content"
+        style="background: #1e1e1e; border: 1px solid #007acc; border-radius: 8px; width: 600px; max-width: 90vw; color: #fff; box-shadow: 0 15px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column;">
+        <div
+          style="padding: 15px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; background: #252526; border-radius: 8px 8px 0 0;">
+          <h3 style="margin: 0; font-size: 16px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+            <span class="codicon codicon-package" style="color: #007acc; font-size: 20px;"></span> Import Theme
+          </h3>
+          <span class="codicon codicon-close" id="close-advanced-import-x"
+            style="cursor: pointer; font-size: 18px; color: #888;"></span>
+        </div>
+
+        <div style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+
+          <div>
+            <div style="font-size: 12px; font-weight: bold; color: #858585; margin-bottom: 8px;">Select Method</div>
+            <div style="display: flex; gap: 15px; font-size: 13px;">
+              <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="radio" name="import-method" value="local" checked style="accent-color: #007acc;"> Local
+                File
+              </label>
+              <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="radio" name="import-method" value="github" style="accent-color: #007acc;"> GitHub
+                Repository
+              </label>
+              <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="radio" name="import-method" value="vsce" style="accent-color: #007acc;"> Extension (.vsix)
+              </label>
+              <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="radio" name="import-method" value="url" style="accent-color: #007acc;"> URL
+              </label>
+            </div>
+          </div>
+
+          <div id="import-dnd-area"
+            style="border: 2px dashed #444; border-radius: 6px; padding: 40px 20px; text-align: center; background: #111; cursor: pointer; transition: all 0.2s;">
+            <span class="codicon codicon-cloud-upload"
+              style="font-size: 32px; color: #007acc; margin-bottom: 10px; display: block;"></span>
+            <div style="font-size: 14px; margin-bottom: 5px;">Drag & drop a JSON or VSIX file here</div>
+            <div style="font-size: 12px; color: #888; margin-bottom: 15px;">or</div>
+            <button class="modal-btn" style="background: #333; color: #fff; border: 1px solid #555;">Browse
+              Files</button>
+          </div>
+
+          <div
+            style="background: rgba(0, 122, 204, 0.1); border: 1px solid rgba(0, 122, 204, 0.3); border-radius: 6px; padding: 15px;">
+            <div
+              style="font-size: 12px; font-weight: bold; color: #007acc; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+              <span>License Handling (Auto-scan supported)</span>
+            </div>
+            <select id="import-license-select"
+              style="width: 100%; padding: 8px; background: #1e1e1e; border: 1px solid #3c3c3c; color: #ccc; border-radius: 4px; font-size: 13px; margin-bottom: 10px; cursor: pointer;">
+              <option value="auto">Auto-detect (Keep credits)</option>
+              <option value="mit">MIT License</option>
+              <option value="gpl">GPL License</option>
+              <option value="proprietary">Proprietary (Original work)</option>
+            </select>
+            <div id="import-license-result"
+              style="font-size: 12px; color: #a6e22e; display: flex; align-items: center; gap: 4px;">
+              <span class="codicon codicon-info" style="font-size: 14px;"></span>
+              * Result: Waiting...
+            </div>
+          </div>
+
         </div>
 
         <div
-          style="background: rgba(0, 122, 204, 0.1); border: 1px solid rgba(0, 122, 204, 0.3); border-radius: 6px; padding: 15px;">
-          <div
-            style="font-size: 12px; font-weight: bold; color: #007acc; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-            <span>⚖️ License Handling (Auto-scan supported)</span>
-          </div>
-          <select id="import-license-select"
-            style="width: 100%; padding: 8px; background: #1e1e1e; border: 1px solid #3c3c3c; color: #ccc; border-radius: 4px; font-size: 13px; margin-bottom: 10px; cursor: pointer;">
-            <option value="auto">Auto-detect (Keep credits)</option>
-            <option value="mit">MIT License</option>
-            <option value="gpl">GPL License</option>
-            <option value="proprietary">Proprietary (Original work)</option>
-          </select>
-          <div id="import-license-result"
-            style="font-size: 12px; color: #a6e22e; display: flex; align-items: center; gap: 4px;">
-            <span class="codicon codicon-info" style="font-size: 14px;"></span>
-            * Result: Waiting...
-          </div>
+          style="padding: 15px 20px; border-top: 1px solid #333; display: flex; justify-content: flex-end; gap: 10px; background: #252526; border-radius: 0 0 8px 8px;">
+          <button id="cancel-advanced-import-btn" class="modal-btn"
+            style="background: transparent; border: 1px solid #555; color: #ccc;">Cancel</button>
+          <button id="start-advanced-import-btn" class="modal-btn"
+            style="background: #007acc; color: #fff; border: none;">Start Import</button>
         </div>
 
       </div>
-
-      <div
-        style="padding: 15px 20px; border-top: 1px solid #333; display: flex; justify-content: flex-end; gap: 10px; background: #252526; border-radius: 0 0 8px 8px;">
-        <button id="cancel-advanced-import-btn" class="modal-btn"
-          style="background: transparent; border: 1px solid #555; color: #ccc;">Cancel</button>
-        <button id="start-advanced-import-btn" class="modal-btn"
-          style="background: #007acc; color: #fff; border: none;">Start Import</button>
-      </div>
-
     </div>
-  </div>
-<!-- Keep hidden inputs for JS bindings to avoid breaking logic -->
-        <div style="display: none;">
-          <button id="publish-btn">Publish</button>
-          <button id="import-theme-btn">Import JSON</button>
-          <input type="file" id="import-file-input" accept=".json">
-          <button id="import-github-btn">GitHub Sync</button>
-          <button id="reset-theme-btn">Reset</button>
-          <button id="create-blank-btn">Create Blank</button>
-        </div>
-  </body>
+    <!-- Keep hidden inputs for JS bindings to avoid breaking logic -->
+    <div style="display: none;">
+      <button id="publish-btn">Publish</button>
+      <button id="import-theme-btn">Import JSON</button>
+      <input type="file" id="import-file-input" accept=".json">
+      <button id="import-github-btn">GitHub Sync</button>
+      <button id="reset-theme-btn">Reset</button>
+      <button id="create-blank-btn">Create Blank</button>
+    </div>
+</body>
 
 </html>

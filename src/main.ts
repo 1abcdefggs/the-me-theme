@@ -1,7 +1,15 @@
 import JSZip from 'jszip';
 import { initColorPalette, openColorPalette } from './colorPalette';
 import { resolveColor, colorRegistry } from './vscode-color-engine/index.ts';
+import { getLuminanceFromHex } from './colorUtils';
 
+// Expose globals for index.html scripts
+(window as any).openColorPalette = openColorPalette;
+(window as any).onSimpleAreaColorChange = (varId: string, color: string) => {
+    userOverrides[varId] = { current: color };
+    recalcAllColors(false);
+    renderList(searchInput.value);
+};
 interface ColorDef { id: string; description: string; file: string; }
 
 let colorsDb: ColorDef[] = [];
@@ -222,11 +230,13 @@ function updateProgress() {
     `;
 }
 
-terminalToggleBtn.addEventListener('click', () => {
-    terminalPanel.classList.toggle('collapsed');
+terminalToggleBtn?.addEventListener('click', () => {
+    terminalPanel?.classList.toggle('collapsed');
 });
-terminalClearBtn.addEventListener('click', () => {
-    terminalOutput.innerHTML = '<div class="term-line info">[INFO] Terminal cleared.</div>';
+terminalClearBtn?.addEventListener('click', () => {
+    if (terminalOutput) {
+        terminalOutput.innerHTML = '<div class="term-line info">[INFO] Terminal cleared.</div>';
+    }
 });
 
 function getCssVarName(id: string) { return `--vscode-${id.replace(/\./g, '-')}`; }
@@ -827,10 +837,23 @@ function applyThemeJson(jsonStr: string) {
                     document.documentElement.style.setProperty(getCssVarName(key), val);
                 }
             });
+            
+            // Auto detect base mode
+            let detectedBase = 'dark';
+            if (theme.type === 'dark' || theme.type === 'light') {
+                detectedBase = theme.type;
+            } else if (theme.colors['editor.background']) {
+                const lum = getLuminanceFromHex(theme.colors['editor.background']);
+                detectedBase = lum > 0.5 ? 'light' : 'dark';
+            }
+            if ((window as any).setThemeBaseMode) {
+                (window as any).setThemeBaseMode(detectedBase);
+            }
+
             recalcAllColors();
             renderList(searchInput.value);
             updateProgress();
-            termLog(`Loaded theme colors from ${currentImportedThemeName}`, 'success');
+            termLog(`Loaded theme colors from ${currentImportedThemeName} (Auto-detected Base: ${detectedBase.toUpperCase()})`, 'success');
             showEditorPreview(`Theme "${currentImportedThemeName}" loaded successfully!`);
             updateThemeFileNameUI(currentImportedThemeName.replace(/\s+/g, '-') + '-color-theme.json');
         } else {
@@ -1299,14 +1322,18 @@ confirmBlankBtn.addEventListener('click', () => {
         delete userOverrides[key];
     });
 
-    // Set basic baseline colors to start customizing from scratch
-    userOverrides['sideBar.background'] = { current: '#202020' };
-    document.documentElement.style.setProperty(getCssVarName('sideBar.background'), '#202020');
-    userOverrides['sideBar.foreground'] = { current: '#cccccc' };
-    document.documentElement.style.setProperty(getCssVarName('sideBar.foreground'), '#cccccc');
+    // Reset to VS Code Default Dark Theme as the baseline
+    Object.assign(userOverrides, JSON.parse(JSON.stringify(defaultDarkOverrides)));
+    
+    // Push default CSS variables to DOM instantly
+    Object.keys(userOverrides).forEach(key => {
+        const val = userOverrides[key].current;
+        document.documentElement.style.setProperty(getCssVarName(key), val);
+    });
 
     renderList(searchInput.value);
     updateProgress();
+    recalcAllColors(true);
     termLog(`Created a new blank theme canvas named "${name}". Publish enabled.`, 'success');
     showEditorPreview(`Blank Theme "${name}" created! Select components or tokens to edit.`);
     updateThemeFileNameUI(name.replace(/\s+/g, '-') + '-color-theme.json');
@@ -1833,48 +1860,7 @@ activityExtensions?.addEventListener('click', () => {
     if (sidebarExplorer) sidebarExplorer.style.display = 'none';
 });
 
-// --- Details Panel Toggle Logic ---
-const activityDetails = document.getElementById('activity-details');
-const closeDetailsBtn = document.getElementById('close-details-btn');
-const detailsPanel = document.getElementById('details-panel');
 
-let detailsPanelOpen = true;
-
-function updateDetailsPanelState() {
-    if (detailsPanel) {
-        if (detailsPanelOpen) {
-            detailsPanel.style.width = '300px';
-            detailsPanel.style.minWidth = '300px';
-            detailsPanel.style.borderRight = '1px solid var(--vscode-sideBar-border)';
-            detailsPanel.style.padding = '';
-            if (activityDetails) {
-                activityDetails.classList.add('active');
-                activityDetails.classList.remove('inactive');
-            }
-        } else {
-            detailsPanel.style.width = '0px';
-            detailsPanel.style.minWidth = '0px';
-            detailsPanel.style.borderRight = 'none';
-            detailsPanel.style.padding = '0';
-            if (activityDetails) {
-                activityDetails.classList.add('inactive');
-                activityDetails.classList.remove('active');
-            }
-        }
-    }
-}
-
-activityDetails?.addEventListener('click', () => {
-    detailsPanelOpen = !detailsPanelOpen;
-    updateDetailsPanelState();
-});
-
-closeDetailsBtn?.addEventListener('click', () => {
-    detailsPanelOpen = false;
-    updateDetailsPanelState();
-});
-
-// --- 2-Way Binding Highlights ---
 const mockElements = document.querySelectorAll('.mock-component, .mock-component [data-color-keys]');
 const editorTabs = document.querySelectorAll('.editor-tab');
 
@@ -2567,10 +2553,6 @@ if (scmCommitBtn && scmCommitInput) {
 // Auto-commit on start
 setTimeout(() => {
     pushToScmHistory("Initial State");
-    // Ensure details panel is open and shows settings info
-    if (detailsPanelOpen) {
-        updateDetailsPanelState();
-    }
 }, 500);
 
 // Toggle SCM View vs Explorer View
@@ -2631,7 +2613,6 @@ setTimeout(() => {
 // Sidebar Resize Functionality
 const sidebarMock = document.getElementById('sidebar-mock') as HTMLElement;
 let isResizing = false;
-let isResizingDetails = false;
 let startX = 0;
 let startWidth = 0;
 
@@ -2650,21 +2631,7 @@ if (sidebarMock) {
     });
 }
 
-// Details Panel Resize Functionality
-if (detailsPanel) {
-    const resizeHandle = document.createElement('div');
-    resizeHandle.style.cssText = 'position: absolute; right: 0; top: 0; bottom: 0; width: 4px; cursor: ew-resize; z-index: 1000;';
-    detailsPanel.appendChild(resizeHandle);
 
-    resizeHandle.addEventListener('mousedown', (e: MouseEvent) => {
-        isResizingDetails = true;
-        startX = e.clientX;
-        startWidth = detailsPanel.offsetWidth;
-        document.body.style.cursor = 'ew-resize';
-        document.body.style.userSelect = 'none';
-        e.preventDefault();
-    });
-}
 
 document.addEventListener('mousemove', (e: MouseEvent) => {
     if (isResizing && sidebarMock) {
@@ -2674,19 +2641,11 @@ document.addEventListener('mousemove', (e: MouseEvent) => {
             sidebarMock.style.width = newWidth + 'px';
         }
     }
-    if (isResizingDetails && detailsPanel) {
-        const diff = e.clientX - startX;
-        const newWidth = startWidth + diff;
-        if (newWidth >= 200 && newWidth <= 500) {
-            detailsPanel.style.width = newWidth + 'px';
-        }
-    }
 });
 
 document.addEventListener('mouseup', () => {
-    if (isResizing || isResizingDetails) {
+    if (isResizing) {
         isResizing = false;
-        isResizingDetails = false;
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
     }
@@ -2906,3 +2865,56 @@ document.getElementById('clear-comments-btn')?.addEventListener('click', () => {
         }
     }
 });
+
+// UI Layout Toggle Logic
+let isToolMode = true; // Default to Tool Mode
+
+const toggleLayoutBtn = document.getElementById('toggle-layout-btn');
+const leftSidebar = document.getElementById('sidebar-mock');
+const toolModeLeft = document.getElementById('tool-mode-left');
+const toolModeRight = document.getElementById('tool-mode-right');
+const vscodeMockWrapper = document.getElementById('vscode-mock-wrapper');
+const vscodeMockContainer = document.getElementById('vscode-mock-container');
+const innerFlexContainer = leftSidebar?.parentElement;
+
+function applyLayoutMode() {
+    if (!leftSidebar || !inspectorPanel || !toolModeLeft || !toolModeRight || !vscodeMockWrapper || !vscodeMockContainer || !innerFlexContainer) return;
+
+    if (isToolMode) {
+        toolModeLeft.style.display = 'flex';
+        toolModeRight.style.display = 'flex';
+        toolModeLeft.appendChild(leftSidebar);
+        toolModeRight.appendChild(inspectorPanel);
+        vscodeMockWrapper.style.padding = '20px';
+        vscodeMockContainer.style.border = '1px solid #3c3c3c';
+        vscodeMockContainer.style.borderRadius = '8px';
+        vscodeMockContainer.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8)';
+    } else {
+        toolModeLeft.style.display = 'none';
+        toolModeRight.style.display = 'none';
+        
+        // Return leftSidebar to the beginning of the inner flex container
+        innerFlexContainer.insertBefore(leftSidebar, innerFlexContainer.firstChild);
+        
+        // Return inspectorPanel to the end of the inner flex container
+        innerFlexContainer.appendChild(inspectorPanel);
+        
+        vscodeMockWrapper.style.padding = '0';
+        vscodeMockContainer.style.border = 'none';
+        vscodeMockContainer.style.borderRadius = '0';
+        vscodeMockContainer.style.boxShadow = 'none';
+    }
+}
+
+toggleLayoutBtn?.addEventListener('click', () => {
+    isToolMode = !isToolMode;
+    localStorage.setItem('themeEditorLayoutMode', isToolMode ? 'tool' : 'integrated');
+    applyLayoutMode();
+});
+
+const savedMode = localStorage.getItem('themeEditorLayoutMode');
+if (savedMode === 'integrated') {
+    isToolMode = false;
+}
+applyLayoutMode();
+
