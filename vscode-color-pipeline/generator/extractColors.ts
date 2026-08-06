@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const srcDir = 'c:\\vscode\\src\\vs';
-const dbPath = path.join(process.cwd(), 'src', 'vscode-colors-db.json');
+const dbPath = path.join(process.cwd(), 'src', 'assets', 'vscode-colors-db.json');
 
 interface ColorDef {
     id: string;

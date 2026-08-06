@@ -1,5 +1,4 @@
-import { generateAll4096Colors, generateWebSafe216Colors, generatePureNeon90Colors, getLuminanceFromHex, type ColorData } from './colorUtils';
-import { currentBaseMode } from './main';
+import { generateAll4096Colors, generateWebSafe216Colors, generatePureNeon90Colors, getLuminanceFromHex, type ColorData } from '../lib/colorUtils';
 
 let popover: HTMLElement | null = null;
 let gridContainer: HTMLElement | null = null;
@@ -105,13 +104,8 @@ function renderGrid() {
     // Sort colors if picking a background
     let colorsToRender = [...currentColors];
     if (currentReferenceBgHex === null) {
-        if (currentBaseMode === 'dark') {
-            // Dark mode: darker colors first (lower luminance)
-            colorsToRender.sort((a, b) => a.luminance - b.luminance);
-        } else {
-            // Light mode: lighter colors first (higher luminance)
-            colorsToRender.sort((a, b) => b.luminance - a.luminance);
-        }
+        // Dark mode: darker colors first (lower luminance)
+        colorsToRender.sort((a, b) => a.luminance - b.luminance);
     }
 
     colorsToRender.forEach(color => {

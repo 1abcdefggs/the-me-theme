@@ -20,13 +20,17 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        reference: resolve(__dirname, 'pages/color-reference.html')
+        reference: resolve(__dirname, 'pages/references/color-reference.html'),
+        themeEditor: resolve(__dirname, 'pages/theme_editor.html')
       }
     }
   },
   server: {
     host: 'localhost',
     port: 5173,
-    open: true
+    open: true,
+    watch: {
+      ignored: ['**/src/object-body/vscode-mock.css']
+    }
   }
 });

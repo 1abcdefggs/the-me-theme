@@ -1,0 +1,9 @@
+{
+  "name": "@the-me-theme/build-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@the-me-theme/vscode-color-pipeline": "*"
+  }
+}

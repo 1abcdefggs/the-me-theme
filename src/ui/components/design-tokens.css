@@ -1,0 +1,26 @@
+/* Design Tokens for TheMeTheme UI */
+:root {
+  /* Text sizes */
+  --text-sm: 0.8rem;
+  --text-md: 1rem;
+  --text-lg: 1.2rem;
+
+  /* Border widths */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 3px;
+
+  /* Reusable colors mapping to VS Code variables */
+  --color-primary: var(--vscode-foreground);
+  --color-secondary: var(--vscode-descriptionForeground);
+  --color-accent: var(--vscode-button-background);
+  --color-muted: var(--vscode-panel-background);
+}
+
+/* Utility classes */
+.text-sm { font-size: var(--text-sm); }
+.text-md { font-size: var(--text-md); }
+.text-lg { font-size: var(--text-lg); }
+.border-thin { border-width: var(--border-thin); }
+.border-medium { border-width: var(--border-medium); }
+.border-thick { border-width: var(--border-thick); }

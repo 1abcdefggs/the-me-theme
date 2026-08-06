@@ -3,6 +3,16 @@
   "private": true,
   "version": "0.0.3",
   "type": "module",
+  "workspaces": [
+    "registercolor",
+    "color_analysis_tools",
+    "vscode-color-pipeline",
+    "src/vscode-color-engine",
+    "src/theme-engine",
+    "src/scripts",
+    "src/object-body",
+    "src/lib"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -15,6 +25,7 @@
     "vite": "^8.1.1"
   },
   "dependencies": {
+    "cheerio": "^1.2.0",
     "jszip": "^3.10.1",
     "playwright": "^1.61.1"
   }

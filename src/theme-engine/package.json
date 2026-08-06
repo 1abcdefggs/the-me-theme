@@ -1,0 +1,11 @@
+{
+  "name": "@the-me-theme/theme-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "@the-me-theme/vscode-color-engine": "*",
+    "@the-me-theme/lib": "*"
+  }
+}
