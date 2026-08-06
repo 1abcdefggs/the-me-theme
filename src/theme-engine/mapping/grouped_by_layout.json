@@ -1,0 +1,1848 @@
+[
+  {
+    "category": "Window",
+    "children": [
+      {
+        "componentId": "ly.window.border",
+        "label": "Window Border",
+        "colorIds": [
+          "window.activeBorder",
+          "window.inactiveBorder"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Title Bar",
+    "children": [
+      {
+        "componentId": "ly.titleBar.base",
+        "label": "Title Bar Base",
+        "colorIds": [
+          "titleBar.activeBackground",
+          "titleBar.activeForeground",
+          "titleBar.border",
+          "titleBar.inactiveBackground",
+          "titleBar.inactiveForeground"
+        ]
+      },
+      {
+        "componentId": "ly.titleBar.menubar",
+        "label": "Menu Bar (上部メニューバー)",
+        "colorIds": [
+          "menubar.selectionBackground",
+          "menubar.selectionBorder",
+          "menubar.selectionForeground"
+        ]
+      },
+      {
+        "componentId": "ly.titleBar.menu",
+        "label": "Menu (コンテキストメニュー等)",
+        "colorIds": [
+          "menu.background",
+          "menu.border",
+          "menu.foreground",
+          "menu.selectionBackground",
+          "menu.selectionBorder",
+          "menu.selectionForeground",
+          "menu.separatorBackground"
+        ]
+      },
+      {
+        "componentId": "ly.titleBar.commandCenter",
+        "label": "Command Center",
+        "colorIds": [
+          "commandCenter.activeBackground",
+          "commandCenter.activeBorder",
+          "commandCenter.activeForeground",
+          "commandCenter.background",
+          "commandCenter.border",
+          "commandCenter.foreground",
+          "commandCenter.inactiveBorder",
+          "commandCenter.inactiveForeground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Inputs",
+    "children": [
+      {
+        "componentId": "ly.global.inputs.base",
+        "label": "Inputs (Base)",
+        "colorIds": [
+          "input.background",
+          "input.border",
+          "input.foreground",
+          "input.placeholderForeground"
+        ]
+      },
+      {
+        "componentId": "ly.global.inputs.option",
+        "label": "Inputs (Options)",
+        "colorIds": [
+          "inputOption.activeBackground",
+          "inputOption.activeBorder",
+          "inputOption.activeForeground",
+          "inputOption.hoverBackground"
+        ]
+      },
+      {
+        "componentId": "ly.global.inputs.validation",
+        "label": "Inputs (Validation)",
+        "colorIds": [
+          "inputValidation.errorBackground",
+          "inputValidation.errorBorder",
+          "inputValidation.errorForeground",
+          "inputValidation.infoBackground",
+          "inputValidation.infoBorder",
+          "inputValidation.infoForeground",
+          "inputValidation.warningBackground",
+          "inputValidation.warningBorder",
+          "inputValidation.warningForeground"
+        ]
+      },
+      {
+        "componentId": "ly.global.dropdowns",
+        "label": "Dropdowns",
+        "colorIds": [
+          "dropdown.background",
+          "dropdown.border",
+          "dropdown.foreground",
+          "dropdown.listBackground"
+        ]
+      },
+      {
+        "componentId": "ly.global.checkboxes",
+        "label": "Checkboxes",
+        "colorIds": [
+          "checkbox.background",
+          "checkbox.border",
+          "checkbox.disabled.background",
+          "checkbox.disabled.foreground",
+          "checkbox.foreground",
+          "checkbox.selectBackground",
+          "checkbox.selectBorder"
+        ]
+      },
+      {
+        "componentId": "ly.global.radios",
+        "label": "Radio Buttons",
+        "colorIds": [
+          "radio.activeBackground",
+          "radio.activeBorder",
+          "radio.activeForeground",
+          "radio.inactiveBackground",
+          "radio.inactiveBorder",
+          "radio.inactiveForeground",
+          "radio.inactiveHoverBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Lists & Trees",
+    "children": [
+      {
+        "componentId": "ly.global.list.active",
+        "label": "Lists (Active Selection)",
+        "colorIds": [
+          "list.activeSelectionBackground",
+          "list.activeSelectionForeground",
+          "list.activeSelectionIconForeground",
+          "list.inactiveSelectionBackground",
+          "list.inactiveSelectionForeground",
+          "list.inactiveSelectionIconForeground"
+        ]
+      },
+      {
+        "componentId": "ly.global.list.inactive",
+        "label": "Lists (Inactive Selection)",
+        "colorIds": [
+          "list.inactiveSelectionBackground",
+          "list.inactiveSelectionForeground",
+          "list.inactiveSelectionIconForeground"
+        ]
+      },
+      {
+        "componentId": "ly.global.list.hoverFocus",
+        "label": "Lists (Hover & Focus)",
+        "colorIds": [
+          "list.focusAndSelectionOutline",
+          "list.focusBackground",
+          "list.focusForeground",
+          "list.focusHighlightForeground",
+          "list.focusOutline",
+          "list.hoverBackground",
+          "list.hoverForeground",
+          "list.inactiveFocusBackground",
+          "list.inactiveFocusOutline"
+        ]
+      },
+      {
+        "componentId": "ly.global.list.dropFilter",
+        "label": "Lists (Drop & Filter)",
+        "colorIds": [
+          "list.dropBackground",
+          "list.dropBetweenBackground",
+          "list.filterMatchBackground",
+          "list.filterMatchBorder",
+          "listFilterWidget.background",
+          "listFilterWidget.noMatchesOutline",
+          "listFilterWidget.outline",
+          "listFilterWidget.shadow"
+        ]
+      },
+      {
+        "componentId": "ly.global.list.misc",
+        "label": "Lists (Misc)",
+        "colorIds": [
+          "list.deemphasizedForeground",
+          "list.highlightForeground",
+          "list.invalidItemForeground"
+        ]
+      },
+      {
+        "componentId": "ly.global.trees",
+        "label": "Trees",
+        "colorIds": [
+          "tree.inactiveIndentGuidesStroke",
+          "tree.indentGuidesStroke",
+          "tree.tableColumnsBorder",
+          "tree.tableOddRowsBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Activity Bar",
+    "children": [
+      {
+        "componentId": "ly.activityBar.vertical",
+        "label": "Vertical",
+        "colorIds": [
+          "activityBar.activeBackground",
+          "activityBar.activeBorder",
+          "activityBar.activeFocusBorder",
+          "activityBar.background",
+          "activityBar.border",
+          "activityBar.dropBorder",
+          "activityBar.foreground",
+          "activityBar.inactiveForeground"
+        ]
+      },
+      {
+        "componentId": "ly.activityBar.top",
+        "label": "Horizontal",
+        "colorIds": [
+          "activityBarTop.activeBackground",
+          "activityBarTop.activeBorder",
+          "activityBarTop.background",
+          "activityBarTop.dropBorder",
+          "activityBarTop.foreground",
+          "activityBarTop.inactiveForeground"
+        ]
+      },
+      {
+        "componentId": "ly.activityBar.badges",
+        "label": "Badges",
+        "colorIds": [
+          "activityBarBadge.background",
+          "activityBarBadge.foreground",
+          "activityErrorBadge.background",
+          "activityErrorBadge.foreground",
+          "activityWarningBadge.background",
+          "activityWarningBadge.foreground",
+          "badge.background",
+          "badge.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.activityBar.progressBar",
+        "label": "Progress Bar",
+        "colorIds": [
+          "progressBar.background"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Side Bar",
+    "children": [
+      {
+        "componentId": "ly.sideBar.base",
+        "label": "Side Bar Base",
+        "colorIds": [
+          "sideBar.background",
+          "sideBar.border",
+          "sideBar.dropBackground",
+          "sideBar.foreground",
+          "sideBarActivityBarTop.border"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.title",
+        "label": "Title",
+        "colorIds": [
+          "sideBarTitle.background",
+          "sideBarTitle.border",
+          "sideBarTitle.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.sectionHeaders",
+        "label": "Section Headers",
+        "colorIds": [
+          "sideBarSectionHeader.background",
+          "sideBarSectionHeader.border",
+          "sideBarSectionHeader.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.progressBar",
+        "label": "Progress Bar",
+        "colorIds": [
+          "progressBar.background"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.input.base",
+        "label": "Inputs (Base)",
+        "colorIds": [
+          "input.background",
+          "input.border",
+          "input.foreground",
+          "input.placeholderForeground"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.input.option",
+        "label": "Inputs (Options)",
+        "colorIds": [
+          "inputOption.activeBackground",
+          "inputOption.activeBorder",
+          "inputOption.activeForeground",
+          "inputOption.hoverBackground"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.input.validation",
+        "label": "Inputs (Validation)",
+        "colorIds": [
+          "inputValidation.errorBackground",
+          "inputValidation.errorBorder",
+          "inputValidation.errorForeground",
+          "inputValidation.infoBackground",
+          "inputValidation.infoBorder",
+          "inputValidation.infoForeground",
+          "inputValidation.warningBackground",
+          "inputValidation.warningBorder",
+          "inputValidation.warningForeground"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.dropdown",
+        "label": "Dropdowns",
+        "colorIds": [
+          "dropdown.background",
+          "dropdown.border",
+          "dropdown.foreground",
+          "dropdown.listBackground"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.stickyScroll",
+        "label": "Sticky Scroll",
+        "colorIds": [
+          "sideBarStickyScroll.background",
+          "sideBarStickyScroll.border",
+          "sideBarStickyScroll.shadow"
+        ]
+      },
+      {
+        "componentId": "ly.sideBar.scrollbars",
+        "label": "Scrollbars",
+        "colorIds": [
+          "scrollbar.background",
+          "scrollbar.shadow",
+          "scrollbarSlider.activeBackground",
+          "scrollbarSlider.background",
+          "scrollbarSlider.hoverBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Editor Area",
+    "children": [
+      {
+        "type": "header",
+        "label": "Editor Groups"
+      },
+      {
+        "componentId": "ly.editor.groupBase",
+        "label": "Editor Group Base",
+        "colorIds": [
+          "editorGroup.border",
+          "editorGroup.emptyBackground",
+          "editorGroup.focusedEmptyBorder",
+          "editorPane.background"
+        ]
+      },
+      {
+        "componentId": "ly.editor.groupDrop_EditorGroupDrop",
+        "label": "Editor Group Drop",
+        "colorIds": [
+          "editorGroup.dropBackground",
+          "editorGroup.dropIntoPromptBackground",
+          "editorGroup.dropIntoPromptBorder",
+          "editorGroup.dropIntoPromptForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.groupHeader",
+        "label": "Editor Group Header",
+        "colorIds": [
+          "editorGroupHeader.border",
+          "editorGroupHeader.noTabsBackground",
+          "editorGroupHeader.tabsBackground",
+          "editorGroupHeader.tabsBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.sideBySide",
+        "label": "Side-by-Side Editor",
+        "colorIds": [
+          "sideBySideEditor.horizontalBorder",
+          "sideBySideEditor.verticalBorder"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "Tabs"
+      },
+      {
+        "componentId": "ly.editor.tabsBase",
+        "label": "Tabs (Base)",
+        "colorIds": [
+          "tab.border",
+          "tab.lastPinnedBorder",
+          "tab.selectedBackground",
+          "tab.selectedBorderTop",
+          "tab.selectedForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.tabsActive",
+        "label": "Tabs (Active)",
+        "colorIds": [
+          "tab.activeBackground",
+          "tab.activeBorder",
+          "tab.activeBorderTop",
+          "tab.activeForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.tabsInactive",
+        "label": "Tabs (Inactive)",
+        "colorIds": [
+          "tab.inactiveBackground",
+          "tab.inactiveForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.tabsUnfocusedActive",
+        "label": "Tabs (Unfocused Active)",
+        "colorIds": [
+          "tab.unfocusedActiveBackground",
+          "tab.unfocusedActiveBorder",
+          "tab.unfocusedActiveBorderTop",
+          "tab.unfocusedActiveForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.tabsUnfocusedInactive",
+        "label": "Tabs (Unfocused Inactive)",
+        "colorIds": [
+          "tab.unfocusedInactiveBackground",
+          "tab.unfocusedInactiveForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.tabsHoverDrag",
+        "label": "Tabs (Hover & Drag)",
+        "colorIds": [
+          "tab.dragAndDropBorder",
+          "tab.hoverBackground",
+          "tab.hoverBorder",
+          "tab.hoverForeground",
+          "tab.unfocusedHoverBackground",
+          "tab.unfocusedHoverBorder",
+          "tab.unfocusedHoverForeground"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "View Extras"
+      },
+      {
+        "componentId": "ly.editor.breadcrumbs",
+        "label": "Breadcrumbs",
+        "colorIds": [
+          "breadcrumb.activeSelectionForeground",
+          "breadcrumb.background",
+          "breadcrumb.focusForeground",
+          "breadcrumb.foreground",
+          "breadcrumbPicker.background"
+        ]
+      },
+      {
+        "componentId": "ly.editor.baseColors",
+        "label": "Editor Core",
+        "colorIds": [
+          "editor.background",
+          "editor.compositionBorder",
+          "editor.foreground",
+          "editor.linkedEditingBackground",
+          "editor.placeholder.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.minimap",
+        "label": "Minimap",
+        "colorIds": [
+          "minimap.background",
+          "minimap.findMatchHighlight",
+          "minimap.foregroundOpacity",
+          "minimap.selectionHighlight",
+          "minimap.selectionOccurrenceHighlight"
+        ]
+      },
+      {
+        "componentId": "ly.editor.scrollbars",
+        "label": "Scrollbars",
+        "colorIds": [
+          "scrollbar.background",
+          "scrollbar.shadow",
+          "scrollbarSlider.activeBackground",
+          "scrollbarSlider.background",
+          "scrollbarSlider.hoverBackground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.progressBar",
+        "label": "Progress Bar",
+        "colorIds": [
+          "progressBar.background"
+        ]
+      },
+      {
+        "componentId": "ly.editor.selection",
+        "label": "Selection",
+        "colorIds": [
+          "editor.inactiveSelectionBackground",
+          "editor.selectionBackground",
+          "editor.selectionForeground",
+          "editor.selectionHighlightBackground",
+          "editor.selectionHighlightBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.find",
+        "label": "Find Matches",
+        "colorIds": [
+          "editor.findMatchBackground",
+          "editor.findMatchBorder",
+          "editor.findMatchForeground",
+          "editor.findMatchHighlightBackground",
+          "editor.findMatchHighlightBorder",
+          "editor.findMatchHighlightForeground",
+          "editor.findRangeHighlightBackground",
+          "editor.findRangeHighlightBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.wordHighlight",
+        "label": "Word Highlight",
+        "colorIds": [
+          "editor.wordHighlightBackground",
+          "editor.wordHighlightBorder",
+          "editor.wordHighlightStrongBackground",
+          "editor.wordHighlightStrongBorder",
+          "editor.wordHighlightTextBackground",
+          "editor.wordHighlightTextBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.lineHighlight",
+        "label": "Line Highlight",
+        "colorIds": [
+          "editor.lineHighlightBackground",
+          "editor.lineHighlightBorder",
+          "editor.inactiveLineHighlightBackground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.highlights_HighlightsRange",
+        "label": "Highlights (Range)",
+        "colorIds": [
+          "editor.rangeHighlightBackground",
+          "editor.rangeHighlightBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.foldInline_Fold",
+        "label": "Fold",
+        "colorIds": [
+          "editor.foldBackground",
+          "editor.foldPlaceholderForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.foldInline_InlineValues",
+        "label": "Inline Values",
+        "colorIds": [
+          "editor.inlineValuesBackground",
+          "editor.inlineValuesForeground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.highlights_HighlightsHover",
+        "label": "Highlights (Hover)",
+        "colorIds": [
+          "editor.hoverHighlightBackground"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "Highlights & Features"
+      },
+      {
+        "componentId": "ly.editor.snippets",
+        "label": "Snippets",
+        "colorIds": [
+          "editor.snippetFinalTabstopHighlightBackground",
+          "editor.snippetFinalTabstopHighlightBorder",
+          "editor.snippetTabstopHighlightBackground",
+          "editor.snippetTabstopHighlightBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.symbols",
+        "label": "Symbols",
+        "colorIds": [
+          "editor.symbolHighlightBackground",
+          "editor.symbolHighlightBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.stackFrames",
+        "label": "Stack Frames (Debug)",
+        "colorIds": [
+          "editor.focusedStackFrameHighlightBackground",
+          "editor.stackFrameHighlightBackground"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "Widgets"
+      },
+      {
+        "componentId": "ly.editor.baseWidgets",
+        "label": "Editor Widgets Base",
+        "colorIds": [
+          "editorWidget.background",
+          "editorWidget.border",
+          "editorWidget.foreground",
+          "editorWidget.resizeBorder"
+        ]
+      },
+      {
+        "componentId": "ly.editor.hoverWidget",
+        "label": "Hover Widget",
+        "colorIds": [
+          "editorHoverWidget.background",
+          "editorHoverWidget.border",
+          "editorHoverWidget.foreground",
+          "editorHoverWidget.highlightForeground",
+          "editorHoverWidget.statusBarBackground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.suggestWidget",
+        "label": "Suggest Widget",
+        "colorIds": [
+          "editorSuggestWidget.background",
+          "editorSuggestWidget.border",
+          "editorSuggestWidget.focusHighlightForeground",
+          "editorSuggestWidget.foreground",
+          "editorSuggestWidget.highlightForeground",
+          "editorSuggestWidget.selectedBackground",
+          "editorSuggestWidget.selectedForeground",
+          "editorSuggestWidget.selectedIconForeground",
+          "editorSuggestWidgetStatus.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.editor.commentsWidget",
+        "label": "Comments Widget",
+        "colorIds": [
+          "editorCommentsWidget.rangeActiveBackground",
+          "editorCommentsWidget.rangeBackground",
+          "editorCommentsWidget.replyInputBackground",
+          "editorCommentsWidget.resolvedBorder",
+          "editorCommentsWidget.unresolvedBorder"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "Decorators"
+      },
+      {
+        "type": "header",
+        "label": "Rulers"
+      },
+      {
+        "label": "Overview Ruler",
+        "colorIds": [
+          "editorOverviewRuler.addedForeground",
+          "editorOverviewRuler.agentFeedbackForeground",
+          "editorOverviewRuler.background",
+          "editorOverviewRuler.border",
+          "editorOverviewRuler.bracketMatchForeground",
+          "editorOverviewRuler.commentDraftForeground",
+          "editorOverviewRuler.commentForeground",
+          "editorOverviewRuler.commentUnresolvedForeground",
+          "editorOverviewRuler.commonContentForeground",
+          "editorOverviewRuler.currentContentForeground",
+          "editorOverviewRuler.deletedForeground",
+          "editorOverviewRuler.errorForeground",
+          "editorOverviewRuler.findMatchForeground",
+          "editorOverviewRuler.incomingContentForeground",
+          "editorOverviewRuler.infoForeground",
+          "editorOverviewRuler.inlineChatInserted",
+          "editorOverviewRuler.inlineChatRemoved",
+          "editorOverviewRuler.modifiedForeground",
+          "editorOverviewRuler.rangeHighlightForeground",
+          "editorOverviewRuler.selectionHighlightForeground",
+          "editorOverviewRuler.warningForeground",
+          "editorOverviewRuler.wordHighlightForeground",
+          "editorOverviewRuler.wordHighlightStrongForeground",
+          "editorOverviewRuler.wordHighlightTextForeground"
+        ]
+      },
+      {
+        "label": "Line Numbers",
+        "colorIds": [
+          "editorLineNumber.activeForeground",
+          "editorLineNumber.dimmedForeground",
+          "editorLineNumber.foreground",
+          "editorActiveLineNumber.foreground"
+        ],
+        "componentId": "undefined_LineNumbers"
+      },
+      {
+        "label": "Gutter",
+        "colorIds": [
+          "editorGutter.addedBackground",
+          "editorGutter.addedSecondaryBackground",
+          "editorGutter.background",
+          "editorGutter.commentDraftGlyphForeground",
+          "editorGutter.commentGlyphForeground",
+          "editorGutter.commentRangeForeground",
+          "editorGutter.commentUnresolvedGlyphForeground",
+          "editorGutter.deletedBackground",
+          "editorGutter.deletedSecondaryBackground",
+          "editorGutter.foldingControlForeground",
+          "editorGutter.itemBackground",
+          "editorGutter.itemGlyphForeground",
+          "editorGutter.modifiedBackground",
+          "editorGutter.modifiedSecondaryBackground"
+        ],
+        "componentId": "undefined_Gutter"
+      },
+      {
+        "label": "Indent Guides",
+        "colorIds": [
+          "editorIndentGuide.activeBackground",
+          "editorIndentGuide.activeBackground1",
+          "editorIndentGuide.activeBackground2",
+          "editorIndentGuide.activeBackground3",
+          "editorIndentGuide.activeBackground4",
+          "editorIndentGuide.activeBackground5",
+          "editorIndentGuide.activeBackground6",
+          "editorIndentGuide.background",
+          "editorIndentGuide.background1",
+          "editorIndentGuide.background2",
+          "editorIndentGuide.background3",
+          "editorIndentGuide.background4",
+          "editorIndentGuide.background5",
+          "editorIndentGuide.background6"
+        ]
+      },
+      {
+        "label": "Bracket Guides",
+        "colorIds": [
+          "editorBracketPairGuide.activeBackground1",
+          "editorBracketPairGuide.activeBackground2",
+          "editorBracketPairGuide.activeBackground3",
+          "editorBracketPairGuide.activeBackground4",
+          "editorBracketPairGuide.activeBackground5",
+          "editorBracketPairGuide.activeBackground6",
+          "editorBracketPairGuide.background1",
+          "editorBracketPairGuide.background2",
+          "editorBracketPairGuide.background3",
+          "editorBracketPairGuide.background4",
+          "editorBracketPairGuide.background5",
+          "editorBracketPairGuide.background6",
+          "editorBracketHighlight.foreground1",
+          "editorBracketHighlight.foreground2",
+          "editorBracketHighlight.foreground3",
+          "editorBracketHighlight.foreground4",
+          "editorBracketHighlight.foreground5",
+          "editorBracketHighlight.foreground6",
+          "editorBracketHighlight.unexpectedBracket.foreground",
+          "editorBracketMatch.background",
+          "editorBracketMatch.border",
+          "editorBracketMatch.foreground"
+        ]
+      },
+      {
+        "label": "Cursors",
+        "colorIds": [
+          "editorCursor.background",
+          "editorCursor.foreground"
+        ],
+        "componentId": "undefined_Cursors"
+      },
+      {
+        "label": "Whitespace",
+        "colorIds": [
+          "editorWhitespace.foreground"
+        ],
+        "componentId": "undefined_Whitespace"
+      },
+      {
+        "type": "header",
+        "label": "Peek View Widget"
+      },
+      {
+        "label": "Peek View Base",
+        "colorIds": [
+          "peekView.border"
+        ]
+      },
+      {
+        "label": "Peek View Editor",
+        "colorIds": [
+          "peekViewEditor.background",
+          "peekViewEditor.matchHighlightBackground",
+          "peekViewEditor.matchHighlightBorder",
+          "peekViewEditorGutter.background",
+          "peekViewEditorStickyScroll.background",
+          "peekViewEditorStickyScrollGutter.background"
+        ]
+      },
+      {
+        "label": "Peek View Result",
+        "colorIds": [
+          "peekViewResult.background",
+          "peekViewResult.fileForeground",
+          "peekViewResult.lineForeground",
+          "peekViewResult.matchHighlightBackground",
+          "peekViewResult.selectionBackground",
+          "peekViewResult.selectionForeground"
+        ]
+      },
+      {
+        "label": "Peek View Title",
+        "colorIds": [
+          "peekViewTitle.background",
+          "peekViewTitleDescription.foreground",
+          "peekViewTitleLabel.foreground"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "Overlays & Popups"
+      },
+      {
+        "label": "Editor Overlays",
+        "colorIds": [
+          "editorActionList.background",
+          "editorActionList.focusBackground",
+          "editorActionList.focusForeground",
+          "editorActionList.foreground",
+          "editorMultiCursor.primary.background",
+          "editorMultiCursor.primary.foreground",
+          "editorMultiCursor.secondary.background",
+          "editorMultiCursor.secondary.foreground",
+          "editorGhostText.background",
+          "editorGhostText.border",
+          "editorGhostText.foreground",
+          "editorStickyScroll.background",
+          "editorStickyScroll.border",
+          "editorStickyScroll.shadow",
+          "editorStickyScrollGutter.background",
+          "editorStickyScrollHover.background",
+          "editorMarkerNavigation.background",
+          "editorMarkerNavigationError.background",
+          "editorMarkerNavigationError.headerBackground",
+          "editorMarkerNavigationInfo.background",
+          "editorMarkerNavigationInfo.headerBackground",
+          "editorMarkerNavigationWarning.background",
+          "editorMarkerNavigationWarning.headerBackground",
+          "editorLightBulb.foreground",
+          "editorLightBulbAi.foreground",
+          "editorLightBulbAutoFix.foreground",
+          "editorCodeLens.foreground",
+          "editorLink.activeForeground",
+          "editorMinimap.inlineChatInserted",
+          "minimapGutter.addedBackground",
+          "minimapGutter.deletedBackground",
+          "minimapGutter.modifiedBackground",
+          "minimapSlider.activeBackground",
+          "minimapSlider.background",
+          "minimapSlider.hoverBackground",
+          "search.resultsInfoForeground",
+          "searchEditor.findMatchBackground",
+          "searchEditor.findMatchBorder",
+          "searchEditor.textInputBorder",
+          "simpleFindWidget.sashBorder",
+          "commentsView.resolvedIcon",
+          "commentsView.unresolvedIcon"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Panel",
+    "children": [
+      {
+        "componentId": "ly.panel.base",
+        "label": "Panel Base",
+        "colorIds": [
+          "panel.background",
+          "panel.border",
+          "panel.dropBorder",
+          "panelInput.border"
+        ]
+      },
+      {
+        "componentId": "ly.panel.titles",
+        "label": "Titles & Badges",
+        "colorIds": [
+          "panelTitle.activeBorder",
+          "panelTitle.activeForeground",
+          "panelTitle.border",
+          "panelTitle.inactiveForeground",
+          "panelTitleBadge.background",
+          "panelTitleBadge.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.panel.sectionHeaders",
+        "label": "Section Headers",
+        "colorIds": [
+          "panelSection.border",
+          "panelSection.dropBackground",
+          "panelSectionHeader.background",
+          "panelSectionHeader.border",
+          "panelSectionHeader.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.panel.progressBar",
+        "label": "Progress Bar",
+        "colorIds": [
+          "progressBar.background"
+        ]
+      },
+      {
+        "componentId": "ly.panel.terminal",
+        "label": "Terminal",
+        "colorIds": [
+          "terminal.background",
+          "terminal.border",
+          "terminal.dropBackground",
+          "terminal.findMatchBackground",
+          "terminal.findMatchBorder",
+          "terminal.findMatchHighlightBackground",
+          "terminal.findMatchHighlightBorder",
+          "terminal.foreground",
+          "terminal.hoverHighlightBackground",
+          "terminal.inactiveSelectionBackground",
+          "terminal.selectionBackground",
+          "terminal.selectionForeground",
+          "terminal.tab.activeBorder",
+          "terminalCommandDecoration.defaultBackground",
+          "terminalCommandGuide.foreground",
+          "terminalCursor.background",
+          "terminalCursor.foreground",
+          "terminalOverviewRuler.border",
+          "terminalOverviewRuler.cursorForeground",
+          "terminalOverviewRuler.findMatchForeground",
+          "terminalStickyScroll.background",
+          "terminalStickyScroll.border",
+          "terminalStickyScrollHover.background"
+        ]
+      },
+      {
+        "componentId": "ly.panel.outputView",
+        "label": "Output View",
+        "colorIds": [
+          "outputView.background",
+          "outputViewStickyScroll.background"
+        ]
+      },
+      {
+        "componentId": "ly.panel.stickyScroll",
+        "label": "Sticky Scroll",
+        "colorIds": [
+          "panelStickyScroll.background",
+          "panelStickyScroll.border",
+          "panelStickyScroll.shadow"
+        ]
+      },
+      {
+        "componentId": "ly.panel.scrollbars",
+        "label": "Scrollbars",
+        "colorIds": [
+          "scrollbar.background",
+          "scrollbar.shadow",
+          "scrollbarSlider.activeBackground",
+          "scrollbarSlider.background",
+          "scrollbarSlider.hoverBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Status Bar",
+    "children": [
+      {
+        "componentId": "ly.statusBar.normal",
+        "label": "Status Bar (Normal)",
+        "colorIds": [
+          "statusBar.background",
+          "statusBar.border",
+          "statusBar.focusBorder",
+          "statusBar.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.statusBar.noFolder",
+        "label": "Status Bar (No Folder)",
+        "colorIds": [
+          "statusBar.noFolderBackground",
+          "statusBar.noFolderBorder",
+          "statusBar.noFolderForeground"
+        ]
+      },
+      {
+        "componentId": "ly.statusBar.items",
+        "label": "Status Bar Items",
+        "colorIds": [
+          "statusBarItem.activeBackground",
+          "statusBarItem.compactHoverBackground",
+          "statusBarItem.focusBorder",
+          "statusBarItem.hoverBackground",
+          "statusBarItem.hoverForeground",
+          "statusBarItem.offlineBackground",
+          "statusBarItem.offlineForeground",
+          "statusBarItem.offlineHoverBackground",
+          "statusBarItem.offlineHoverForeground",
+          "statusBarItem.prominentBackground",
+          "statusBarItem.prominentForeground",
+          "statusBarItem.prominentHoverBackground",
+          "statusBarItem.prominentHoverForeground",
+          "statusBarItem.remoteBackground",
+          "statusBarItem.remoteForeground",
+          "statusBarItem.remoteHoverBackground",
+          "statusBarItem.remoteHoverForeground"
+        ]
+      },
+      {
+        "componentId": "ly.statusBar.badges",
+        "label": "Badges",
+        "colorIds": [
+          "badge.background",
+          "badge.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.statusBar.progressBar",
+        "label": "Progress Bar",
+        "colorIds": [
+          "progressBar.background"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Command Palette",
+    "children": [
+      {
+        "componentId": "ly.commandPalette.base",
+        "label": "Command Palette Base",
+        "colorIds": [
+          "quickInput.background",
+          "quickInput.foreground",
+          "quickInputTitle.background"
+        ]
+      },
+      {
+        "componentId": "ly.commandPalette.groups",
+        "label": "Picker Groups (Headers)",
+        "colorIds": [
+          "pickerGroup.border",
+          "pickerGroup.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.commandPalette.lists",
+        "label": "Command Palette Lists",
+        "colorIds": [
+          "quickInput.list.focusBackground",
+          "quickInputList.focusBackground",
+          "quickInputList.focusForeground",
+          "quickInputList.focusHighlightForeground",
+          "quickInputList.focusIconForeground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Notifications & Banners",
+    "children": [
+      {
+        "componentId": "ly.overlays.notifications",
+        "label": "Notifications",
+        "colorIds": [
+          "notifications.background",
+          "notifications.border",
+          "notifications.foreground",
+          "notificationCenter.border",
+          "notificationCenterHeader.background",
+          "notificationCenterHeader.foreground",
+          "notificationLink.foreground",
+          "notificationToast.border"
+        ]
+      },
+      {
+        "componentId": "ly.overlays.banners",
+        "label": "Banners",
+        "colorIds": [
+          "banner.background",
+          "banner.foreground",
+          "banner.iconForeground"
+        ]
+      },
+      {
+        "componentId": "ly.overlays.markdownAlerts",
+        "label": "Markdown Alerts",
+        "colorIds": [
+          "markdownAlert.caution.foreground",
+          "markdownAlert.important.foreground",
+          "markdownAlert.note.foreground",
+          "markdownAlert.tip.foreground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Global Elements",
+    "children": [
+      {
+        "componentId": "ly.globalBase.colors",
+        "label": "Global Base Colors",
+        "colorIds": [
+          "focusBorder",
+          "foreground",
+          "disabledForeground",
+          "selection.background",
+          "descriptionForeground"
+        ]
+      },
+      {
+        "componentId": "ly.globalBase.widgetsBorderShadow",
+        "label": "Widgets Border & Shadow",
+        "colorIds": [
+          "widget.border",
+          "widget.shadow"
+        ]
+      },
+      {
+        "componentId": "ly.textColors",
+        "label": "Text Colors",
+        "colorIds": [
+          "textBlockQuote.background",
+          "textBlockQuote.border",
+          "textCodeBlock.background",
+          "textLink.activeForeground",
+          "textLink.foreground",
+          "textPreformat.background",
+          "textPreformat.border",
+          "textPreformat.foreground",
+          "textSeparator.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.globalBase.icons",
+        "label": "Icons",
+        "colorIds": [
+          "icon.foreground"
+        ]
+      },
+      {
+        "componentId": "ly.global.buttonsPrimary",
+        "label": "Primary Buttons",
+        "colorIds": [
+          "button.background",
+          "button.border",
+          "button.foreground",
+          "button.hoverBackground",
+          "button.separator"
+        ]
+      },
+      {
+        "componentId": "ly.global.buttonsSecondary",
+        "label": "Secondary Buttons",
+        "colorIds": [
+          "button.secondaryBackground",
+          "button.secondaryBorder",
+          "button.secondaryForeground",
+          "button.secondaryHoverBackground"
+        ]
+      },
+      {
+        "componentId": "ly.global.extensionButtons",
+        "label": "Extension Buttons",
+        "colorIds": [
+          "extensionButton.background",
+          "extensionButton.border",
+          "extensionButton.foreground",
+          "extensionButton.hoverBackground",
+          "extensionButton.prominentBackground",
+          "extensionButton.prominentForeground",
+          "extensionButton.prominentHoverBackground",
+          "extensionButton.separator"
+        ]
+      },
+      {
+        "type": "header",
+        "label": "Status & Severity (Error/Warning/Info)"
+      },
+      {
+        "label": "Editor Severity",
+        "colorIds": [
+          "editorError.background",
+          "editorError.border",
+          "editorError.foreground",
+          "editorInfo.background",
+          "editorInfo.border",
+          "editorInfo.foreground",
+          "editorWarning.background",
+          "editorWarning.border",
+          "editorWarning.foreground",
+          "editorHint.border",
+          "editorHint.foreground",
+          "editorUnnecessaryCode.border",
+          "editorUnnecessaryCode.opacity"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Symbol Icons (Semantic)",
+    "children": [
+      {
+        "componentId": "ly.semantic.symbolIcons",
+        "label": "Symbol Icons",
+        "colorIds": [
+          "terminalSymbolIcon.aliasForeground",
+          "terminalSymbolIcon.argumentForeground",
+          "terminalSymbolIcon.branchForeground",
+          "terminalSymbolIcon.commitForeground",
+          "terminalSymbolIcon.fileForeground",
+          "terminalSymbolIcon.flagForeground",
+          "terminalSymbolIcon.folderForeground",
+          "terminalSymbolIcon.inlineSuggestionForeground",
+          "terminalSymbolIcon.methodForeground",
+          "terminalSymbolIcon.optionForeground",
+          "terminalSymbolIcon.optionValueForeground",
+          "terminalSymbolIcon.pullRequestDoneForeground",
+          "terminalSymbolIcon.pullRequestForeground",
+          "terminalSymbolIcon.remoteForeground",
+          "terminalSymbolIcon.stashForeground",
+          "terminalSymbolIcon.symbolText",
+          "terminalSymbolIcon.symbolicLinkFileForeground",
+          "terminalSymbolIcon.symbolicLinkFolderForeground",
+          "terminalSymbolIcon.tagForeground"
+        ]
+      },
+      {
+        "label": "Symbol Icons",
+        "colorIds": [
+          "symbolIcon.arrayForeground",
+          "symbolIcon.booleanForeground",
+          "symbolIcon.classForeground",
+          "symbolIcon.colorForeground",
+          "symbolIcon.constantForeground",
+          "symbolIcon.constructorForeground",
+          "symbolIcon.enumeratorForeground",
+          "symbolIcon.enumeratorMemberForeground",
+          "symbolIcon.eventForeground",
+          "symbolIcon.fieldForeground",
+          "symbolIcon.fileForeground",
+          "symbolIcon.folderForeground",
+          "symbolIcon.functionForeground",
+          "symbolIcon.interfaceForeground",
+          "symbolIcon.keyForeground",
+          "symbolIcon.keywordForeground",
+          "symbolIcon.methodForeground",
+          "symbolIcon.moduleForeground",
+          "symbolIcon.namespaceForeground",
+          "symbolIcon.nullForeground",
+          "symbolIcon.numberForeground",
+          "symbolIcon.objectForeground",
+          "symbolIcon.operatorForeground",
+          "symbolIcon.packageForeground",
+          "symbolIcon.propertyForeground",
+          "symbolIcon.referenceForeground",
+          "symbolIcon.snippetForeground",
+          "symbolIcon.stringForeground",
+          "symbolIcon.structForeground",
+          "symbolIcon.textForeground",
+          "symbolIcon.typeParameterForeground",
+          "symbolIcon.unitForeground",
+          "symbolIcon.variableForeground",
+          "extensionIcon.preReleaseForeground",
+          "extensionIcon.privateForeground",
+          "extensionIcon.sponsorForeground",
+          "extensionIcon.starForeground",
+          "extensionIcon.verifiedForeground",
+          "extensionBadge.remoteBackground",
+          "extensionBadge.remoteForeground",
+          "problemsErrorIcon.foreground",
+          "problemsInfoIcon.foreground",
+          "problemsWarningIcon.foreground",
+          "notebookStatusErrorIcon.foreground",
+          "notebookStatusRunningIcon.foreground",
+          "notebookStatusSuccessIcon.foreground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Status / Severity",
+    "children": [
+      {
+        "componentId": "ly.severity.list",
+        "label": "List Severity",
+        "colorIds": [
+          "list.errorForeground",
+          "list.errorForeground",
+          "list.errorForeground",
+          "list.warningForeground",
+          "list.warningForeground",
+          "list.warningForeground"
+        ]
+      },
+      {
+        "componentId": "ly.severity.misc",
+        "label": "Misc Severity",
+        "colorIds": [
+          "errorForeground",
+          "markdownAlert.warning.foreground",
+          "minimap.errorHighlight",
+          "minimap.infoHighlight",
+          "minimap.warningHighlight",
+          "notificationsErrorIcon.foreground",
+          "notificationsInfoIcon.foreground",
+          "notificationsWarningIcon.foreground",
+          "statusBarItem.errorBackground",
+          "statusBarItem.errorForeground",
+          "statusBarItem.errorHoverBackground",
+          "statusBarItem.errorHoverForeground",
+          "statusBarItem.warningBackground",
+          "statusBarItem.warningForeground",
+          "statusBarItem.warningHoverBackground",
+          "statusBarItem.warningHoverForeground",
+          "terminal.initialHintForeground",
+          "terminalCommandDecoration.errorBackground",
+          "terminalCommandDecoration.successBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Debug & Testing",
+    "children": [
+      {
+        "componentId": "ly.dev.debug_Debug",
+        "label": "Debug",
+        "colorIds": [
+          "commandCenter.debuggingBackground",
+          "statusBar.debuggingBackground",
+          "statusBar.debuggingBorder",
+          "statusBar.debuggingForeground"
+        ]
+      },
+      {
+        "label": "Debug & Run",
+        "colorIds": [
+          "debugConsole.errorForeground",
+          "debugConsole.infoForeground",
+          "debugConsole.sourceForeground",
+          "debugConsole.warningForeground",
+          "debugConsoleInputIcon.foreground",
+          "debugExceptionWidget.background",
+          "debugExceptionWidget.border",
+          "debugIcon.breakpointCurrentStackframeForeground",
+          "debugIcon.breakpointDisabledForeground",
+          "debugIcon.breakpointForeground",
+          "debugIcon.breakpointStackframeForeground",
+          "debugIcon.breakpointUnverifiedForeground",
+          "debugIcon.continueForeground",
+          "debugIcon.disconnectForeground",
+          "debugIcon.pauseForeground",
+          "debugIcon.restartForeground",
+          "debugIcon.startForeground",
+          "debugIcon.stepBackForeground",
+          "debugIcon.stepIntoForeground",
+          "debugIcon.stepOutForeground",
+          "debugIcon.stepOverForeground",
+          "debugIcon.stopForeground",
+          "debugTokenExpression.boolean",
+          "debugTokenExpression.error",
+          "debugTokenExpression.name",
+          "debugTokenExpression.number",
+          "debugTokenExpression.string",
+          "debugTokenExpression.type",
+          "debugTokenExpression.value",
+          "debugToolBar.background",
+          "debugToolBar.border",
+          "debugView.exceptionLabelBackground",
+          "debugView.exceptionLabelForeground",
+          "debugView.stateLabelBackground",
+          "debugView.stateLabelForeground",
+          "debugView.valueChangedHighlight"
+        ]
+      },
+      {
+        "label": "Testing",
+        "colorIds": [
+          "testing.coverCountBadgeBackground",
+          "testing.coverCountBadgeForeground",
+          "testing.coveredBackground",
+          "testing.coveredBorder",
+          "testing.coveredGutterBackground",
+          "testing.coveredMinimapBackground",
+          "testing.iconErrored",
+          "testing.iconErrored.retired",
+          "testing.iconFailed",
+          "testing.iconFailed.retired",
+          "testing.iconPassed",
+          "testing.iconPassed.retired",
+          "testing.iconQueued",
+          "testing.iconQueued.retired",
+          "testing.iconSkipped",
+          "testing.iconSkipped.retired",
+          "testing.iconUnset",
+          "testing.iconUnset.retired",
+          "testing.message.error.badgeBackground",
+          "testing.message.error.badgeBorder",
+          "testing.message.error.badgeForeground",
+          "testing.message.error.lineBackground",
+          "testing.message.info.decorationForeground",
+          "testing.message.info.lineBackground",
+          "testing.messagePeekBorder",
+          "testing.messagePeekHeaderBackground",
+          "testing.peekBorder",
+          "testing.peekHeaderBackground",
+          "testing.runAction",
+          "testing.uncoveredBackground",
+          "testing.uncoveredBorder",
+          "testing.uncoveredBranchBackground",
+          "testing.uncoveredGutterBackground",
+          "testing.uncoveredMinimapBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "AI & Chat (Copilot)",
+    "children": [
+      {
+        "componentId": "ly.ai.chat_ChatWidgets",
+        "label": "Chat Widgets",
+        "colorIds": [
+          "minimap.chatEditHighlight"
+        ]
+      },
+      {
+        "label": "Chat Widgets & Inline AI",
+        "colorIds": [
+          "chat.avatarBackground",
+          "chat.avatarForeground",
+          "chat.checkpointSeparator",
+          "chat.editedFileForeground",
+          "chat.inputWorkingBorderColor1",
+          "chat.inputWorkingBorderColor2",
+          "chat.inputWorkingBorderColor3",
+          "chat.linesAddedForeground",
+          "chat.linesRemovedForeground",
+          "chat.requestBackground",
+          "chat.requestBorder",
+          "chat.requestBubbleBackground",
+          "chat.requestBubbleHoverBackground",
+          "chat.requestCodeBorder",
+          "chat.slashCommandBackground",
+          "chat.slashCommandForeground",
+          "chat.thinkingShimmer",
+          "agentFeedbackEditorWidget.background",
+          "agentFeedbackEditorWidget.border",
+          "agentFeedbackInputWidget.border",
+          "agentSessionReadIndicator.foreground",
+          "agentSessionSelectedBadge.border",
+          "agentSessionSelectedUnfocusedBadge.border",
+          "agentStatusIndicator.background",
+          "agents.background",
+          "agentsBadge.background",
+          "agentsBadge.foreground",
+          "agentsChatInput.background",
+          "agentsChatInput.border",
+          "agentsChatInput.focusBorder",
+          "agentsChatInput.foreground",
+          "agentsChatInput.placeholderForeground",
+          "agentsGradient.tintColor",
+          "agentsMobileDiff.addedForeground",
+          "agentsMobileDiff.deletedForeground",
+          "agentsMobileDiff.modifiedForeground",
+          "agentsNewSessionButton.background",
+          "agentsNewSessionButton.border",
+          "agentsNewSessionButton.foreground",
+          "agentsNewSessionButton.hoverBackground",
+          "agentsPanel.background",
+          "agentsPanel.border",
+          "agentsPanel.foreground",
+          "agentsUnreadBadge.background",
+          "agentsUnreadBadge.foreground",
+          "agentsUpdateButton.downloadedBackground",
+          "agentsUpdateButton.downloadingBackground",
+          "agentsVoice.speakingBackground",
+          "agentsVoice.speakingForeground",
+          "inlineChat.background",
+          "inlineChat.border",
+          "inlineChat.foreground",
+          "inlineChat.shadow",
+          "inlineChatInput.background",
+          "inlineChatInput.border",
+          "inlineChatInput.focusBorder",
+          "inlineChatInput.placeholderForeground",
+          "mcpIcon.starForeground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Interactive & Window Extras",
+    "children": [
+      {
+        "componentId": "ly.misc.sash",
+        "label": "Window Sashes",
+        "colorIds": [
+          "sash.hoverBorder"
+        ]
+      },
+      {
+        "componentId": "ly.misc.interactive_Profiles",
+        "label": "Profiles",
+        "colorIds": [
+          "profileBadge.background",
+          "profileBadge.foreground",
+          "profiles.sashBorder"
+        ]
+      },
+      {
+        "label": "Interactive & Profiles",
+        "colorIds": [
+          "welcomePage.background",
+          "welcomePage.progress.background",
+          "welcomePage.progress.foreground",
+          "welcomePage.tileBackground",
+          "welcomePage.tileBorder",
+          "welcomePage.tileHoverBackground",
+          "walkThrough.embeddedEditorBackground",
+          "walkthrough.stepTitle.foreground",
+          "toolbar.activeBackground",
+          "toolbar.hoverBackground",
+          "toolbar.hoverOutline",
+          "actionBar.toggledBackground",
+          "browser.border",
+          "ports.iconRunningProcessForeground",
+          "interactive.activeCodeBorder",
+          "interactive.inactiveCodeBorder",
+          "contrastActiveBorder",
+          "contrastBorder",
+          "strongForeground",
+          "diffEditorGutter.insertedLineBackground",
+          "diffEditorGutter.removedLineBackground",
+          "diffEditorOverview.insertedForeground",
+          "diffEditorOverview.removedForeground",
+          "notebookEditorOverviewRuler.runningCellForeground",
+          "notebookScrollbarSlider.activeBackground",
+          "notebookScrollbarSlider.background",
+          "notebookScrollbarSlider.hoverBackground"
+        ]
+      },
+      {
+        "label": "Misc Extras",
+        "colorIds": [
+          "activeSessionView.background",
+          "activeSessionView.foreground",
+          "inactiveSessionView.background",
+          "inactiveSessionView.foreground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Settings / Keybindings",
+    "children": [
+      {
+        "label": "Settings Backgrounds",
+        "colorIds": [
+          "settings.focusedRowBackground",
+          "settings.rowHoverBackground",
+          "keybindingTable.headerBackground",
+          "keybindingTable.rowsBackground"
+        ]
+      },
+      {
+        "label": "Settings Borders",
+        "colorIds": [
+          "settings.focusedRowBorder",
+          "settings.headerBorder",
+          "settings.sashBorder",
+          "keybindingLabel.bottomBorder"
+        ]
+      },
+      {
+        "label": "Settings Foreground",
+        "colorIds": [
+          "settings.headerForeground",
+          "settings.settingsHeaderHoverForeground"
+        ]
+      },
+      {
+        "label": "Settings Inputs",
+        "colorIds": [
+          "settings.checkboxBackground",
+          "settings.checkboxBorder",
+          "settings.checkboxForeground",
+          "settings.dropdownBorder",
+          "settings.dropdownForeground",
+          "settings.dropdownListBorder",
+          "settings.numberInputBackground",
+          "settings.numberInputBorder",
+          "settings.numberInputForeground",
+          "settings.textInputBackground",
+          "settings.textInputBorder",
+          "settings.textInputForeground"
+        ]
+      },
+      {
+        "label": "Keybindings",
+        "colorIds": [
+          "keybindingLabel.background",
+          "keybindingLabel.border",
+          "keybindingLabel.bottomBorder",
+          "keybindingLabel.foreground",
+          "keybindingTable.headerBackground",
+          "keybindingTable.rowsBackground"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Diff & Merge Editors",
+    "children": [
+      {
+        "label": "Diff Editor",
+        "colorIds": [
+          "diffEditor.border",
+          "diffEditor.diagonalFill",
+          "diffEditor.insertedLineBackground",
+          "diffEditor.insertedTextBackground",
+          "diffEditor.insertedTextBorder",
+          "diffEditor.move.border",
+          "diffEditor.moveActive.border",
+          "diffEditor.removedLineBackground",
+          "diffEditor.removedTextBackground",
+          "diffEditor.removedTextBorder",
+          "diffEditor.unchangedCodeBackground",
+          "diffEditor.unchangedRegionBackground",
+          "diffEditor.unchangedRegionForeground",
+          "diffEditor.unchangedRegionShadow"
+        ]
+      },
+      {
+        "label": "Merge Editor",
+        "colorIds": [
+          "mergeEditor.change.background",
+          "mergeEditor.change.word.background",
+          "mergeEditor.changeBase.background",
+          "mergeEditor.changeBase.word.background",
+          "mergeEditor.conflict.handled.minimapOverViewRuler",
+          "mergeEditor.conflict.handledFocused.border",
+          "mergeEditor.conflict.handledUnfocused.border",
+          "mergeEditor.conflict.input1.background",
+          "mergeEditor.conflict.input2.background",
+          "mergeEditor.conflict.unhandled.minimapOverViewRuler",
+          "mergeEditor.conflict.unhandledFocused.border",
+          "mergeEditor.conflict.unhandledUnfocused.border",
+          "mergeEditor.conflictingLines.background",
+          "merge.border",
+          "merge.commonContentBackground",
+          "merge.commonHeaderBackground",
+          "merge.currentContentBackground",
+          "merge.currentHeaderBackground",
+          "merge.incomingContentBackground",
+          "merge.incomingHeaderBackground"
+        ]
+      },
+      {
+        "label": "Multi Diff",
+        "colorIds": [
+          "multiDiffEditor.background",
+          "multiDiffEditor.border",
+          "multiDiffEditor.headerBackground"
+        ]
+      },
+      {
+        "label": "Inline Edit & Chat",
+        "colorIds": [
+          "inlineEdit.gutterIndicator.background",
+          "inlineEdit.gutterIndicator.primaryBackground",
+          "inlineEdit.gutterIndicator.primaryBorder",
+          "inlineEdit.gutterIndicator.primaryForeground",
+          "inlineEdit.gutterIndicator.secondaryBackground",
+          "inlineEdit.gutterIndicator.secondaryBorder",
+          "inlineEdit.gutterIndicator.secondaryForeground",
+          "inlineEdit.gutterIndicator.successfulBackground",
+          "inlineEdit.gutterIndicator.successfulBorder",
+          "inlineEdit.gutterIndicator.successfulForeground",
+          "inlineEdit.modifiedBackground",
+          "inlineEdit.modifiedBorder",
+          "inlineEdit.modifiedChangedLineBackground",
+          "inlineEdit.modifiedChangedTextBackground",
+          "inlineEdit.originalBackground",
+          "inlineEdit.originalBorder",
+          "inlineEdit.originalChangedLineBackground",
+          "inlineEdit.originalChangedTextBackground",
+          "inlineEdit.tabWillAcceptModifiedBorder",
+          "inlineEdit.tabWillAcceptOriginalBorder",
+          "inlineChatDiff.inserted",
+          "inlineChatDiff.removed"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Notebooks",
+    "children": [
+      {
+        "label": "Cell Backgrounds",
+        "colorIds": [
+          "notebook.cellEditorBackground",
+          "notebook.cellHoverBackground",
+          "notebook.cellStatusBarItemHoverBackground",
+          "notebook.editorBackground",
+          "notebook.focusedCellBackground",
+          "notebook.outputContainerBackgroundColor",
+          "notebook.selectedCellBackground",
+          "notebook.symbolHighlightBackground"
+        ]
+      },
+      {
+        "label": "Cell Borders",
+        "colorIds": [
+          "notebook.cellBorderColor",
+          "notebook.focusedCellBorder",
+          "notebook.focusedEditorBorder",
+          "notebook.inactiveFocusedCellBorder",
+          "notebook.inactiveSelectedCellBorder",
+          "notebook.outputContainerBorderColor",
+          "notebook.selectedCellBorder"
+        ]
+      },
+      {
+        "label": "Other Notebook",
+        "colorIds": [
+          "notebook.cellInsertionIndicator",
+          "notebook.cellToolbarSeparator"
+        ]
+      },
+      {
+        "label": "Status",
+        "colorIds": [
+          "notebook.cellStatusBarItemHoverBackground"
+        ],
+        "componentId": "undefined_Status"
+      }
+    ]
+  },
+  {
+    "category": "Charts & Graphs",
+    "children": [
+      {
+        "label": "Charts",
+        "colorIds": [
+          "chart.axis",
+          "chart.guide",
+          "chart.line",
+          "charts.blue",
+          "charts.foreground",
+          "charts.green",
+          "charts.lines",
+          "charts.orange",
+          "charts.purple",
+          "charts.red",
+          "charts.yellow"
+        ],
+        "componentId": "undefined_Charts"
+      },
+      {
+        "label": "SCM Graphs",
+        "colorIds": [
+          "scmGraph.foreground1",
+          "scmGraph.foreground2",
+          "scmGraph.foreground3",
+          "scmGraph.foreground4",
+          "scmGraph.foreground5",
+          "scmGraph.historyItemBaseRefColor",
+          "scmGraph.historyItemHoverAdditionsForeground",
+          "scmGraph.historyItemHoverDefaultLabelBackground",
+          "scmGraph.historyItemHoverDefaultLabelForeground",
+          "scmGraph.historyItemHoverDeletionsForeground",
+          "scmGraph.historyItemHoverLabelForeground",
+          "scmGraph.historyItemRefColor",
+          "scmGraph.historyItemRemoteRefColor"
+        ],
+        "componentId": "undefined_SCMGraphs"
+      }
+    ]
+  },
+  {
+    "category": "⚠️ Unmapped Colors (492)",
+    "children": [
+      {
+        "componentId": "ly.unmapped.all",
+        "label": "View All Unmapped Colors",
+        "colorIds": []
+      }
+    ]
+  }
+]

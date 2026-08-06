@@ -1,4 +1,4 @@
-import colorsDb from './vscode-colors-db.json';
+import colorsDb from '../assets/vscode-colors-db.json';
 
 interface ColorDef {
     id: string;
@@ -185,7 +185,7 @@ const terminalLines = [
     "Receiving objects: 100% (3848/3848), 12.45 MiB | 8.21 MiB/s, done.",
     "Resolving deltas: 100% (214/214), done.",
     "Updating files: 100% (14352/14352), done.",
-    "$ node scripts/extractor/extractColors.js",
+    "$ node vscode-color-pipeline/generator/extractColors.js",
     "Reading listColors.ts (215 lines)... SUCCESS",
     "Reading baseColors.ts (412 lines)... SUCCESS",
     "Reading editorColors.ts (942 lines)... SUCCESS",

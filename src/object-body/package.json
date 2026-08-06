@@ -1,0 +1,7 @@
+{
+  "name": "@the-me-theme/object-body",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "index.ts"
+}

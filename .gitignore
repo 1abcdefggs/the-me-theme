@@ -2,16 +2,30 @@
 .env
 .env.*
 
-# Logs
+# Logs & Debugs
 logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
+# Dependencies & Build outputs
 node_modules
 dist
 dist-ssr
-*.local
+dist_oss/
+*.tsbuildinfo
+*.vsix
+*.zip
+.cache/
+.vite/
 
-# Editor directories and files
+# Local & Temporary
+*.local
+scratch/
+
+# Editor & OS files
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -22,8 +36,24 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+.history/
+*.orig
+*.rej
+*.bak
 
 # Ignore old script archives
 bk/
 docs/
 pages/
+ARCHIVES/
+DEVELOP/
+color_analysis_tools/
+registercolor/
+00,Theory and Blueprints/
+
+# Temporary diagrams & dev snapshots
+graph LR.*
+walkthrough_*.md
+
+# Agents & AI settings
+.agents/

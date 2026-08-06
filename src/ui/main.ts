@@ -1,7 +1,13 @@
 import JSZip from 'jszip';
+import { downloadJsonFile, downloadThemeExtensionZip } from '../services/export-service';
+import { syncGitHubColorRegistryLineNumbers } from '../services/github-service';
 import { initColorPalette, openColorPalette } from './colorPalette';
-import { resolveColor, colorRegistry } from './vscode-color-engine/index.ts';
-import { getLuminanceFromHex } from './colorUtils';
+import { resolveColor, colorRegistry } from '../vscode-color-engine/index';
+import { getLuminanceFromHex } from '../lib/colorUtils';
+import { initLayoutController } from './controllers/layout-controller';
+import { ModalController } from './controllers/modal-controller';
+import { defaultDarkOverrides, defaultLightOverrides, userOverrides, currentBaseMode, setCurrentBaseMode, setCurrentThemeFileName, githubLineNumbers } from './theme-state';
+
 
 // Expose globals for index.html scripts
 (window as any).openColorPalette = openColorPalette;
@@ -106,42 +112,6 @@ let exportMode: any;
 // let exportMode: 'standalone' | 'workbench' = 'standalone';
 let activeComponent = 'settings-json';
 let isTreeView = false;
-const defaultDarkOverrides: Record<string, { current: string, previous?: string, locked?: boolean }> = {
-    "sideBar.background": { current: "#252526" },
-    "sideBar.foreground": { current: "#cccccc" },
-    "editor.background": { current: "#1e1e1e" },
-    "editor.foreground": { current: "#cccccc" },
-    "activityBar.background": { current: "#333333" },
-    "activityBar.foreground": { current: "#ffffff" },
-    "statusBar.background": { current: "#007acc" },
-    "statusBar.foreground": { current: "#ffffff" },
-    "titleBar.activeBackground": { current: "#3c3c3c" },
-    "titleBar.activeForeground": { current: "#cccccc" },
-    "editor.selectionBackground": { current: "#264f78" },
-    "tab.activeBackground": { current: "#1e1e1e" },
-    "tab.activeForeground": { current: "#ffffff" }
-};
-
-const defaultLightOverrides: Record<string, { current: string, previous?: string, locked?: boolean }> = {
-    "sideBar.background": { current: "#f3f3f3" },
-    "sideBar.foreground": { current: "#616161" },
-    "editor.background": { current: "#ffffff" },
-    "editor.foreground": { current: "#000000" },
-    "activityBar.background": { current: "#2c2c2c" },
-    "activityBar.foreground": { current: "#ffffff" },
-    "statusBar.background": { current: "#007acc" },
-    "statusBar.foreground": { current: "#ffffff" },
-    "titleBar.activeBackground": { current: "#dddddd" },
-    "titleBar.activeForeground": { current: "#333333" },
-    "editor.selectionBackground": { current: "#add6ff" },
-    "tab.activeBackground": { current: "#ffffff" },
-    "tab.activeForeground": { current: "#333333" }
-};
-
-const userOverrides: Record<string, { current: string, previous?: string, locked?: boolean }> = { ...defaultDarkOverrides };
-
-export let currentBaseMode: 'dark' | 'light' = 'dark';
-const githubLineNumbers: Record<string, number> = {};
 
 function termLog(msg: string, type: 'info' | 'success' | 'error' = 'info') {
     const line = document.createElement('div');
@@ -153,11 +123,10 @@ function termLog(msg: string, type: 'info' | 'success' | 'error' = 'info') {
 
 // --- UI Transition ---
 
-export let currentThemeFileName = 'Untitled-Theme.json';
 
 export function updateThemeFileNameUI(name: string) {
     if (!name.endsWith('.json')) name += '.json';
-    currentThemeFileName = name;
+    setCurrentThemeFileName(name);
 
     const titleBar = document.getElementById('mock-title-bar');
     if (titleBar) titleBar.textContent = `${name} - TheMeTheme - Visual Studio Code`;
@@ -1238,47 +1207,13 @@ fileInput.addEventListener('change', async (e) => {
     }
 });
 
-// --- GitHub Import Sync ---
+// --- GitHub Import ---
 importGithubBtn.addEventListener('click', async () => {
     terminalPanel.classList.remove('collapsed');
-    termLog('Connecting to GitHub repository...', 'info');
-
     try {
-        const repoUrl = 'https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/platform/theme/common/colorRegistry.ts';
-        termLog(`Fetching ${repoUrl}...`, 'info');
-
-        const response = await fetch(repoUrl);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-        const text = await response.text();
-        termLog(`Fetched ${text.length} bytes successfully.`, 'success');
-        termLog('Parsing Abstract Syntax Tree for registerColor calls...', 'info');
-
-        // Simulating parsing time for visual effect
-        await new Promise(r => setTimeout(r, 600));
-
-        const lines = text.split('\n');
-        let matched = 0;
-
-        // Very basic regex to find registerColor('variable.name', ...)
-        const colorRegex = /registerColor\(\s*['"]([^'"]+)['"]/g;
-
-        lines.forEach((line, index) => {
-            let match;
-            while ((match = colorRegex.exec(line)) !== null) {
-                const colorId = match[1];
-                githubLineNumbers[colorId] = index + 1; // 1-indexed
-                matched++;
-            }
-        });
-
-        termLog(`Successfully mapped ${matched} color definitions to source code line numbers.`, 'success');
-        termLog('Updating UI bindings...', 'info');
-
-        // Re-render list to show line links
-        renderList(searchInput.value);
-
-        termLog('Sync Complete. You can now click line numbers to view source directly on GitHub.', 'success');
+        await syncGitHubColorRegistryLineNumbers((msg, type) => termLog(msg, type));
+        const searchInput = document.getElementById('search-input') as HTMLInputElement;
+        if (searchInput) renderList(searchInput.value);
     } catch (err) {
         termLog(`Failed to sync from GitHub: ${err}`, 'error');
     }
@@ -1565,20 +1500,10 @@ exportSettingsJsonBtn.addEventListener('click', () => {
 downloadJsonBtn.addEventListener('click', () => {
     const { finalJsonStr, finalName } = generateThemeJsonString();
     const safeName = finalName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-
-    const blob = new Blob([finalJsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${safeName}-color-theme.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
+    downloadJsonFile(finalJsonStr, `${safeName}-color-theme.json`);
     downloadJsonBtn.textContent = 'Downloaded!';
     setTimeout(() => {
-        downloadJsonBtn.textContent = '⬇️ Download .json';
+        downloadJsonBtn.textContent = 'Download .json';
     }, 1500);
     showToast('Downloaded JSON file!');
 });
@@ -1590,48 +1515,18 @@ downloadZipBtn.addEventListener('click', async () => {
         localStorage.setItem('theme-author', finalAuthor);
     }
 
-    const safeName = finalName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-    const safePublisher = finalAuthor.toLowerCase().replace(/[^a-z0-9-]/g, '') || 'anonymous';
-
-    const packageJson = {
-        name: safeName,
-        displayName: finalName,
-        publisher: safePublisher,
-        version: "0.0.1",
-        engines: { "vscode": "^1.90.0" },
-        contributes: {
-            themes: [
-                {
-                    label: finalName,
-                    uiTheme: "vs-dark",
-                    path: `./themes/${safeName}-color-theme.json`
-                }
-            ]
-        }
-    };
-
-    const readmeMd = `# ${finalName}\n\nA beautiful VS Code theme created with TheMeTheme editor.\n\n## License\n${finalLicense}`;
-
-    const zip = new JSZip();
-    zip.file("package.json", JSON.stringify(packageJson, null, 2));
-    zip.file("README.md", readmeMd);
-    zip.folder("themes")?.file(`${safeName}-color-theme.json`, finalJsonStr);
-
-    const blob = await zip.generateAsync({ type: "blob" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${safeName}-${packageJson.version}.zip`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    await downloadThemeExtensionZip({
+        finalName,
+        finalAuthor,
+        finalLicense,
+        finalJsonStr
+    });
 
     downloadZipBtn.textContent = 'Downloaded!';
     termLog(`Exported full extension workspace zip for theme "${finalName}".`, 'success');
     setTimeout(() => {
         downloadZipBtn.textContent = 'Download Extension (.zip)';
-        exportSettingsModal.style.display = 'none';
+        ModalController.hide('export-settings-modal');
     }, 1500);
 });
 
@@ -2790,7 +2685,7 @@ const themeModeBtn = document.getElementById('theme-mode-btn');
 if (themeModeBtn) {
     themeModeBtn.addEventListener('click', () => {
         if (currentBaseMode === 'dark') {
-            currentBaseMode = 'light';
+            setCurrentBaseMode('light');
             themeModeBtn.textContent = '☀️ Light Mode Base';
             themeModeBtn.dataset.mode = 'light';
             themeModeBtn.style.background = '#e67e22'; // distinct color
@@ -2798,7 +2693,7 @@ if (themeModeBtn) {
             Object.assign(userOverrides, JSON.parse(JSON.stringify(defaultLightOverrides)));
             termLog('Switched to Light Mode base. Initializing default light theme colors.', 'info');
         } else {
-            currentBaseMode = 'dark';
+            setCurrentBaseMode('dark');
             themeModeBtn.textContent = '🌙 Dark Mode Base';
             themeModeBtn.dataset.mode = 'dark';
             themeModeBtn.style.background = '#007acc';
@@ -2918,3 +2813,7 @@ if (savedMode === 'integrated') {
 }
 applyLayoutMode();
 
+
+// Initialize Controllers
+initLayoutController();
+ModalController.attachCloseListeners();

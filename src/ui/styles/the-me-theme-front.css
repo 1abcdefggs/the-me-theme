@@ -1,0 +1,233 @@
+/* VS Code Style Header */
+:root {
+  --ui-header-bg: var(--vscode-editor-background);
+  --ui-nav-bg: var(--vscode-sideBar-background);
+  --ui-nav-hover-bg: var(--vscode-list-hoverBackground);
+  --ui-nav-active-bg: var(--vscode-button-background);
+  --ui-primary-bg: var(--vscode-button-background);
+  --ui-reset-bg: var(--vscode-statusBar-background);
+  --ui-reset-hover-bg: var(--vscode-statusBar-noFolderBackground);
+}
+#top-toolbar {
+  height: 45px;
+  background: #3c3c3c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: #fff;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 2px;
+  border: 1px solid #3c3c3c;
+  background: #252526;
+  transition: background 0.2s, color 0.2s;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-item:hover {
+  background: #2d2d2d;
+  color: #fff;
+  border-color: #444;
+}
+
+.nav-item.active {
+  color: #fff;
+  background: #007acc;
+  border-color: #007acc;
+  font-weight: 500;
+}
+
+.theme-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Unified Header Buttons */
+.header-btn,
+.custom-file-upload,
+#reset-theme-btn {
+  padding: 8px 16px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 1px !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #3c3c3c;
+  transition: background-color 0.1s, border-color 0.1s;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Secondary Button Style (Default Dark) */
+.header-btn {
+  background: #252526;
+  color: #ccc;
+}
+
+.header-btn:hover {
+  background: #2d2d2d;
+  color: #fff;
+  border-color: #50555a;
+}
+
+/* Primary Button Style (Blue) */
+.header-btn.primary,
+.custom-file-upload {
+  background: #0e639c;
+  color: #fff;
+  border-color: transparent;
+}
+
+.header-btn.primary:hover,
+.custom-file-upload:hover {
+  background: #17b;
+}
+
+/* Reset Button Style */
+.header-btn.reset,
+#reset-theme-btn {
+  background: #3a3d41;
+  border-color: #50555a;
+  color: #fff;
+}
+
+.header-btn.reset:hover,
+#reset-theme-btn:hover {
+  background: #45494e;
+}
+
+/* Success Button Style (Green Publish) */
+.header-btn.success {
+  background: #1f883d;
+  color: #fff;
+  border-color: transparent;
+}
+
+.header-btn.success:hover {
+  background: #239a45;
+}
+
+#app {
+  display: flex;
+  height: calc(100vh - 45px);
+  overflow: hidden;
+}
+
+/* Column 1: Component Explorer */
+#component-explorer {
+  width: 260px;
+  background: #252526;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.explorer-title {
+  padding: 12px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #858585;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.explorer-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.explorer-tree {
+  display: block;
+}
+
+.directory-list {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.dir-node {
+  font-weight: 500;
+  color: #ccc;
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+}
+
+.dir-node::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  color: #858585;
+}
+
+.dir-children {
+  list-style: none;
+  padding-left: 10px;
+  margin: 5px 0 0 0;
+}
+
+.file-node {
+  font-weight: 400;
+  color: #969696;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: background 0.1s, color 0.1s;
+  font-size: 13px;
+}
+
+.file-node:hover {
+  background: #2a2d2e;
+  color: #e0e0e0;
+}
+
+.file-node.active {
+  background: #37373d;
+  color: #fff;
+}
+
+.file-node.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+.file-node.disabled:hover {
+  background: transparent;
+  color: #969696;
+}

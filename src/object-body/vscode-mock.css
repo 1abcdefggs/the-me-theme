@@ -1,294 +1,3 @@
-:root {
-  --app-bg: #1e1e1e;
-  --app-fg: #cccccc;
-  --border-color: #3c3c3c;
-
-  /* VS Code color system mappings */
-  --vscode-sideBar-background: #252526;
-  --vscode-sideBar-foreground: #cccccc;
-  --vscode-sideBar-border: #3c3c3c;
-  --vscode-sideBarTitle-background: #252526;
-  --vscode-sideBarTitle-foreground: #bbbbbb;
-  --vscode-sideBarSectionHeader-background: #333333;
-  --vscode-sideBarSectionHeader-foreground: #cccccc;
-  --vscode-sideBarSectionHeader-border: transparent;
-  --vscode-list-inactiveSelectionBackground: #37373d;
-  --vscode-list-inactiveSelectionForeground: #cccccc;
-  --vscode-list-activeSelectionBackground: #094771;
-  --vscode-list-activeSelectionForeground: #ffffff;
-  --vscode-list-hoverBackground: #2a2d2e;
-  --vscode-list-hoverForeground: #cccccc;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100vw;
-  max-width: 100%;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: var(--app-bg);
-  color: var(--app-fg);
-  font-size: 13px;
-}
-
-/* Custom Dark Scrollbar (VS Code style) */
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(121, 121, 121, 0.4);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 100, 100, 0.7);
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: rgba(191, 191, 191, 0.4);
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* VS Code Style Header */
-#top-toolbar {
-  height: 45px;
-  background: #3c3c3c;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  color: #fff;
-  border-bottom: 1px solid #2d2d2d;
-}
-
-.left-section {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-.logo {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 15px;
-}
-
-.nav-item {
-  color: #cccccc;
-  text-decoration: none;
-  font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 2px;
-  border: 1px solid #3c3c3c;
-  background: #252526;
-  transition: background 0.2s, color 0.2s;
-  margin-right: 6px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.nav-item:hover {
-  background: #2d2d2d;
-  color: #ffffff;
-  border-color: #444;
-}
-
-.nav-item.active {
-  color: #ffffff;
-  background: #007acc;
-  border-color: #007acc;
-  font-weight: 500;
-}
-
-.theme-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Unified Header Buttons */
-.header-btn,
-.custom-file-upload,
-#reset-theme-btn {
-  padding: 8px 16px;
-  height: 32px;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 1px !important;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 1px solid #3c3c3c;
-  transition: background-color 0.1s, border-color 0.1s;
-  box-sizing: border-box;
-  text-decoration: none;
-  outline: none;
-  font-family: inherit;
-}
-
-/* Secondary Button Style (Default Dark) */
-.header-btn {
-  background: #252526;
-  color: #cccccc;
-}
-
-.header-btn:hover {
-  background: #2d2d2d;
-  color: #ffffff;
-  border-color: #50555a;
-}
-
-/* Primary Button Style (Blue) */
-.header-btn.primary,
-.custom-file-upload {
-  background: #0e639c;
-  color: #ffffff;
-  border-color: transparent;
-}
-
-.header-btn.primary:hover,
-.custom-file-upload:hover {
-  background: #1177bb;
-}
-
-/* Reset Button Style */
-.header-btn.reset,
-#reset-theme-btn {
-  background: #3a3d41;
-  border-color: #50555a;
-  color: #ffffff;
-}
-
-.header-btn.reset:hover,
-#reset-theme-btn:hover {
-  background: #45494e;
-}
-
-/* Success Button Style (Green Publish) */
-.header-btn.success {
-  background: #1f883d;
-  color: #ffffff;
-  border-color: transparent;
-}
-
-.header-btn.success:hover {
-  background: #239a45;
-}
-
-#app {
-  display: flex;
-  height: calc(100vh - 45px);
-  overflow: hidden;
-}
-
-/* Column 1: Component Explorer */
-#component-explorer {
-  width: 260px;
-  background: #252526;
-  border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-}
-
-.explorer-title {
-  padding: 12px 15px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #858585;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid #2d2d2d;
-}
-
-.explorer-scroll-container {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.explorer-tree {
-  display: block;
-}
-
-.directory-list {
-  list-style: none;
-  padding: 10px;
-  margin: 0;
-}
-
-.dir-node {
-  font-weight: 500;
-  color: #cccccc;
-  margin-bottom: 10px;
-  position: relative;
-  padding-left: 14px;
-  font-size: 13px;
-}
-
-.dir-node::before {
-  content: '▸';
-  position: absolute;
-  left: 0;
-  top: -1px;
-  color: #858585;
-}
-
-.dir-children {
-  list-style: none;
-  padding-left: 10px;
-  margin: 5px 0 0 0;
-}
-
-.file-node {
-  font-weight: 400;
-  color: #969696;
-  padding: 4px 8px;
-  cursor: pointer;
-  border-radius: 1px;
-  transition: background 0.1s, color 0.1s;
-  font-size: 13px;
-}
-
-.file-node:hover {
-  background: #2a2d2e;
-  color: #e0e0e0;
-}
-
-.file-node.active {
-  background: #37373d;
-  color: #ffffff;
-}
-
-.file-node.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  font-style: italic;
-}
-
-.file-node.disabled:hover {
-  background: transparent;
-  color: #969696;
-}
-
 /* Column 2: Visual Mock UI */
 #preview-panel {
   flex: 1;
@@ -323,7 +32,7 @@ html {
   inset: 0;
   box-shadow: inset 0 0 0 1.5px #ff0080;
   pointer-events: none;
-  z-index: 10;
+  z-index: 9999;
 }
 
 #sidebar-mock {
@@ -422,9 +131,8 @@ html {
 
 /* Column 3: Property Inspector */
 #inspector-panel {
-  width: 340px;
-  min-width: 300px;
-  border-left: 1px solid var(--border-color);
+  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   background: #1e1e1e;
@@ -439,7 +147,7 @@ html {
   margin: 0 0 12px 0;
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
 }
 
 #search-input {
@@ -478,7 +186,7 @@ html {
 }
 
 #export-btn:hover {
-  background: #1177bb;
+  background: #17b;
 }
 
 #variables-list {
@@ -591,7 +299,7 @@ html {
   width: 75px;
   background: #3c3c3c;
   border: 1px solid #3c3c3c;
-  color: #cccccc;
+  color: #ccc;
   font-family: monospace;
   font-size: 11px;
   padding: 3px;
@@ -648,7 +356,7 @@ html {
   font-size: 22px;
   font-weight: 400;
   margin: 0 0 8px 0;
-  color: #ffffff;
+  color: #fff;
 }
 
 .subtitle {
@@ -705,7 +413,7 @@ html {
 
 .reference-table th {
   background: #2d2d2d;
-  color: #cccccc;
+  color: #ccc;
   font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
@@ -729,7 +437,7 @@ html {
 }
 
 .ref-desc {
-  color: #cccccc;
+  color: #ccc;
   line-height: 1.5;
   font-size: 12px;
 }
@@ -851,7 +559,7 @@ html {
   padding: 0 15px;
   text-transform: uppercase;
   font-size: 11px;
-  color: #cccccc;
+  color: #ccc;
   cursor: pointer;
 }
 
@@ -864,17 +572,17 @@ html {
 }
 
 .terminal-actions .icon-btn:hover {
-  color: #cccccc;
+  color: #ccc;
 }
 
 .terminal-content {
   flex: 1;
   overflow-y: auto;
   padding: 10px 15px;
-  background: #111111;
+  background: #111;
   font-family: Consolas, 'Courier New', monospace;
   font-size: 12px;
-  color: #cccccc;
+  color: #ccc;
 }
 
 .term-line {
@@ -895,7 +603,7 @@ html {
 
 /* GitHub Style File Explorer */
 .github-box {
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #d0d7de;
   border-radius: 1px;
   color: #24292f;
@@ -984,7 +692,7 @@ html {
 }
 
 .gh-file-content {
-  background: #ffffff;
+  background: #fff;
   padding: 20px 25px;
   border-top: 1px solid #d0d7de;
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.02);
@@ -1051,8 +759,8 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #333333;
-  border: 1px solid #444444;
+  background: #333;
+  border: 1px solid #444;
   border-radius: 1px;
   color: #858585;
   transition: all 0.3s ease;
@@ -1061,7 +769,7 @@ html {
 .flow-step.active .step-icon {
   background: #007acc;
   border-color: #007acc;
-  color: #ffffff;
+  color: #fff;
   box-shadow: 0 0 10px rgba(0, 122, 204, 0.4);
 }
 
@@ -1077,7 +785,7 @@ html {
 }
 
 .flow-step.active .step-title {
-  color: #ffffff;
+  color: #fff;
 }
 
 .flow-step .step-desc {
@@ -1086,11 +794,11 @@ html {
 }
 
 .flow-step.active .step-desc {
-  color: #cccccc;
+  color: #ccc;
 }
 
 .flow-arrow {
-  color: #444444;
+  color: #444;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1133,7 +841,7 @@ html {
 
 .modal-header h3 {
   margin: 0;
-  color: #ffffff;
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
 }
@@ -1148,12 +856,12 @@ html {
 }
 
 .close-btn:hover {
-  color: #ffffff;
+  color: #fff;
 }
 
 .modal-body {
   padding: 20px;
-  color: #cccccc;
+  color: #ccc;
   font-size: 13px;
   line-height: 1.6;
 }
@@ -1195,7 +903,7 @@ html {
 
 .option-title {
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
   font-size: 13px;
 }
 
@@ -1224,7 +932,7 @@ html {
 
 .modal-btn.primary {
   background: #007acc;
-  color: #ffffff;
+  color: #fff;
   border-color: #007acc;
 }
 
@@ -1254,7 +962,7 @@ html {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #2d2d2d;
-  color: #cccccc;
+  color: #ccc;
 }
 
 .suggestion-item:last-child {
@@ -1264,7 +972,7 @@ html {
 .suggestion-item:hover,
 .suggestion-item.focused {
   background: #007acc;
-  color: #ffffff;
+  color: #fff;
 }
 
 .suggestion-item .theme-name {
@@ -1280,7 +988,7 @@ html {
 
 .suggestion-item:hover .theme-repo,
 .suggestion-item.focused .theme-repo {
-  color: #dddddd;
+  color: #ddd;
 }
 
 .gh-color-link {
@@ -1298,7 +1006,7 @@ html {
 /* --- Editor Enhancements (Design Philosophy, Popover, Contrast, Toast) --- */
 /* 1. Design Philosophy: Darker headers, Lighter bodies, Larger fonts */
 #top-toolbar {
-  background: #111111;
+  background: #111;
 }
 
 #top-toolbar .logo {
@@ -1306,7 +1014,7 @@ html {
 }
 
 .inspector-header {
-  background: #111111;
+  background: #111;
 }
 
 .inspector-header h2 {
@@ -1350,7 +1058,7 @@ html {
 }
 
 .popover-header {
-  background: #111111;
+  background: #111;
   padding: 8px 12px;
   font-weight: bold;
   display: flex;
@@ -1615,7 +1323,7 @@ html {
 
 #top-toolbar {
   background: var(--vscode-titleBar-activeBackground, #1e1e1e) !important;
-  color: var(--vscode-titleBar-activeForeground, #cccccc) !important;
+  color: var(--vscode-titleBar-activeForeground, #ccc) !important;
   border-bottom: 1px solid var(--vscode-titleBar-border, rgba(255, 255, 255, 0.05)) !important;
   height: 35px;
   box-sizing: border-box;
@@ -1635,8 +1343,8 @@ html {
 }
 
 #activitybar-mock {
-  background: var(--vscode-activityBar-background, #333333) !important;
-  color: var(--vscode-activityBar-foreground, #ffffff) !important;
+  background: var(--vscode-activityBar-background, #333) !important;
+  color: var(--vscode-activityBar-foreground, #fff) !important;
   border-right: 1px solid var(--vscode-activityBar-border, rgba(255, 255, 255, 0.05)) !important;
   width: 48px !important;
   height: 100% !important;
@@ -1651,7 +1359,7 @@ html {
 
 #statusbar-mock {
   background: var(--vscode-statusBar-background, #007acc) !important;
-  color: var(--vscode-statusBar-foreground, #ffffff) !important;
+  color: var(--vscode-statusBar-foreground, #fff) !important;
   border-top: 1px solid var(--vscode-statusBar-border, rgba(255, 255, 255, 0.05)) !important;
   height: 22px !important;
   display: flex !important;
@@ -1661,7 +1369,7 @@ html {
 /* Component Explorer Sidebar Styles */
 #sidebar-mock {
   background: var(--vscode-sideBar-background, #252526) !important;
-  color: var(--vscode-sideBar-foreground, #cccccc) !important;
+  color: var(--vscode-sideBar-foreground, #ccc) !important;
   border-right: 1px solid var(--vscode-sideBar-border, rgba(255, 255, 255, 0.05)) !important;
   width: 200px !important;
   user-select: none;
@@ -1674,7 +1382,7 @@ html {
 
 #sidebar-mock .explorer-section-header {
   background: var(--vscode-sideBarSectionHeader-background, #1e1e1e) !important;
-  color: var(--vscode-sideBarSectionHeader-foreground, #cccccc) !important;
+  color: var(--vscode-sideBarSectionHeader-foreground, #ccc) !important;
   border-top: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255, 255, 255, 0.05)) !important;
   border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border, rgba(255, 255, 255, 0.05)) !important;
   cursor: pointer;
@@ -1682,7 +1390,7 @@ html {
 
 #sidebar-mock .file-node {
   padding: 4px 20px !important;
-  color: var(--vscode-sideBar-foreground, #cccccc) !important;
+  color: var(--vscode-sideBar-foreground, #ccc) !important;
   background: transparent !important;
   font-weight: normal !important;
   transition: background 0.05s, color 0.05s;
@@ -1691,12 +1399,12 @@ html {
 
 #sidebar-mock .file-node:hover:not(.disabled) {
   background: var(--vscode-list-hoverBackground, #2a2d2e) !important;
-  color: var(--vscode-list-hoverForeground, #ffffff) !important;
+  color: var(--vscode-list-hoverForeground, #fff) !important;
 }
 
 #sidebar-mock .file-node.active {
   background: var(--vscode-list-activeSelectionBackground, #37373d) !important;
-  color: var(--vscode-list-activeSelectionForeground, #ffffff) !important;
+  color: var(--vscode-list-activeSelectionForeground, #fff) !important;
   font-weight: bold !important;
 }
 
@@ -1707,20 +1415,20 @@ html {
 }
 
 #inspector-panel {
-  width: 340px !important;
+  width: 100% !important;
+  flex: 1;
   background: var(--vscode-sideBar-background, #1e1e1e);
   border-left: 1px solid var(--vscode-sideBar-border, rgba(255, 255, 255, 0.05));
 }
 
 #inspector-panel .inspector-header {
-  background: var(--vscode-sideBarSectionHeader-background, #111111);
+  background: var(--vscode-sideBarSectionHeader-background, #111);
 }
 
 /* Glow selection outline for selected active components */
 .mock-component.selected {
   box-shadow: inset 0 0 0 2px var(--vscode-focusBorder, #ff0080) !important;
   position: relative;
-  z-index: 10;
 }
 
 .mock-component.selected::after {
@@ -1759,7 +1467,7 @@ html {
   flex-direction: column;
   width: 320px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #cccccc;
+  color: #ccc;
 }
 
 .palette-header {
@@ -1919,7 +1627,7 @@ html {
 /* --- TheMe Top Bar --- */
 #theme-top-bar {
   background: #1a1a1a !important;
-  color: #ffffff !important;
+  color: #fff !important;
   padding: 0 !important;
   margin: 0 !important;
   flex-shrink: 0;
@@ -1932,7 +1640,7 @@ html {
 #theme-tool-sidebar {
   width: 170px;
   min-width: 170px;
-  background: #111111;
+  background: #111;
   /* border-right removed; moved to #vscode-mock-wrapper */
   display: flex;
   flex-direction: column;
@@ -1966,7 +1674,7 @@ html {
   align-items: center;
   margin-bottom: 4px;
   font-size: 11px;
-  color: #aaaaaa;
+  color: #aaa;
 }
 
 #theme-tool-sidebar .tool-stat-value {
@@ -1987,7 +1695,7 @@ html {
   padding: 5px 8px;
   font-size: 11px;
   background: #252526;
-  color: #cccccc;
+  color: #ccc;
   border: 1px solid #3c3c3c;
   border-radius: 2px;
   cursor: pointer;
@@ -2029,9 +1737,9 @@ html {
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  color: #ffffff;
+  color: #fff;
   white-space: nowrap;
-  background: #111111;
+  background: #111;
   box-sizing: border-box;
   transition: width 0.2s ease, min-width 0.2s ease, padding 0.2s ease;
 }
@@ -2070,7 +1778,7 @@ html {
 }
 
 #theme-top-bar .tool-logo .codicon {
-  color: #ffffff;
+  color: #fff;
   font-size: 20px;
 }
 
@@ -2111,7 +1819,7 @@ html {
   padding: 0 14px;
   font-size: 14px;
   font-weight: bold;
-  color: #ffffff;
+  color: #fff;
   white-space: nowrap;
   border-radius: 0;
   transition: background 0.15s ease;
@@ -2121,7 +1829,7 @@ html {
 .step-dropdown:hover .step-dropdown-title,
 .step-dropdown-title:hover {
   background: #007acc;
-  color: #ffffff;
+  color: #fff;
 }
 
 .step-dropdown-menu {
@@ -2145,7 +1853,7 @@ html {
 
 .step-dropdown-item {
   padding: 8px 16px;
-  color: #cccccc;
+  color: #ccc;
   font-size: 13px;
   cursor: pointer;
   transition: background 0.12s, color 0.12s;
@@ -2154,7 +1862,7 @@ html {
 
 .step-dropdown-item:hover {
   background: #0098ff;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* Section label inside dropdown (non-clickable) */
@@ -2221,7 +1929,7 @@ html {
 }
 
 /* ============================================================
-   Phase 1 — Header Navigation New Style
+   Phase 1  EHeader Navigation New Style
    ============================================================ */
 
 /* Step Number Badge */
@@ -2254,7 +1962,7 @@ html {
   pointer-events: none;
 }
 
-/* 2. EDIT — mode switch button (no dropdown) */
+/* 2. EDIT  Emode switch button (no dropdown) */
 .step-btn {
   display: inline-flex;
   align-items: center;
@@ -2263,7 +1971,7 @@ html {
   height: 100%;
   font-size: 14px;
   font-weight: bold;
-  color: #cccccc;
+  color: #ccc;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s ease, color 0.15s ease;
@@ -2273,12 +1981,12 @@ html {
 
 .step-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: #fff;
 }
 
 .step-btn.active {
   background: #007acc;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* top-bar-steps gap reset with arrows instead */
@@ -2290,13 +1998,13 @@ html {
   flex: 1;
 }
 
-/* Step dropdown title — active state */
+/* Step dropdown title  Eactive state */
 #theme-top-bar .step-dropdown-title.active {
   background: #007acc;
-  color: #ffffff;
+  color: #fff;
 }
 
-/* Step dropdown item — icon+text flex */
+/* Step dropdown item  Eicon+text flex */
 #theme-top-bar .step-dropdown-item {
   display: flex;
   align-items: center;
@@ -2326,7 +2034,7 @@ html {
   cursor: pointer;
   transition: background 0.15s ease;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  color: #fff;
   white-space: nowrap;
 }
 
@@ -2352,7 +2060,7 @@ html {
 }
 
 /* ============================================================
-   Phase 2 — Sidebar tab & 7 areas
+   Phase 2  ESidebar tab & 7 areas
    ============================================================ */
 
 /* Sidebar tab bar */
@@ -2378,7 +2086,7 @@ html {
 
 .sidebar-tab:hover {
   background: rgba(255, 255, 255, 0.05);
-  color: #cccccc;
+  color: #ccc;
 }
 
 .sidebar-tab.active {
@@ -2457,7 +2165,7 @@ html {
 .area-label {
   font-size: 12px;
   font-weight: 600;
-  color: #cccccc;
+  color: #ccc;
 }
 
 .area-var-name {
@@ -2469,7 +2177,7 @@ html {
   text-overflow: ellipsis;
 }
 
-/* Hidden color input — triggered by clicking swatch */
+/* Hidden color input  Etriggered by clicking swatch */
 .area-color-input {
   width: 0;
   height: 0;
@@ -2491,7 +2199,7 @@ html {
 }
 
 /* ============================================================
-   Phase 3 — Bidirectional hover linkage & cursor management
+   Phase 3  EBidirectional hover linkage & cursor management
    ============================================================ */
 
 /* --- Sidebar row: active state (hover linkage) --- */
@@ -2503,7 +2211,7 @@ html {
 }
 
 .area-editor-row.area-active .area-label {
-  color: #ffffff;
+  color: #fff;
 }
 
 .area-editor-row.area-active .area-color-preview {
@@ -2535,7 +2243,7 @@ html {
   outline: 2px solid #0098ff !important;
   outline-offset: -2px;
   position: relative;
-  z-index: 10;
+  z-index: 9999;
 }
 
 /* Highlight overlay (outline only, do not change background color) */
@@ -2550,7 +2258,7 @@ html {
 
 /* --- Edit Mode: cursor management --- */
 
-/* Theme-editable background areas → crosshair (color selection cursor) */
+/* Theme-editable background areas ↁEcrosshair (color selection cursor) */
 body.theme-edit-mode #titlebar-mock,
 body.theme-edit-mode #activitybar-mock,
 body.theme-edit-mode #sidebar-mock,
@@ -2560,7 +2268,7 @@ body.theme-edit-mode #statusbar-mock {
   cursor: crosshair;
 }
 
-/* Interactive child elements in mock → pointer (finger cursor) */
+/* Interactive child elements in mock ↁEpointer (finger cursor) */
 body.theme-edit-mode .editor-tab,
 body.theme-edit-mode .file-node,
 body.theme-edit-mode .tree-node,
@@ -2573,7 +2281,7 @@ body.theme-edit-mode button {
   cursor: pointer;
 }
 
-/* Text-selectable parts → text */
+/* Text-selectable parts ↁEtext */
 body.theme-edit-mode .editor-line,
 body.theme-edit-mode .terminal-line,
 body.theme-edit-mode code,
@@ -2581,7 +2289,7 @@ body.theme-edit-mode .code-token {
   cursor: text;
 }
 
-/* Scrollbar → default */
+/* Scrollbar ↁEdefault */
 body.theme-edit-mode ::-webkit-scrollbar {
   cursor: default;
 }
@@ -2606,7 +2314,7 @@ body.theme-edit-mode ::-webkit-scrollbar {
 }
 
 /* ============================================================
-   Phase 4 — Custom Color Palette & Mock Base Indicator
+   Phase 4  ECustom Color Palette & Mock Base Indicator
    ============================================================ */
 
 /* Mock Theme Base Indicator in Status Bar */
@@ -2632,7 +2340,7 @@ body.theme-edit-mode ::-webkit-scrollbar {
   right: 0;
   bottom: 0;
   cursor: pointer;
-  z-index: 10;
+  z-index: 9999;
   opacity: 0;
   /* invisible but clickable over the entire row */
 }
@@ -2807,4 +2515,197 @@ body.theme-edit-mode #setup-welcome-screen {
 body:not(.theme-edit-mode) #editor-tabs,
 body:not(.theme-edit-mode) #editor-content {
   display: none !important;
+}
+
+/* ============================================================
+ * Container Highlight & Stacking Order Fixes
+ * ============================================================ */
+.mock-component {
+  position: relative;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mock-component.selected,
+.mock-component.is-selected {
+  outline: 2px solid #007acc !important;
+  outline-offset: -2px !important;
+  box-shadow: 0 0 10px rgba(0, 122, 204, 0.5) !important;
+}
+
+.mock-component.is-hovered,
+.mock-component:hover {
+  outline: 1.5px dashed #4fc1ff !important;
+  outline-offset: -1.5px !important;
+  z-index: 9998 !important;
+}
+
+/* Fix stacking order of VS Code Mock containers so borders remain sharp */
+#window-mock {
+  position: relative;
+  z-index: 1;
+}
+
+#titlebar-mock {
+  position: relative;
+  z-index: 10;
+}
+
+#activitybar-mock {
+  position: relative;
+  z-index: 8;
+}
+
+#sidebar-mock {
+  position: relative;
+  z-index: 7;
+}
+
+#preview-panel {
+  position: relative;
+  z-index: 5;
+}
+
+#secondarysidebar-mock {
+  position: relative;
+  z-index: 7;
+}
+
+#statusbar-mock {
+  position: relative;
+  z-index: 100;
+}
+
+/* Phase 2.3 ObjectBody & Tree Bidirectional Highlight */
+[data-component-id].is-hovered,
+.file-node.is-hovered {
+  outline: 2px dashed #007acc !important;
+  outline-offset: -2px;
+}
+
+[data-component-id].is-selected,
+.file-node.is-selected {
+  outline: 2px solid #4fc1ff !important;
+  outline-offset: -2px;
+  background-color: rgba(4, 57, 94, 0.5) !important;
+}
+
+.file-node.flash-highlight {
+  background-color: rgba(0, 122, 204, 0.4) !important;
+  transition: background-color 0.3s ease;
+}
+
+/* ==========================================================================
+   TheMe Component Utilities (Zero-Hardcoding Variable Driven)
+   ========================================================================== */
+.theme-panel {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  user-select: none;
+  background: var(--vscode-sideBar-background);
+  border-color: var(--vscode-sideBar-border);
+}
+
+.theme-panel-header {
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--vscode-foreground);
+  background: var(--vscode-sideBar-background);
+  border-bottom: 1px solid var(--vscode-sideBar-border);
+}
+.theme-panel-header button {
+  background: transparent;
+  border: none;
+  color: var(--vscode-descriptionForeground);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+}
+
+
+/* Button style when panel is collapsed */
+.theme-panel.collapsed .theme-panel-header button {
+  width: 100%;
+  margin: 0;
+  padding: 4px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: var(--vscode-descriptionForeground);
+  font-size: 14px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Ensure button icon is centered */
+.theme-panel.collapsed .theme-panel-header button .codicon {
+  font-size: 18px;
+}
+
+
+
+/* Collapsed Accordion Panel State */
+.theme-panel.collapsed {
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  overflow: hidden !important;
+}
+
+.theme-panel.collapsed .theme-panel-header {
+  padding: 8px 0 !important;
+  justify-content: center !important;
+}
+
+.theme-panel.collapsed .theme-panel-header > span {
+  display: none !important;
+}
+
+.theme-panel.collapsed #toggle-left-panel-btn,
+.theme-panel.collapsed #toggle-right-panel-btn {
+  width: 100% !important;
+  justify-content: center !important;
+  padding: 6px 0 !important;
+}
+
+.theme-panel.collapsed #toggle-left-panel-btn .codicon,
+.theme-panel.collapsed #toggle-right-panel-btn .codicon {
+  font-size: 18px !important;
+  color: var(--vscode-foreground) !important;
+}
+
+.section-header {
+  padding: 8px 12px 4px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--vscode-descriptionForeground);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--vscode-foreground);
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  transition: background 0.15s ease;
+}
+
+.card-action:hover {
+  background: var(--vscode-list-hoverBackground);
 }
