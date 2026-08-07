@@ -35,10 +35,32 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run build
+
+      - name: Prepare Pages artifact
+        run: |
+          if [ -d ./dist ]; then
+            echo "dist exists"
+          else
+            if [ -d ./public ]; then
+              echo "No dist. Copying public -> dist"
+              rm -rf dist
+              cp -r public dist
+            elif [ -f ./index.html ]; then
+              echo "No dist or public, using root index.html"
+              rm -rf dist
+              mkdir -p dist
+              cp index.html dist/
+              cp -r assets dist/ 2>/dev/null || true
+            else
+              echo "No build output found (dist/public/index.html). Listing files:"
+              ls -la
+              exit 1
+            fi
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
